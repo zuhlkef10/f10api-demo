@@ -6,7 +6,7 @@ pipeline  {
      stage('Preparation') { // for display purposes
       // Get some code from a GitHub repository
       steps{
-        node{
+        node('git command'){
           git 'https://github.com/zuhlkef10/f10api-demo.git'
         }
       }
