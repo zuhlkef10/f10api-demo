@@ -15,6 +15,6 @@ node {
       archive 'target/*.jar'
    }
   stage('Docker Build') {
-         sh 'docker build -t zuhlke/f10api-demo:latest .'
+         sh 'sudo docker build -t zuhlke/f10api-demo:latest .'
    }
 }
