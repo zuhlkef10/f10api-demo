@@ -19,6 +19,6 @@ node {
         sh 'docker build --tag=zuhlke/account-api:dev account'
     }
     stage('Docker Deploy') {
-        sh 'docker-compose up'
+        sh 'docker-compose up -d'
     }
 }
