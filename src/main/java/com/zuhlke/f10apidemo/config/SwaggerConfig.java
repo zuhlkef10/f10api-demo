@@ -1,4 +1,4 @@
-package com.zuhlke.f10apidemo;
+package com.zuhlke.f10apidemo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
