@@ -16,6 +16,6 @@ node  {
            sh 'docker build -t zuhlke/f10api-demo:latest .'
    }
    stage('Docker Deploy') {
-           sh 'docker run -d -p 9090:9090 --name 'f10api-demo' zuhlke/f10api-demo:latest'
+           sh 'docker run -d -p 9090:9090  zuhlke/f10api-demo:latest'
    }
 }
