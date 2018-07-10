@@ -1,22 +1,26 @@
 #!groovy
 
-node {
-   def mvnHome
-   stage('Preparation') { // for display purposes
+pipeline  {
+   stages('Preparation') { // for display purposes
       // Get some code from a GitHub repository
-      git 'https://github.com/zuhlkef10/f10api-demo.git'
-      // Get the Maven tool.
-      mvnHome = '/usr/share/maven'
+      steps{
+        git 'https://github.com/zuhlkef10/f10api-demo.git'
+      }
    }
-   stage('Build') {
+   stages('Build') {
       // Run the maven build
-      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
+      steps{
+        mvnHome = '/usr/share/maven'
+        sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean install"
+      }
    }
-   stage('Results') {
-      junit '**/target/surefire-reports/TEST-*.xml'
-      archive 'target/*.jar'
+   stages('Results') {
+      steps{
+        junit '**/target/surefire-reports/TEST-*.xml'
+        archive 'target/*.jar'
+       }
    }
-  stage('Docker Build') {
+  stages('Docker Build') {
       agent any
         steps {
          sh 'docker build -t zuhlke/f10api-demo:latest .'
