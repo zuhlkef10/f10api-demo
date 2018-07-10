@@ -14,12 +14,16 @@ pipeline  {
     stage('Build') {
       // Run the maven build
       steps{
-        sh "'/usr/share/maven/bin/mvn' -Dmaven.test.failure.ignore clean install"
+         node('master'){
+          sh "'/usr/share/maven/bin/mvn' -Dmaven.test.failure.ignore clean install"
+         }
       }
     }
     stage('Results') {
       steps{
-        junit '**/target/surefire-reports/TEST-*.xml'
+          node('master'){
+           junit '**/target/surefire-reports/TEST-*.xml'
+          }
        }
    }
    stage('Docker Build') {
