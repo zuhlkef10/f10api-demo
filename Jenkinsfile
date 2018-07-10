@@ -1,3 +1,5 @@
+#!groovy
+
 node {
    def mvnHome
    stage('Preparation') { // for display purposes
@@ -15,6 +17,9 @@ node {
       archive 'target/*.jar'
    }
   stage('Docker Build') {
-         sh 'sudo docker build -t zuhlke/f10api-demo:latest .'
+      agent any
+        steps {
+         sh 'docker build -t zuhlke/f10api-demo:latest .'
+        }
    }
 }
