@@ -1,4 +1,4 @@
-package com.zuhlke.f10apidemo.config;
+package com.zuhlke.f10.bank.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
