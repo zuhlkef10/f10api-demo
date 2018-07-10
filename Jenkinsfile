@@ -29,7 +29,9 @@ pipeline  {
    stage('Docker Build') {
       agent any
         steps {
-         sh 'docker build -t zuhlke/f10api-demo:latest .'
+         node('master'){
+           sh 'docker build -t zuhlke/f10api-demo:latest .'
+          }
         }
    }
   }
