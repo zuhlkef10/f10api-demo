@@ -12,14 +12,12 @@ pipeline  {
     stage('Build') {
       // Run the maven build
       steps{
-        mvnHome = '/usr/share/maven'
-        sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean install"
+        sh "'/usr/share/maven/bin/mvn' -Dmaven.test.failure.ignore clean install"
       }
     }
     stage('Results') {
       steps{
         junit '**/target/surefire-reports/TEST-*.xml'
-        archive 'target/*.jar'
        }
    }
    stage('Docker Build') {
