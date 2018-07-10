@@ -14,4 +14,11 @@ node {
       junit '**/target/surefire-reports/TEST-*.xml'
       archive 'target/*.jar'
    }
+  stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -t zuhlke/f10api-demo:latest .'
+      }
+    }
+
 }
