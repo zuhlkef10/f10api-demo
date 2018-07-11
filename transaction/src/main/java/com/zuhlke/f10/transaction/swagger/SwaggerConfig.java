@@ -1,4 +1,4 @@
-package com.zuhlke.f10.account.swagger;
+package com.zuhlke.f10.transaction.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
