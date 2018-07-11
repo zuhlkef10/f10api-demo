@@ -2,6 +2,7 @@ package com.zuhlke.f10.account.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zuhlke.f10.account.model.Account;
+import com.zuhlke.f10.account.model.CrAccount;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -44,5 +45,11 @@ public class AccountService {
             e.printStackTrace();
         }
         return account;
+    }
+
+    public CrAccount create(CrAccount crAccount) {
+
+        return crAccount;
+
     }
 }
