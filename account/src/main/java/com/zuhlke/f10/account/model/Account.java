@@ -1,40 +1,35 @@
 package com.zuhlke.f10.account.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class Account {
 
-    private String accountNumber;
+    private String id;
 
-    private String accountType;
-
+    @JsonProperty("bank_id")
     private String bankId;
 
-    public Account(String accountNumber, String accountType, String bankId) {
-        this.accountNumber = accountNumber;
-        this.accountType = accountType;
-        this.bankId = bankId;
-    }
+    private String label;
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
+    private String number;
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
+    private ArrayList<Owner> owners;
 
-    public String getAccountType() {
-        return accountType;
-    }
+    private String type;
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
+    private Balance balance;
 
-    public String getBankId() {
-        return bankId;
-    }
+    @JsonProperty("account_routings")
+    private ArrayList<AccountRouting> accountRoutings;
 
-    public void setBankId(String bankId) {
-        this.bankId = bankId;
-    }
-}
+    @JsonProperty("account_rules")
+    private ArrayList<AccountRule> accountRules;
+ }

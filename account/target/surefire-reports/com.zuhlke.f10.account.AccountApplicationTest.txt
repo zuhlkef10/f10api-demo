@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.zuhlke.f10.account.AccountApplicationTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.354 s - in com.zuhlke.f10.account.AccountApplicationTest
