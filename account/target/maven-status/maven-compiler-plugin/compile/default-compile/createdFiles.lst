@@ -1,9 +1,0 @@
-com\zuhlke\f10\account\model\AccountRouting.class
-com\zuhlke\f10\account\service\AccountService.class
-com\zuhlke\f10\account\model\AccountRule.class
-com\zuhlke\f10\account\model\Account.class
-com\zuhlke\f10\account\AccountApplication.class
-com\zuhlke\f10\account\controller\AccountController.class
-com\zuhlke\f10\account\model\Balance.class
-com\zuhlke\f10\account\model\Owner.class
-com\zuhlke\f10\account\swagger\SwaggerConfig.class
