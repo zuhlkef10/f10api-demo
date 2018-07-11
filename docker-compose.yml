@@ -12,3 +12,7 @@ services:
   image: zuhlke/transaction-api:dev
   ports:
     - "9092:9092"
+ customer-api:
+  image: zuhlke/customer-api:dev
+  ports:
+    - "9093:9093"
