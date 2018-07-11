@@ -1,7 +1,9 @@
 package com.zuhlke.f10.bank.controller;
 
+import org.slf4j.Logger;
 import com.zuhlke.f10.bank.model.Bank;
 import com.zuhlke.f10.bank.repository.BankRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import java.util.UUID;
 @RestController
 public class BankController implements BankApi{
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BankController.class);
+
     @Autowired
     private BankRepository repository;
 
@@ -26,6 +30,7 @@ public class BankController implements BankApi{
         this.repository.save(bank);
 
         List<Bank> banks = this.repository.findAll();
+        LOGGER.info("Found {} records in the Database ", banks.size());
         return ResponseEntity.ok().body(banks);
     }
 
