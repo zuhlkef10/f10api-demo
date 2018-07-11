@@ -3,28 +3,65 @@ package com.zuhlke.f10.bank.controller;
 import com.zuhlke.f10.bank.model.Bank;
 import com.zuhlke.f10.bank.repository.BankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-public class BankController {
+public class BankController implements BankApi{
 
     @Autowired
     private BankRepository repository;
 
-    @RequestMapping(value="/banks", method = RequestMethod.GET)
-    public Bank searchBanks(@RequestParam(value = "name", defaultValue = "World") String name) {
-        Bank bank =  new Bank(UUID.randomUUID().toString(), "Test Bank", "TB SIN");
+
+    @RequestMapping(value = "/banks", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    public ResponseEntity<List<Bank>> searchBanks(@RequestParam(value = "name", required = false) String name) {
+        Bank bank = new Bank().id("gh.29.uk.x").fullName("uk").shortName("uk");
         this.repository.save(bank);
 
         List<Bank> banks = this.repository.findAll();
-        System.out.println(" banks collection size : " + banks.size());
-        return bank;
+        return ResponseEntity.ok().body(banks);
     }
+
+    @RequestMapping(value = "/banks", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    public ResponseEntity<Bank> createBank(@RequestBody Bank bank) {
+        if(bank.id() == null){
+            bank.id(UUID.randomUUID().toString());
+        }
+        Bank response = this.repository.save(bank);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @RequestMapping(value = "/banks", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    public ResponseEntity<Bank> updateBank(@RequestBody Bank bank) {
+        Bank response = this.repository.save(bank);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @RequestMapping(value = "/banks/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    public ResponseEntity<Bank> getBankById(@PathParam(value = "id") String id) {
+        Optional<Bank> bank = this.repository.findById(id);
+        bank.map(bank1 -> {
+            return ResponseEntity.ok().body(bank1);
+        });
+        return ResponseEntity.notFound().build();
+    }
+
+    @RequestMapping(value = "/banks/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    public ResponseEntity<String> deleteBankById(@PathVariable(value = "id") String id) {
+        this.repository.deleteById(id);
+        return ResponseEntity.ok("Success");
+    }
+
 
 }
