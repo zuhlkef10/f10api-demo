@@ -1,6 +1,6 @@
 package com.zuhlke.f10.account.controller;
 
-import com.zuhlke.f10.account.exception.UknownErrorException;
+import com.zuhlke.f10.account.exception.UnknownErrorException;
 import com.zuhlke.f10.account.model.Account;
 import com.zuhlke.f10.account.model.AccountRouting;
 import com.zuhlke.f10.account.model.CrAccount;
@@ -42,7 +42,7 @@ public class AccountController {
 
         Account savedAccount = accountService.create(account);
         if (savedAccount==null){
-            throw new UknownErrorException();
+            throw new UnknownErrorException();
         }
 
         return crAccount;
