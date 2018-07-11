@@ -19,7 +19,7 @@ public class BankController {
 
     @RequestMapping(value="/banks", method = RequestMethod.GET)
     public Bank searchBanks(@RequestParam(value = "name", defaultValue = "World") String name) {
-        Bank bank =  new Bank(UUID.randomUUID().toString(), "Test Bank", "TB SIN");
+        Bank bank =  new Bank();
         this.repository.save(bank);
 
         List<Bank> banks = this.repository.findAll();
