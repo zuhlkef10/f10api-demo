@@ -1,10 +1,15 @@
 package com.zuhlke.f10.account.controller;
 
+import com.zuhlke.f10.account.exception.UknownErrorException;
 import com.zuhlke.f10.account.model.Account;
+import com.zuhlke.f10.account.model.AccountRouting;
 import com.zuhlke.f10.account.model.CrAccount;
 import com.zuhlke.f10.account.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/banks")
@@ -26,8 +31,23 @@ public class AccountController {
             , @PathVariable("accountId") String accountId
             , CrAccount crAccount) {
 
+        Account account = new Account();
+        ArrayList<AccountRouting> accountRoutings = new ArrayList<>();
+        accountRoutings.add(crAccount.getAccountRouting());
+        account.setAccountRoutings(accountRoutings);
+        account.setBalance(crAccount.getBalance());
+        account.setBankId(bankId);
+        account.setId(UUID.randomUUID().toString());
+        account.setLabel(crAccount.getLabel());
 
-        return accountService.create(crAccount);
+        Account savedAccount = accountService.create(account);
+        if (savedAccount==null){
+            throw new UknownErrorException();
+        }
+
+        return crAccount;
+
+
     }
 
 
