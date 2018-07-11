@@ -18,6 +18,9 @@ node {
     stage('Docker Account API Build') {
         sh 'docker build --tag=zuhlke/account-api:dev account'
     }
+    stage('Docker Transaction API Build') {
+        sh 'docker build --tag=zuhlke/transaction-api:dev account'
+    }
     stage('Docker Deploy') {
         sh 'docker-compose up -d'
     }
