@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND) // 404
 public class AccountDoesNotExistException extends RuntimeException{
     public AccountDoesNotExistException(){
-        super("OBP-30003: Account not found. Please specify a valid value for ACCOUNT_ID.");
+        super("OBP-30018: Bank Account not found. Please specify valid values for BANK_ID and ACCOUNT_ID.");
     }
 }
 

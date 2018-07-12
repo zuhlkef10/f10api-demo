@@ -1,26 +1,36 @@
 package com.zuhlke.f10.account.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
 @NoArgsConstructor
-public class CrAccount {
+public class AccountCr {
 
-    @JsonProperty("user_id")
-    private String userId;
+    private String id;
+
+    @JsonProperty("bank_id")
+    private String bankId;
 
     private String label;
 
-    private String type;
-    private Balance balance;
+    private String number;
 
-    @JsonProperty("branch_id")
-    private String branchId;
+    private Owner owner;
+
+    private String type;
+
+    private Balance balance;
 
     @JsonProperty("account_routing")
     private AccountRouting accountRouting;
-}
+
+    @JsonProperty("account_rule")
+    private AccountRule accountRule;
+ }
