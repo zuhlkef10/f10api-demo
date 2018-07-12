@@ -19,7 +19,8 @@ public class AccountController {
     public Account getAccountById(@PathVariable("bankId") String bankId
                                   ,@PathVariable("accountId") String accountId) {
 
-        return accountService.getAccountById(bankId,accountId);
+
+        return accountService.getAccountByBankIdAndAccountId(bankId,accountId);
     }
 
 

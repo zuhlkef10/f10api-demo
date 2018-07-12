@@ -12,7 +12,7 @@ import java.io.IOException;
 @Profile("test")
 public class AccountServiceMock implements AccountService {
 
-    public Account getAccountById(String bankId, String accountId){
+    public Account getAccountByBankIdAndAccountId(String bankId, String accountId){
         ObjectMapper mapper = new ObjectMapper();
 
         Account account=null;
