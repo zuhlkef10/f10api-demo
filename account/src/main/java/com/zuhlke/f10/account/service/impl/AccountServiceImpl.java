@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @Profile("!test")
@@ -18,12 +20,16 @@ public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
 
     @Override
-    public Account getAccountById(String bankId, String accountId) {
+    public Account getAccountByBankIdAndAccountId(String bankId, String accountId) {
 
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(()->new AccountDoesNotExistException());
 
-        return account;
+        List<Account> accounts = accountRepository.findByBankIdAndAccountId(bankId,accountId);
+
+        if (accounts==null || accounts.size()==0){
+            throw new AccountDoesNotExistException();
+        }
+
+        return accounts.get(0);
     }
 
     @Override
