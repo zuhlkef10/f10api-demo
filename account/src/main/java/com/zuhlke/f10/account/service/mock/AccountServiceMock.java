@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 
 @Service
-@Profile("test")
+@Profile("mock")
 public class AccountServiceMock implements AccountService {
 
     public Account getAccountByBankIdAndAccountId(String bankId, String accountId){
