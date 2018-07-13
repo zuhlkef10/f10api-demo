@@ -1,0 +1,606 @@
+swagger: '2.0'
+info:
+  version: ''
+  title: Robot Advisor Platform
+  description: API suite for providing automated investment Solution
+host: 'localhost:8080'
+basePath: /v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  Authorization:
+    name: Authorization
+    type: apiKey
+    in: header
+  X-API-KEY:
+    name: X-API-KEY
+    type: apiKey
+    in: header
+paths:
+  '/customers/{customer_id}/portfolios/{portfolio_id}':
+    parameters:
+      - name: customer_id
+        in: path
+        required: true
+        type: string
+      - name: portfolio_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: get-portfolio
+      summary: Get Portfolio
+      tags:
+        - Portfolios
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/portfolio'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    put:
+      operationId: update-portfolio
+      summary: Update Portfolio
+      tags:
+        - Portfolios
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/portfolio'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/portfolio'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    delete:
+      operationId: delete-portfolio
+      summary: Delete Portfolio
+      tags:
+        - Portfolios
+      responses:
+        '204':
+          description: ''
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+  '/customers/{customer_id}/portfolios':
+    parameters:
+      - name: customer_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: create-portfolio
+      summary: Create Portfolio
+      tags:
+        - Portfolios
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/portfolio'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/portfolio'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+  '/customers/{customer_id}/investmentgoals/{goal_id}':
+    parameters:
+      - name: customer_id
+        in: path
+        required: true
+        type: string
+      - name: goal_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: Get-investmentgoal
+      summary: Get InvestmentGoal
+      tags:
+        - Investmentgoals
+      responses:
+        '200':
+          description: 'Successful Response'
+          schema:
+            $ref: '#/definitions/investment-goal'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    put:
+      operationId: update-investmentgoal
+      summary: Update InvestmentGoal
+      tags:
+        - Investmentgoals
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/investment-goal'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/investment-goal'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    delete:
+      operationId: delete-investmentgoal
+      summary: Delete InvestmentGoal
+      tags:
+        - Investmentgoals
+      responses:
+        '204':
+          description: ''
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+  '/customers/{customer_id}/investmentgoals':
+    parameters:
+      - name: customer_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: Create-investmentgoal
+      summary: Create InvestmentGoal
+      tags:
+        - Investmentgoals
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/investment-goal'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/investment-goal'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+  '/customers/{customer_id}/investmentgoals/{goal_id}/recommendations':
+    parameters:
+      - name: customer_id
+        in: path
+        required: true
+        type: string
+      - name: goal_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: get-recommendation
+      summary: Get Recommendation
+      tags:
+        - Investmentgoals
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/recommendation'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+  '/customers/{customer_id}':
+    parameters:
+      - name: customer_id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: get-customer
+      summary: Get Customer
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/customer'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    put:
+      operationId: update-customer
+      summary: Update Customer
+      tags:
+        - Customers
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/customer'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/customer'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    delete:
+      operationId: delete-customer
+      summary: Delete Customer
+      tags:
+        - Customers
+      responses:
+        '204':
+          description: ''
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+  /customers:
+    get:
+      operationId: list-customers
+      summary: List Customers
+      tags:
+        - Customers
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/customer'
+              page_info:
+                $ref: '#/definitions/page-info'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    post:
+      operationId: create-customer
+      summary: Create Customer
+      tags:
+        - Customers
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/customer'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/customer'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+definitions:
+  customer:
+    title: Customer
+    type: object
+    properties:
+      customer_id:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      email:
+        type: string
+      phone_number:
+        type: string
+      national_identifier:
+        type: string
+      address:
+        type: string
+      occupation:
+        type: string
+      monthly_income:
+        type: number
+      currency:
+        type: string
+      customer_type:
+        type: string
+        description: 'Type of a customer whether he is first time investor, experienced with limited time or an expert'
+        enum:
+          - FIRST_TIME
+          - EXPERIENCED
+          - EXPERT
+      created_date:
+        type: string
+        format: date
+  investment-goal:
+    title: Investment Goal
+    type: object
+    properties:
+      goal_id:
+        type: string
+      description:
+        type: string
+      term:
+        type: string
+        description: 'Specify the term for the investment goal. It can be  3 months (3m), 1 year(1y) or any  duration.'
+      amount:
+        type: string
+      investment_type:
+        type: string
+        enum:
+          - HOUSE
+          - CAR
+          - CHILD_EDU
+          - RETIREMENT
+          - GENERAL
+      submitted_date:
+        type: string
+        format: date
+  portfolio:
+    title: Portfolio
+    type: object
+    properties:
+      portfolio_id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      status:
+        type: string
+      assets:
+        type: array
+        items:
+          $ref: '#/definitions/asset'
+      created_date:
+        type: string
+        format: date
+  asset:
+    title: Asset
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      asset_type:
+        type: string
+      start_date:
+        type: string
+        format: date
+      projected_end_date:
+        type: string
+        format: date
+      status:
+        type: string
+      invested_amount:
+        type: number
+      currency:
+        type: string
+      current_value:
+        type: number
+      average_returns:
+        type: string
+  recommendation:
+    title: Recommendation
+    type: object
+    properties:
+      recommendation_id:
+        type: string
+      name:
+        type: string
+      rank:
+        type: number
+      asset:
+        $ref: '#/definitions/asset'
+      recommended_date:
+        type: string
+        format: date
+  server-error:
+    title: Server Error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      tracking_id:
+        type: string
+  generic-error:
+    title: Generic Error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+  page-info:
+    title: Page Info
+    type: object
+    properties:
+      offset:
+        type: number
+      limit:
+        type: number
+      total_records:
+        type: number
+      sort:
+        type: array
+        items:
+          type: string

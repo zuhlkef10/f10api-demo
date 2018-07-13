@@ -21,14 +21,14 @@ securityDefinitions:
     type: apiKey
     in: header
 paths:
-  '/campaigns/{id}':
+  '/campaigns/{campaign_id}':
     parameters:
-      - name: id
+      - name: campaign_id
         in: path
         required: true
         type: string
     get:
-      operationId: GET-campaign
+      operationId: get-campaign
       summary: Get Campaign
       tags:
         - Campaigns
@@ -59,7 +59,7 @@ paths:
         - Authorization: []
         - X-API-KEY: []
     put:
-      operationId: PUT-campaign
+      operationId: update-campaign
       summary: Update Campaign
       tags:
         - Campaigns
@@ -95,7 +95,7 @@ paths:
         - Authorization: []
         - X-API-KEY: []
     delete:
-      operationId: DELETE-campaign
+      operationId: delete-campaign
       summary: Delete Campaign
       tags:
         - Campaigns
@@ -204,7 +204,7 @@ paths:
         - Authorization: []
         - X-API-KEY: []
     post:
-      operationId: POST-campaign
+      operationId: create-campaign
       summary: Create Campaign
       tags:
         - Campaigns
@@ -239,9 +239,9 @@ paths:
       security:
         - Authorization: []
         - X-API-KEY: []
-  '/campaigns/{id}/contributors':
+  '/campaigns/{campaign_id}/contributors':
     parameters:
-      - name: id
+      - name: campaign_id
         in: path
         required: true
         type: string
@@ -279,7 +279,7 @@ paths:
         - Authorization: []
         - X-API-KEY: []
     post:
-      operationId: POST-contributor
+      operationId: register-contributor
       summary: Register As Contributor
       tags:
         - Contributors
@@ -314,14 +314,18 @@ paths:
       security:
         - Authorization: []
         - X-API-KEY: []
-  '/campaigns/{id}/contributors/{id}':
+  '/campaigns/{campaign_id}/contributors/{contributor_id}':
     parameters:
-      - name: id
+      - name: campaign_id
+        in: path
+        required: true
+        type: string
+      - name: contributor_id
         in: path
         required: true
         type: string
     put:
-      operationId: PUT-contributor
+      operationId: update-contributor
       summary: Update Contributor Details
       tags:
         - Contributors
@@ -357,7 +361,7 @@ paths:
         - Authorization: []
         - X-API-KEY: []
     delete:
-      operationId: DELETE-contributor
+      operationId: delete-contributor
       summary: Delete Contributor
       tags:
         - Contributors
