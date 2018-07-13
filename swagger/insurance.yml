@@ -1,0 +1,594 @@
+swagger: '2.0'
+info:
+  version: ''
+  title: fintech-insurance
+  description: ''
+host: 'localhost:3000'
+basePath: /api
+schemes:
+  - http
+securityDefinitions:
+  Authorization:
+    name: Authorization
+    type: apiKey
+    in: header
+  X-API-Key:
+    name: X-API-Key
+    type: apiKey
+    in: header
+paths:
+  '/policy-details/providers/{providerId}':
+    parameters:
+      - name: providerId
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_policy-details-providers-providerId
+      summary: Get Policy Details
+      parameters:
+        - name: policy_id
+          in: query
+          type: string
+        - name: product_id
+          in: query
+          type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              policy_id:
+                type: string
+              provider_id:
+                type: string
+              provider_name:
+                type: string
+              product_id:
+                type: string
+              product_description:
+                type: string
+              premium_currency:
+                type: string
+              premium_amount:
+                type: number
+              features:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    description:
+                      type: string
+                  required:
+                    - name
+                    - description
+            required:
+              - provider_id
+              - provider_name
+              - product_id
+              - product_description
+      security:
+        - Authorization: []
+        - X-API-Key: []
+  /insurance/quotes:
+    post:
+      operationId: POST_insurance-quotes
+      summary: Get Quotes
+      parameters:
+        - name: limit
+          in: query
+          description: The maximum number of results
+          type: number
+        - name: sort
+          in: query
+          description: Sort  results by specific fields
+          type: string
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              criteria:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    value:
+                      type: string
+                    data_type:
+                      type: string
+            example:
+              criteria:
+                - {}
+                - data_type: magna
+                - data_type: amet nisi
+                  value: dolore irure sit est exercitation
+                - name: i
+                  value: eu in nisi velit anim
+                - {}
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              total:
+                type: integer
+              criteria:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    value:
+                      type: string
+                    data_type:
+                      type: string
+              results:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    quote_id:
+                      type: string
+                    provider_id:
+                      type: string
+                    provider_name:
+                      type: string
+                    product_id:
+                      type: string
+                    product_description:
+                      type: string
+                    premium_currency:
+                      type: string
+                    premium_amount:
+                      type: number
+            required:
+              - total
+      security:
+        - Authorization: []
+        - X-API-Key: []
+  '/travel/providers/{providerId}/products/{productId}/buy':
+    parameters:
+      - name: providerId
+        in: path
+        required: true
+        type: string
+      - name: productId
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_travel-providers-providerId-products-productId-buy
+      summary: Buy Travel Insurance
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              trip_type:
+                type: string
+              coverage_type:
+                type: string
+              destination_country:
+                type: string
+              travel_start_date:
+                type: string
+              travel_end_date:
+                type: string
+              plan_type:
+                type: string
+              promotional_discount:
+                type: number
+              quoted_premium:
+                type: number
+              number_of_adults:
+                type: integer
+              number_of_children:
+                type: number
+              personal_details:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  date_of_birth:
+                    type: string
+                  mobile_phone:
+                    type: string
+                  national_id:
+                    type: string
+                  mailing_address:
+                    type: object
+                    properties:
+                      unit_no:
+                        type: string
+                      postal_code:
+                        type: string
+                      block_no:
+                        type: string
+                      street_name:
+                        type: string
+                      building_name:
+                        type: string
+              flight_details:
+                type: object
+                properties:
+                  departure_flight:
+                    type: object
+                    properties:
+                      flight_no:
+                        type: string
+                      flight_date:
+                        type: string
+                  return_flight:
+                    type: object
+                    properties:
+                      flight_no:
+                        type: string
+                      flight_date:
+                        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              reference_number:
+                type: string
+              tax_invoice:
+                type: object
+                properties:
+                  provider_id:
+                    type: string
+                  provider_name:
+                    type: string
+                  policy_id:
+                    type: string
+                  product_id:
+                    type: string
+                  product_description:
+                    type: string
+                  invoice_date:
+                    type: string
+                  premium_details:
+                    type: object
+                    properties:
+                      currency:
+                        type: string
+                      premium_amt:
+                        type: string
+                      less_discount:
+                        type: number
+                      premium_amt_before_tax:
+                        type: number
+                      tax_amt:
+                        type: number
+                      total_amt:
+                        type: number
+                  coverage_date:
+                    type: object
+                    properties:
+                      from:
+                        type: string
+                      to:
+                        type: string
+                  bill_to:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      mailing_address:
+                        type: object
+                        properties:
+                          unit_no:
+                            type: string
+                          postal_code:
+                            type: string
+                          block_no:
+                            type: string
+                          street_name:
+                            type: string
+                          building_name:
+                            type: string
+      security:
+        - Authorization: []
+        - X-API-Key: []
+  '/personal-accident/providers/{providerId}/products/{productId}/buy':
+    parameters:
+      - name: providerId
+        in: path
+        required: true
+        type: string
+      - name: productId
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_personal-accident-providers-providerId-products-productId-buy
+      summary: Buy Personal Accident Insurance
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              coverage_type:
+                type: string
+              occupation:
+                type: string
+              plan_start_date:
+                type: string
+              plan_end_date:
+                type: string
+              plan_type:
+                type: string
+              promotional_discount:
+                type: number
+              quoted_premium:
+                type: number
+              provider_id:
+                type: string
+              provider_name:
+                type: stringr
+              personal_details:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  email:
+                    type: string
+                  date_of_birth:
+                    type: string
+                  mobile_phone:
+                    type: string
+                  national_id:
+                    type: string
+                  mailing_address:
+                    type: object
+                    properties:
+                      unit_no:
+                        type: string
+                      postal_code:
+                        type: string
+                      block_no:
+                        type: string
+                      street_name:
+                        type: string
+                      building_name:
+                        type: string
+            example:
+              coverage_type: consequat aute veniam qui eu
+              occupation: ex
+              plan_start_date: anim
+              plan_end_date: velit
+              plan_type: anim
+              promotional_discount: 35119626
+              premium_payable: 38896137
+              provider_id: exercitation
+              provider_name: null
+              personal_details:
+                name: magna nulla
+                email: anim eu fugiat minim laborum
+                date_of_birth: 'ut '
+                mobile_phone: non irure cupidatat anim cillum
+                national_id: sit aliquip aliqua nulla nostrud
+                mailing_address:
+                  unit_no: velit est eu
+                  postal_code: in est dolore irure Duis
+                  block_no: eiusmod
+                  street_name: anim veniam velit consectetur
+                  building_name: sunt esse ut minim aliqua
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              reference_number:
+                type: string
+              tax_invoice:
+                type: object
+                properties:
+                  provider_id:
+                    type: string
+                  provider_name:
+                    type: string
+                  policy_id:
+                    type: string
+                  product_id:
+                    type: string
+                  product_description:
+                    type: string
+                  invoice_date:
+                    type: string
+                  premium_details:
+                    type: object
+                    properties:
+                      currency:
+                        type: string
+                      premium_amt:
+                        type: string
+                      less_discount:
+                        type: number
+                      premium_amt_before_tax:
+                        type: number
+                      tax_amt:
+                        type: number
+                      total_amt:
+                        type: number
+                  coverage_date:
+                    type: object
+                    properties:
+                      from:
+                        type: string
+                      to:
+                        type: string
+                  bill_to:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      mailing_address:
+                        type: object
+                        properties:
+                          unit_no:
+                            type: string
+                          postal_code:
+                            type: string
+                          block_no:
+                            type: string
+                          street_name:
+                            type: string
+                          building_name:
+                            type: string
+      security:
+        - Authorization: []
+        - X-API-Key: []
+  '/personal-accident/providers/{providerId}/policies/{policyId}/claim':
+    parameters:
+      - name: providerId
+        in: path
+        required: true
+        type: string
+      - name: policyId
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_personal-accident-providers-providerId-policies-policyId-claim
+      summary: Claim Personal Insurance
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              accident_injury_details:
+                type:
+                  - string
+                  - object
+                properties:
+                  date_of_accident:
+                    type: string
+                  time_of_accident:
+                    type: string
+                  accident_types:
+                    type: array
+                    items: {}
+                  is_injured_same_part_before:
+                    type: boolean
+                  is_job_related_injury:
+                    type: boolean
+                  description_of_accident:
+                    type: string
+                  description_of_injury_sustained:
+                    type: string
+              total_amount_claimed:
+                type: number
+            example:
+              policy_number: deserunt voluptate ad consectetur
+              claimant_details:
+                name: ullamco ipsum ut veniam
+                id_type: mollit enim ut culpa
+                id: dolor
+                email: sed dolore
+                phone_number: esse in ea ut
+              accident_injury_details:
+                date_of_accident: mollit elit nulla
+                time_of_accident: qui eiusmod in irure laborum
+                accident_types:
+                  - {}
+                is_injured_same_part_before: false
+                is_job_related_injury: true
+                description_of_accident: Excepteur
+                description_of_injury_sustained: eu nisi elit
+              total_amount_claimed: 17497645
+              documents:
+                file_items:
+                  - file: null
+                  - file: null
+                  - file_type: fugiat in in velit
+                  - file_type: aliquip Ut proident minim in
+                    file: null
+                  - {}
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              policy_id:
+                type: string
+              provider_id:
+                type: string
+              approved_amount:
+                type: number
+              approved_currency:
+                type: string
+      security:
+        - Authorization: []
+        - X-API-Key: []
+  '/travel/providers/{providerId}/policies/{policyId}/claim':
+    parameters:
+      - name: providerId
+        in: path
+        required: true
+        type: string
+      - name: policyId
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_travel-providers-providerId-policies-policyId-claim
+      summary: Claim Travel Insurance
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              travel_loss_details:
+                type: object
+                properties:
+                  trip_start_date:
+                    type: string
+                  trip_end_date:
+                    type: string
+                  accident_types:
+                    type: array
+                    items: {}
+              total_amount_claimed:
+                type: number
+            example:
+              policy_number: 1111-2222-3333
+              claimant:
+                name: Oscar
+                id_type: NRIC
+                id: 123-456
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: object
+            properties:
+              policy_id:
+                type: string
+              provider_id:
+                type: string
+              approved_amount:
+                type: number
+              approved_currency:
+                type: string
+      security:
+        - Authorization: []
+        - X-API-Key: []
+definitions: {}
