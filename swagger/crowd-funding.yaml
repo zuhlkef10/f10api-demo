@@ -1,0 +1,485 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Crowd Funding
+  description: API Suite for Crowd Funding
+host: 'localhost:8080'
+basePath: /v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  Authorization:
+    name: Authorization
+    type: apiKey
+    in: header
+  X-API-KEY:
+    name: X-API-KEY
+    type: apiKey
+    in: header
+paths:
+  '/campaigns/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET-campaign
+      summary: Get Campaign
+      tags:
+        - Campaigns
+      responses:
+        '200':
+          description: 'Successful Response'
+          schema:
+            $ref: '#/definitions/campaign'
+        '400':
+          description: 'Bad Request'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/generic-error'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    put:
+      operationId: PUT-campaign
+      summary: Update Campaign
+      tags:
+        - Campaigns
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/campaign'
+      responses:
+        '200':
+          description: 'Successful Response'
+          schema:
+            $ref: '#/definitions/campaign'
+        '400':
+          description: 'Bad Request'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/campaign'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    delete:
+      operationId: DELETE-campaign
+      summary: Delete Campaign
+      tags:
+        - Campaigns
+      responses:
+        '204':
+          description: 'Successfully Deleted'
+        '400':
+          description: 'Bad Request'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/campaign'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+  /campaigns:
+    get:
+      operationId: LIST-campaigns
+      summary: List Campaigns
+      tags:
+        - Campaigns
+      parameters:
+        - name: name
+          in: query
+          description: Name of the Campaign
+          type: string
+        - name: organizer
+          in: query
+          description: Name or Email Id of the Organizer
+          type: string
+        - name: offset
+          in: query
+          type: number
+        - name: limit
+          in: query
+          type: number
+        - name: sort
+          in: query
+          description: 'Fields to sort the response in ascending or descending order. To sort in descending order, select the field with "-" as prefix'
+          type: array
+          enum:
+            - NAME
+            - ORGANIZER_NAME
+            - TARGET_AMOUNT
+            - RAISED_AMOUNT
+            - CREATED_DATE
+            - '-NAME'
+            - '-ORGANIZER_NAME'
+            - '-TARGET_AMOUNT'
+            - '-RAISED_AMOUNT'
+            - '-CREATED_DATE'
+          items:
+            type: string
+        - name: status
+          in: query
+          type: string
+          enum:
+            - OPEN
+            - CLOSED
+        - name: category
+          in: query
+          type: string
+      responses:
+        '200':
+          description: 'Successful Response'
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/campaign'
+              page_info:
+                $ref: '#/definitions/page-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/campaign'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    post:
+      operationId: POST-campaign
+      summary: Create Campaign
+      tags:
+        - Campaigns
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/campaign'
+      responses:
+        '201':
+          description: 'Successfully Created'
+          schema:
+            $ref: '#/definitions/campaign'
+        '400':
+          description: 'Bad Request'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/campaign'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+  '/campaigns/{id}/contributors':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: list-contributors
+      summary: List Campaign Contributors
+      tags:
+        - Contributors
+      responses:
+        '200':
+          description: 'Successful Response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/contributor'
+        '400':
+          description: 'Bad Request'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/campaign'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    post:
+      operationId: POST-contributor
+      summary: Register As Contributor
+      tags:
+        - Contributors
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/contributor'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/contributor'
+        '400':
+          description: 'Bad Request'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/campaign'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+  '/campaigns/{id}/contributors/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    put:
+      operationId: PUT-contributor
+      summary: Update Contributor Details
+      tags:
+        - Contributors
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/contributor'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/contributor'
+        '400':
+          description: 'Bad Request'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/campaign'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    delete:
+      operationId: DELETE-contributor
+      summary: Delete Contributor
+      tags:
+        - Contributors
+      responses:
+        '204':
+          description: 'Succesfully Deleted'
+        '400':
+          description: 'Bad Request'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/campaign'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+definitions:
+  campaign:
+    title: Campaign
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+      website_url:
+        type: string
+      target_amount:
+        type: number
+      raised_amount:
+        type: number
+      currency:
+        type: string
+      category:
+        type: string
+      status:
+        type: string
+        enum:
+          - OPEN
+          - CLOSED
+      created_date:
+        type: string
+        format: date
+      start_date:
+        type: string
+        format: date
+      end_date:
+        type: string
+        format: date
+      organizers:
+        type: array
+        items:
+          $ref: '#/definitions/person'
+  person:
+    title: Person
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+  page-info:
+    title: Page Info
+    type: object
+    properties:
+      offset:
+        type: number
+      limit:
+        type: number
+      total_records:
+        type: number
+      sort:
+        type: array
+        items:
+          type: string
+  server-error:
+    title: Server Error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      tracking_id:
+        type: string
+  generic-error:
+    title: Generic Error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+  contributor:
+    title: Contributor
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      email:
+        type: string
+      phone_number:
+        type: string
+      address:
+        type: string
+      amount:
+        type: number
+      contribution_date:
+        type: string
+        format: date
