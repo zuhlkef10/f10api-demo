@@ -174,14 +174,7 @@ paths:
         '200':
           description: 'Successful Response'
           schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/definitions/campaign'
-              page_info:
-                $ref: '#/definitions/page-info'
+            $ref: '#/definitions/list-campaign-response'
         '400':
           description: 'Bad Request'
           schema:
@@ -487,3 +480,13 @@ definitions:
       contribution_date:
         type: string
         format: date
+  list-campaign-response:
+    title: List Campaign Response
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/campaign'
+      page_info:
+          $ref: '#/definitions/page-info'
