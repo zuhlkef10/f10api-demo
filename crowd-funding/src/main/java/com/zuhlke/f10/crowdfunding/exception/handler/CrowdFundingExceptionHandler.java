@@ -1,6 +1,7 @@
 package com.zuhlke.f10.crowdfunding.exception.handler;
 
-import com.zuhlke.f10.crowdfunding.exception.InternalException;
+import com.zuhlke.f10.crowdfunding.exception.*;
+import com.zuhlke.f10.crowdfunding.model.GenericError;
 import com.zuhlke.f10.crowdfunding.model.ServerError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +22,40 @@ public class CrowdFundingExceptionHandler {
     }
 
     @ExceptionHandler(InternalException.class)
-    public ResponseEntity<ServerError> handleException(final InternalException exception) {
+    public ResponseEntity<ServerError> handleInternalException(final InternalException exception) {
         return ResponseEntity.status(exception.getHttpStatus()).body(new ServerError()
                 .code(exception.getCode())
                 .message(exception.getMessage())
                 .trackingId(exception.getTrackingId()));
     }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<GenericError> handleBadRequestException(final BadRequestException exception) {
+        return ResponseEntity.status(exception.getHttpStatus()).body(new GenericError()
+                .code(exception.getCode())
+                .message(exception.getMessage()));
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<GenericError> handleResourceNotFoundException(final ResourceNotFoundException exception) {
+        return ResponseEntity.status(exception.getHttpStatus()).body(new GenericError()
+                .code(exception.getCode())
+                .message(exception.getMessage()));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<GenericError> handleAuthenticationException(final AuthenticationException exception) {
+        return ResponseEntity.status(exception.getHttpStatus()).body(new GenericError()
+                .code(exception.getCode())
+                .message(exception.getMessage()));
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<GenericError> handleAuthenticationException(final AuthorizationException exception) {
+        return ResponseEntity.status(exception.getHttpStatus()).body(new GenericError()
+                .code(exception.getCode())
+                .message(exception.getMessage()));
+    }
+
 
 }
