@@ -26,6 +26,7 @@
         <module>customer</module>
         <module>crowd-funding</module>
         <module>robot-advisor</module>
+        <module>crowd-lending</module>
     </modules>
 
 
