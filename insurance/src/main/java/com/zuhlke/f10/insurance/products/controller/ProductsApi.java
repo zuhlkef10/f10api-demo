@@ -3,15 +3,16 @@
  * https://github.com/swagger-api/swagger-codegen
  * Do not edit the class manually.
  */
-package com.zuhlke.f10.insurance.controller;
+package com.zuhlke.f10.insurance.products.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zuhlke.f10.insurance.model.BuyerSpecifications;
+import com.zuhlke.f10.insurance.model.GenericError;
 import com.zuhlke.f10.insurance.model.Invoice;
+import com.zuhlke.f10.insurance.model.ServerError;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,10 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.Optional;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-07-16T16:10:33.895+08:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-07-16T17:46:09.699+08:00")
 
 @Api(value = "products", description = "the products API")
 public interface ProductsApi {
@@ -47,9 +47,12 @@ public interface ProductsApi {
         @Authorization(value = "X-API-Key")
     }, tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "", response = Invoice.class) })
+        @ApiResponse(code = 200, message = "Successful Response", response = Invoice.class),
+        @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
+        @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
+        @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+        @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class) })
     @RequestMapping(value = "/products/{productId}/buy",
         method = RequestMethod.POST)
-    ResponseEntity<Invoice> pOSTProductsProductIdBuy(@ApiParam(value = "", required = true) @PathVariable("productId") String productId, @ApiParam(value = "") @Valid @RequestBody BuyerSpecifications body);
-
+    ResponseEntity<Invoice> buyInsurance(@ApiParam(value = "", required = true) @PathVariable("productId") String productId, @ApiParam(value = "") @Valid @RequestBody BuyerSpecifications body);
 }

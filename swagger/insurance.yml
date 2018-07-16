@@ -36,6 +36,22 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/invoice'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
       security:
         - Authorization: []
         - X-API-Key: []
@@ -64,6 +80,22 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/claim-response'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
       security:
         - Authorization: []
         - X-API-Key: []
@@ -81,6 +113,26 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/policy-details'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
       security:
         - Authorization: []
         - X-API-Key: []
@@ -115,6 +167,22 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/quotes'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
       security:
         - Authorization: []
         - X-API-Key: []
@@ -385,4 +453,22 @@ definitions:
       approved_amount:
         type: number
       approved_currency:
+        type: string
+  generic-error:
+    title: generic-error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+  server-error:
+    title: server-error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      tracking_id:
         type: string
