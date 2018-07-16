@@ -1,18 +1,22 @@
 version: '3'
 services:
- bank-api:
-  image: zuhlke/com.zuhlke.f10.bank-api:dev
+ core-bank-api:
+  image: zuhlke/core-bank-api:dev
   ports:
     - "9090:9090"
- account-api:
-  image: zuhlke/com.zuhlke.f10.account-api:dev
+ crowd-funding-api:
+  image: zuhlke/crowd-funding-api:dev
+  ports:
+    - "9095:9095"
+ robot-advisor-api:
+  image: zuhlke/robot-advisor-api:dev
+  ports:
+    - "9096:9096"
+ crowd-lending-api:
+  image: zuhlke/crowd-lending-api:dev
+  ports:
+    - "9097:9097"
+ insurance-api:
+  image: zuhlke/insurance-api:dev
   ports:
     - "9091:9091"
- transaction-api:
-  image: zuhlke/com.zuhlke.f10.transaction-api:dev
-  ports:
-    - "9092:9092"
- customer-api:
-  image: zuhlke/com.zuhlke.f10.customer-api:dev
-  ports:
-    - "9093:9093"

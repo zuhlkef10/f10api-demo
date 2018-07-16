@@ -16,17 +16,20 @@ node {
         sh "docker ps  | grep f10api-demo | awk '{print \$1}'  | xargs --no-run-if-empty docker stop"
         sh "docker ps -a | grep f10api-demo | awk '{print \$1}'  | xargs --no-run-if-empty docker rm"
     }
-    stage('Docker Bank API Build') {
-        sh 'docker build --tag=zuhlke/com.zuhlke.f10.bank-api:dev com.zuhlke.f10.bank'
+    stage('Docker Core-Bank API Build') {
+        sh 'docker build --tag=zuhlke/core-bank-api:dev core-bank'
     }
-    stage('Docker Account API Build') {
-        sh 'docker build --tag=zuhlke/com.zuhlke.f10.account-api:dev com.zuhlke.f10.account'
+    stage('Docker Crowd-Funding API Build') {
+        sh 'docker build --tag=zuhlke/crowd-funding-api:dev crowd-funding'
     }
-    stage('Docker Transaction API Build') {
-        sh 'docker build --tag=zuhlke/com.zuhlke.f10.transaction-api:dev com.zuhlke.f10.transaction'
+    stage('Docker Robot-Advisor API Build') {
+        sh 'docker build --tag=zuhlke/robot-advisor-api:dev robot-advisor'
     }
-    stage('Docker Customer API Build') {
-        sh 'docker build --tag=zuhlke/com.zuhlke.f10.customer-api:dev com.zuhlke.f10.customer'
+    stage('Docker Crowd Lending API Build') {
+        sh 'docker build --tag=zuhlke/crowd-lending-api:dev crowd-lending'
+    }
+    stage('Docker Insurance API Build') {
+        sh 'docker build --tag=zuhlke/insurance-api:dev insurance'
     }
     stage('Docker Deploy') {
         sh 'docker-compose up -d'
