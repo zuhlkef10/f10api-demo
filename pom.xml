@@ -20,14 +20,11 @@
     </parent>
 
     <modules>
-        <module>bank</module>
-        <module>account</module>
-        <module>transaction</module>
-        <module>customer</module>
+        <module>core-bank</module>
         <module>crowd-funding</module>
         <module>robot-advisor</module>
         <module>crowd-lending</module>
-    </modules>
+     </modules>
 
 
     <properties>

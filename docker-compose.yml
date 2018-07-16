@@ -1,18 +1,18 @@
 version: '3'
 services:
  bank-api:
-  image: zuhlke/bank-api:dev
+  image: zuhlke/com.zuhlke.f10.bank-api:dev
   ports:
     - "9090:9090"
  account-api:
-  image: zuhlke/account-api:dev
+  image: zuhlke/com.zuhlke.f10.account-api:dev
   ports:
     - "9091:9091"
  transaction-api:
-  image: zuhlke/transaction-api:dev
+  image: zuhlke/com.zuhlke.f10.transaction-api:dev
   ports:
     - "9092:9092"
  customer-api:
-  image: zuhlke/customer-api:dev
+  image: zuhlke/com.zuhlke.f10.customer-api:dev
   ports:
     - "9093:9093"
