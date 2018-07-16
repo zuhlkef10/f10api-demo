@@ -115,14 +115,7 @@ paths:
         '200':
           description: ''
           schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/definitions/loan'
-              page_info:
-                $ref: '#/definitions/page-info'
+            $ref: '#/definitions/list-loan-response'
         '401':
           description: 'Authentication Error'
           schema:
@@ -262,14 +255,7 @@ paths:
         '200':
           description: 'Successful Response'
           schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/definitions/borrower'
-              page_info:
-                $ref: '#/definitions/page-info'
+            $ref: '#/definitions/list-borrower-response'
         '401':
           description: 'Authentication Error'
           schema:
@@ -397,14 +383,7 @@ paths:
         '200':
           description: 'Successful Response'
           schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/definitions/investor'
-              page_info:
-                $ref: '#/definitions/page-info'
+            $ref: '#/definitions/list-investor-response'
         '401':
           description: 'Authentication Error'
           schema:
@@ -564,3 +543,33 @@ definitions:
         type: array
         items:
           type: string
+  list-investor-response:
+    title: List Campaign Response
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/investor'
+      page_info:
+          $ref: '#/definitions/page-info'
+  list-loan-response:
+    title: List Campaign Response
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/loan'
+      page_info:
+          $ref: '#/definitions/page-info'
+  list-borrower-response:
+    title: List Campaign Response
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/borrower'
+      page_info:
+          $ref: '#/definitions/page-info'
