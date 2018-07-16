@@ -1,4 +1,4 @@
-package com.zuhlke.f10.crowdfunding.controller;
+package com.zuhlke.f10.crowdfunding.contributor.controller;
 
 import com.zuhlke.f10.crowdfunding.model.Campaign;
 import com.zuhlke.f10.crowdfunding.model.Contributor;

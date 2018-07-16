@@ -1,4 +1,4 @@
-package com.zuhlke.f10.crowdfunding.controller;
+package com.zuhlke.f10.crowdfunding.campaign.controller;
 
 import com.zuhlke.f10.crowdfunding.model.Campaign;
 import com.zuhlke.f10.crowdfunding.model.GenericError;
