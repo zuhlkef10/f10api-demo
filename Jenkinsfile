@@ -9,9 +9,6 @@ node {
         // Run the maven build
         sh "'/usr/share/maven/bin/mvn' -Dmaven.test.failure.ignore clean install"
     }
-    stage('Results') {
-        junit '**/target/surefire-reports/TEST-*.xml'
-    }
     stage('Docker Stop and Remove Containers') {
         sh "docker ps  | grep f10api-demo | awk '{print \$1}'  | xargs --no-run-if-empty docker stop"
         sh "docker ps -a | grep f10api-demo | awk '{print \$1}'  | xargs --no-run-if-empty docker rm"
