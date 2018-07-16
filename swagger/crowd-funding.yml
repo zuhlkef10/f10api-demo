@@ -40,15 +40,17 @@ paths:
         '400':
           description: 'Bad Request'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/generic-error'
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -76,15 +78,17 @@ paths:
         '400':
           description: 'Bad Request'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/campaign'
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -105,15 +109,17 @@ paths:
         '400':
           description: 'Bad Request'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/campaign'
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -178,15 +184,17 @@ paths:
         '400':
           description: 'Bad Request'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/campaign'
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -214,15 +222,17 @@ paths:
         '400':
           description: 'Bad Request'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/campaign'
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -253,15 +263,17 @@ paths:
         '400':
           description: 'Bad Request'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/campaign'
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -289,15 +301,17 @@ paths:
         '400':
           description: 'Bad Request'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/campaign'
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -335,15 +349,17 @@ paths:
         '400':
           description: 'Bad Request'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/campaign'
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -364,15 +380,17 @@ paths:
         '400':
           description: 'Bad Request'
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/campaign'
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':

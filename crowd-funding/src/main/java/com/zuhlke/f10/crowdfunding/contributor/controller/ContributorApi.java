@@ -23,9 +23,10 @@ public interface ContributorApi {
     }, tags = {"Contributors",})
     @ApiResponses(value = {
             @ApiResponse(code = 204, message = "Succesfully Deleted"),
-            @ApiResponse(code = 400, message = "Bad Request", response = Campaign.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
             @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
             @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+            @ApiResponse(code = 404, message = "Resource Not Found", response = GenericError.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class)})
     @RequestMapping(value = "/campaigns/{campaign_id}/contributors/{contributor_id}",
             produces = {"application/json"},
@@ -40,9 +41,10 @@ public interface ContributorApi {
     }, tags = {"Contributors",})
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successful Response", response = Contributor.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "Bad Request", response = Campaign.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
             @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
             @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+            @ApiResponse(code = 404, message = "Resource Not Found", response = GenericError.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class)})
     @RequestMapping(value = "/campaigns/{campaign_id}/contributors",
             produces = {"application/json"},
@@ -56,10 +58,11 @@ public interface ContributorApi {
             @Authorization(value = "X-API-KEY")
     }, tags = {"Contributors",})
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "", response = Contributor.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = Campaign.class, responseContainer = "List"),
+            @ApiResponse(code = 201, message = "Successful Response", response = Contributor.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
             @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
             @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+            @ApiResponse(code = 404, message = "Resource Not Found", response = GenericError.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class)})
     @RequestMapping(value = "/campaigns/{campaign_id}/contributors",
             produces = {"application/json"},
@@ -72,10 +75,11 @@ public interface ContributorApi {
             @Authorization(value = "X-API-KEY")
     }, tags = {"Contributors",})
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "", response = Contributor.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = Campaign.class, responseContainer = "List"),
+            @ApiResponse(code = 200, message = "Successful Response", response = Contributor.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
             @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
             @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+            @ApiResponse(code = 404, message = "Resource Not Found", response = GenericError.class),
             @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class)})
     @RequestMapping(value = "/campaigns/{campaign_id}/contributors/{contributor_id}",
             produces = {"application/json"},

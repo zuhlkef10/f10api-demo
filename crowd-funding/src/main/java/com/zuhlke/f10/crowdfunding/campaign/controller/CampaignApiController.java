@@ -31,6 +31,7 @@ public class CampaignApiController implements CampaignApi {
             method = RequestMethod.DELETE)
     @Override
     public ResponseEntity<Void> deleteCampaign(@PathVariable("campaign_id") String campaignId) {
+        campaignService.deleteCampaign(campaignId);
         return ResponseEntity.noContent().build();
     }
 
