@@ -30,141 +30,28 @@ paths:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              quote_id:
-                type: string
-              coverage_start_date:
-                type: string
-              coverage_end_date:
-                type: string
-              promotional_discount:
-                type: number
-              quoted_premium:
-                type: number
-              personal_details:
-                type: object
-                properties:
-                  name:
-                    type: string
-                  email:
-                    type: string
-                  date_of_birth:
-                    type: string
-                  mobile_phone:
-                    type: string
-                  national_id:
-                    type: string
-                  occupation:
-                    type: string
-                  mailing_address:
-                    type: object
-                    properties:
-                      unit_no:
-                        type: string
-                      postal_code:
-                        type: string
-                      block_no:
-                        type: string
-                      street_name:
-                        type: string
-                      building_name:
-                        type: string
-              travel_details:
-                type: object
-                properties:
-                  flight_details:
-                    type: object
-                    properties:
-                      departure_flight:
-                        type: object
-                        properties:
-                          flight_no:
-                            type: string
-                          flight_date:
-                            type: string
-                      return_flight:
-                        type: object
-                        properties:
-                          flight_no:
-                            type: string
-                          flight_date:
-                            type: string
-                  destination_country:
-                    type: string
-                  trip_type:
-                    type: string
-                  coverage_type:
-                    type: string
-                  plan_type:
-                    type: string
-                  number_of_adults:
-                    type: integer
-                  number_of_children:
-                    type: integer
+            $ref: '#/definitions/buyer-specifications'
       responses:
         '200':
           description: ''
           schema:
-            type: object
-            properties:
-              reference_number:
-                type: string
-              tax_invoice:
-                type: object
-                properties:
-                  provider_id:
-                    type: string
-                  provider_name:
-                    type: string
-                  policy_id:
-                    type: string
-                  product_id:
-                    type: string
-                  product_description:
-                    type: string
-                  invoice_date:
-                    type: string
-                  premium_details:
-                    type: object
-                    properties:
-                      currency:
-                        type: string
-                      premium_amt:
-                        type: string
-                      less_discount:
-                        type: number
-                      premium_amt_before_tax:
-                        type: number
-                      tax_amt:
-                        type: number
-                      total_amt:
-                        type: number
-                  coverage_date:
-                    type: object
-                    properties:
-                      from:
-                        type: string
-                      to:
-                        type: string
-                  bill_to:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                      mailing_address:
-                        type: object
-                        properties:
-                          unit_no:
-                            type: string
-                          postal_code:
-                            type: string
-                          block_no:
-                            type: string
-                          street_name:
-                            type: string
-                          building_name:
-                            type: string
+            $ref: '#/definitions/invoice'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
       security:
         - Authorization: []
         - X-API-Key: []
@@ -181,40 +68,7 @@ paths:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              travel_loss_details:
-                type: object
-                description: Section for Travel Insurance
-                properties:
-                  trip_start_date:
-                    type: string
-                  trip_end_date:
-                    type: string
-                  accident_types:
-                    type: array
-                    items: {}
-              accident_injury_details:
-                type: object
-                description: Section for Personal Accident Insurance
-                properties:
-                  date_of_accident:
-                    type: string
-                  time_of_accident:
-                    type: string
-                  accident_types:
-                    type: array
-                    items: {}
-                  is_injured_same_part_before:
-                    type: boolean
-                  is_job_related_injury:
-                    type: boolean
-                  description_of_accident:
-                    type: string
-                  description_of_injury_sustained:
-                    type: string
-              total_amount_claimed:
-                type: number
+            $ref: '#/definitions/claim-details'
             example:
               policy_number: 1111-2222-3333
               claimant:
@@ -225,18 +79,23 @@ paths:
         '200':
           description: ''
           schema:
-            type: object
-            properties:
-              reference_Id:
-                type: string
-              policy_id:
-                type: string
-              provider_id:
-                type: string
-              approved_amount:
-                type: number
-              approved_currency:
-                type: string
+            $ref: '#/definitions/claim-response'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
       security:
         - Authorization: []
         - X-API-Key: []
@@ -253,33 +112,27 @@ paths:
         '200':
           description: ''
           schema:
-            type: object
-            properties:
-              policy_id:
-                type: string
-              product_id:
-                type: string
-              product_description:
-                type: string
-              premium_currency:
-                type: string
-              premium_amount:
-                type: number
-              features:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    description:
-                      type: string
-                  required:
-                    - name
-                    - description
-            required:
-              - product_id
-              - product_description
+            $ref: '#/definitions/policy-details'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
       security:
         - Authorization: []
         - X-API-Key: []
@@ -299,19 +152,7 @@ paths:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              criteria:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    value:
-                      type: string
-                    data_type:
-                      type: string
+            $ref: '#/definitions/search-criteria'
             example:
               criteria:
                 - {}
@@ -325,39 +166,309 @@ paths:
         '200':
           description: ''
           schema:
-            type: object
-            properties:
-              total:
-                type: integer
-              criteria:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    name:
-                      type: string
-                    value:
-                      type: string
-                    data_type:
-                      type: string
-              results:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    quote_id:
-                      type: string
-                    product_id:
-                      type: string
-                    product_description:
-                      type: string
-                    premium_currency:
-                      type: string
-                    premium_amount:
-                      type: number
-            required:
-              - total
+            $ref: '#/definitions/quotes'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
       security:
         - Authorization: []
         - X-API-Key: []
-definitions: {}
+definitions:
+  premium-details:
+    title: Premium Details
+    type: object
+    properties:
+      currency:
+        type: string
+      premium_amt:
+        type: string
+      less_discount:
+        type: number
+      premium_amt_before_tax:
+        type: number
+      tax_amt:
+        type: number
+      total_amt:
+        type: number
+  coverage-date:
+    title: Coverage Date
+    type: object
+    properties:
+      from:
+        type: string
+        format: date
+      to:
+        type: string
+        format: date
+  billing-address:
+    title: Billing Address
+    type: object
+    properties:
+      name:
+        type: string
+      mailing_address:
+        type: string
+  invoice-details:
+    title: Invoice Details
+    type: object
+    properties:
+      provider_id:
+        type: string
+      provider_name:
+        type: string
+      policy_id:
+        type: string
+      product_id:
+        type: string
+      product_description:
+        type: string
+      invoice_date:
+        type: string
+      premium_details:
+        $ref: '#/definitions/premium-details'
+      coverage_date:
+        $ref: '#/definitions/coverage-date'
+      bill_to:
+        $ref: '#/definitions/billing-address'
+  personal-details:
+    title: Personal Details
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+      date_of_birth:
+        type: string
+        format: date
+      mobile_phone:
+        type: string
+      national_id:
+        type: string
+      occupation:
+        type: string
+      mailing_address:
+        type: string
+  flight-schedule:
+    title: Flight Schedule
+    type: object
+    properties:
+      flight_no:
+        type: string
+      flight_date:
+        type: string
+        format: date
+  flight-details:
+    title: Flight Details
+    type: object
+    properties:
+      departure_flight:
+        $ref: '#/definitions/flight-schedule'
+      return_flight:
+        $ref: '#/definitions/flight-schedule'
+  travel-details:
+    title: Travel Details
+    type: object
+    properties:
+      flight_details:
+        $ref: '#/definitions/flight-details'
+      destination_country:
+        type: string
+      trip_type:
+        type: string
+      coverage_type:
+        type: string
+      plan_type:
+        type: string
+      number_of_adults:
+        type: integer
+      number_of_children:
+        type: integer
+  travel-loss-details:
+    title: Travel Loss Details
+    type: object
+    properties:
+      trip_start_date:
+        type: string
+      trip_end_date:
+        type: string
+      accident_types:
+        type: array
+        items:
+          type: string
+  accident-injury-details:
+    title: Accident Injury Details
+    type: object
+    properties:
+      date_of_accident:
+        type: string
+      time_of_accident:
+        type: string
+        format: date
+      accident_types:
+        type: array
+        items:
+          type: string
+      is_injured_same_part_before:
+        type: boolean
+      is_job_related_injury:
+        type: boolean
+      description_of_accident:
+        type: string
+      description_of_injury_sustained:
+        type: string
+  policy-feature:
+    title: Policy Feature
+    type: object
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+  criteria:
+    title: Criteria
+    type: object
+    properties:
+      name:
+        type: string
+      value:
+        type: string
+      data_type:
+        type: string
+  product-details:
+    title: Product Details
+    type: object
+    properties:
+      quote_id:
+        type: string
+      product_id:
+        type: string
+      product_description:
+        type: string
+      premium_currency:
+        type: string
+      premium_amount:
+        type: number
+  policy-details:
+    title: Policy Details
+    type: object
+    properties:
+      policy_id:
+        type: string
+      product_id:
+        type: string
+      product_description:
+        type: string
+      premium_currency:
+        type: string
+      premium_amount:
+        type: number
+      features:
+        type: array
+        items:
+          $ref: '#/definitions/policy-feature'
+  search-criteria:
+    title: Search Criteria
+    type: object
+    properties:
+      criteria:
+        type: array
+        items:
+          $ref: '#/definitions/criteria'
+  quotes:
+    title: Quotes
+    type: object
+    properties:
+      total:
+        type: integer
+      criteria:
+        type: array
+        items:
+          $ref: '#/definitions/criteria'
+      results:
+        type: array
+        items:
+          $ref: '#/definitions/product-details'
+  buyer-specifications:
+    title: Buyer Specifications
+    type: object
+    properties:
+      quote_id:
+        type: string
+      coverage_start_date:
+        type: string
+        format: date
+      coverage_end_date:
+        type: string
+        format: date
+      promotional_discount:
+        type: number
+      quoted_premium:
+        type: number
+      personal_details:
+        $ref: '#/definitions/personal-details'
+      travel_details:
+        $ref: '#/definitions/travel-details'
+  invoice:
+    title: Invoice
+    type: object
+    properties:
+      reference_number:
+        type: string
+      tax_invoice:
+        $ref: '#/definitions/invoice-details'
+  claim-details:
+    title: Claim Details
+    type: object
+    properties:
+      travel_loss_details:
+        $ref: '#/definitions/travel-loss-details'
+      accident_injury_details:
+        $ref: '#/definitions/accident-injury-details'
+      total_amount_claimed:
+        type: number
+  claim-response:
+    title: Claim Response
+    type: object
+    properties:
+      reference_Id:
+        type: string
+      policy_id:
+        type: string
+      provider_id:
+        type: string
+      approved_amount:
+        type: number
+      approved_currency:
+        type: string
+  generic-error:
+    title: generic-error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+  server-error:
+    title: server-error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      tracking_id:
+        type: string
