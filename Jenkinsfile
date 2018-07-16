@@ -17,16 +17,16 @@ node {
         sh "docker ps -a | grep f10api-demo | awk '{print \$1}'  | xargs --no-run-if-empty docker rm"
     }
     stage('Docker Bank API Build') {
-        sh 'docker build --tag=zuhlke/bank-api:dev bank'
+        sh 'docker build --tag=zuhlke/com.zuhlke.f10.bank-api:dev com.zuhlke.f10.bank'
     }
     stage('Docker Account API Build') {
-        sh 'docker build --tag=zuhlke/account-api:dev account'
+        sh 'docker build --tag=zuhlke/com.zuhlke.f10.account-api:dev com.zuhlke.f10.account'
     }
     stage('Docker Transaction API Build') {
-        sh 'docker build --tag=zuhlke/transaction-api:dev transaction'
+        sh 'docker build --tag=zuhlke/com.zuhlke.f10.transaction-api:dev com.zuhlke.f10.transaction'
     }
     stage('Docker Customer API Build') {
-        sh 'docker build --tag=zuhlke/customer-api:dev customer'
+        sh 'docker build --tag=zuhlke/com.zuhlke.f10.customer-api:dev com.zuhlke.f10.customer'
     }
     stage('Docker Deploy') {
         sh 'docker-compose up -d'
