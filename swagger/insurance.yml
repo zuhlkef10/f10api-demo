@@ -193,7 +193,8 @@ paths:
                     type: string
                   accident_types:
                     type: array
-                    items: {}
+                    items:
+                      type: string
               accident_injury_details:
                 type: object
                 description: Section for Personal Accident Insurance
@@ -204,7 +205,8 @@ paths:
                     type: string
                   accident_types:
                     type: array
-                    items: {}
+                    items:
+                      type: string
                   is_injured_same_part_before:
                     type: boolean
                   is_job_related_injury:
