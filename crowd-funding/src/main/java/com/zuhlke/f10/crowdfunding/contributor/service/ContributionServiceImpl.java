@@ -28,7 +28,7 @@ public class ContributionServiceImpl implements ContributionService {
     public ContributionInfo addContributionDetails(String campaignId, String contributorId, Contribution body) {
         return campaignRepository.findById(campaignId).map(campaignInfo -> {
             return contributorRepository.findById(contributorId).map(contributorInfo -> {
-                ContributionInfo contributionInfo = new ContributionInfo().contribution(body);
+                ContributionInfo contributionInfo = new ContributionInfo().contribution(body).campaignId(campaignId).contributorId(contributorId);
                 contributionInfo =  contributionRepository.insert(contributionInfo);
                 BigDecimal totalAmount = contributorInfo.getContributor().getAmount();
                 totalAmount = totalAmount == null ? BigDecimal.ZERO : totalAmount;
