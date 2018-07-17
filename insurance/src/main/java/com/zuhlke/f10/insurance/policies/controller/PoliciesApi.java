@@ -39,7 +39,7 @@ public interface PoliciesApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Get Policy Details", nickname = "gETPoliciesPolicyId", notes = "", response = PolicyDetails.class, authorizations = {
+    @ApiOperation(value = "Get Policy Details", nickname = "getPolicy", notes = "", response = PolicyDetails.class, authorizations = {
         @Authorization(value = "Authorization"),
         @Authorization(value = "X-API-Key")
     }, tags={ "Policies", })
