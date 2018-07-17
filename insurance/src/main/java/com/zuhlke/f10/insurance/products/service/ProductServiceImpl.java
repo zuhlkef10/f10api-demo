@@ -63,6 +63,7 @@ public class ProductServiceImpl implements ProductService{
 
         //Product description
         Product product = getProduct(productId);
+
         details.setProductDescription(product.getProductDescription());
 
         details.setProviderId("100");
@@ -77,6 +78,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void deleteProduct(String id) {
+        getProduct(id); //call this to throw ResourceNotFoundException if it does not exist
         productRepository.deleteById(id);
     }
 
@@ -99,6 +101,8 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Product updateProduct(String id, Product product) {
+        getProduct(id); //call this to throw ResourceNotFoundException if it does not exist
+
         return productRepository.save(product);
     }
 }

@@ -3,20 +3,25 @@ package com.zuhlke.f10.insurance.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND) // 404
-public class ResourceNotFoundException extends RuntimeException {
+import java.util.UUID;
+
+@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500
+public class InternalException extends RuntimeException {
 
     private String code;
 
     private String message;
 
+    private String trackingId;
+
     private HttpStatus httpStatus;
 
-    public ResourceNotFoundException(String code, String message) {
+    public InternalException(String code, String message) {
         super(message);
         this.code = code;
         this.message = message;
-        this.httpStatus = HttpStatus.NOT_FOUND;
+        this.trackingId = UUID.randomUUID().toString();
+        this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
     public String getCode() {
@@ -26,6 +31,10 @@ public class ResourceNotFoundException extends RuntimeException {
     @Override
     public String getMessage() {
         return message;
+    }
+
+    public String getTrackingId() {
+        return trackingId;
     }
 
     public HttpStatus getHttpStatus() {
