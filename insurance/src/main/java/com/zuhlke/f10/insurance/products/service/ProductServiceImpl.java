@@ -2,6 +2,7 @@ package com.zuhlke.f10.insurance.products.service;
 
 import com.zuhlke.f10.insurance.exception.ResourceNotFoundException;
 import com.zuhlke.f10.insurance.model.*;
+import com.zuhlke.f10.insurance.policies.repository.PolicyRepository;
 import com.zuhlke.f10.insurance.products.repository.InvoiceRepository;
 import com.zuhlke.f10.insurance.products.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class ProductServiceImpl implements ProductService{
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private PolicyRepository policyRepository;
 
     @Override
     public Invoice buy(String productId, BuyerSpecifications buyerSpecs) {
@@ -73,7 +77,28 @@ public class ProductServiceImpl implements ProductService{
         invoice.setTaxInvoice(details);
 
         Invoice savedInvoice = invoiceRepository.save(invoice);
+
+
+        //Create Policy Details
+        PolicyDetails policyDetails = createPolicyDetails(invoice);
+        policyRepository.save(policyDetails);
+
+
         return savedInvoice;
+    }
+
+    private PolicyDetails createPolicyDetails(Invoice invoice) {
+        PolicyDetails policyDetails = new PolicyDetails();
+        policyDetails.setPolicyId(invoice.getReferenceNumber());
+        policyDetails.setPremiumAmount(invoice.getTaxInvoice().getPremiumDetails().getPremiumAmt());
+        policyDetails.setPremiumCurrency(invoice.getTaxInvoice().getPremiumDetails().getCurrency());
+        policyDetails.setProductId(invoice.getTaxInvoice().getProductId());
+
+        PolicyFeature feature = new PolicyFeature();
+        feature.setName("Benefits");
+        feature.description("Cool benefits");
+        policyDetails.addFeaturesItem(feature);
+        return policyDetails;
     }
 
     @Override
