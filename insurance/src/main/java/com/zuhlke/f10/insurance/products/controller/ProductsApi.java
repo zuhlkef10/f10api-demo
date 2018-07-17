@@ -6,13 +6,11 @@
 package com.zuhlke.f10.insurance.products.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zuhlke.f10.insurance.model.BuyerSpecifications;
-import com.zuhlke.f10.insurance.model.GenericError;
-import com.zuhlke.f10.insurance.model.Invoice;
-import com.zuhlke.f10.insurance.model.ServerError;
+import com.zuhlke.f10.insurance.model.*;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-07-16T17:46:09.699+08:00")
@@ -28,7 +28,6 @@ import java.util.Optional;
 @Api(value = "products", description = "the products API")
 public interface ProductsApi {
 
-    Logger log = LoggerFactory.getLogger(ProductsApi.class);
 
     default Optional<ObjectMapper> getObjectMapper() {
         return Optional.empty();
@@ -42,10 +41,10 @@ public interface ProductsApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Buy Insurance", nickname = "pOSTProductsProductIdBuy", notes = "", response = Invoice.class, authorizations = {
+    @ApiOperation(value = "Buy Insurance", nickname = "buyInsurance", notes = "", response = Invoice.class, authorizations = {
         @Authorization(value = "Authorization"),
         @Authorization(value = "X-API-Key")
-    }, tags={  })
+    }, tags={ "Products", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful Response", response = Invoice.class),
         @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
@@ -55,4 +54,95 @@ public interface ProductsApi {
     @RequestMapping(value = "/products/{productId}/buy",
         method = RequestMethod.POST)
     ResponseEntity<Invoice> buyInsurance(@ApiParam(value = "", required = true) @PathVariable("productId") String productId, @ApiParam(value = "") @Valid @RequestBody BuyerSpecifications body);
+
+
+    @ApiOperation(value = "Delete Product", nickname = "deleteProduct", notes = "", authorizations = {
+            @Authorization(value = "Authorization"),
+            @Authorization(value = "X-API-Key")
+    }, tags={ "Products", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = ""),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
+            @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
+            @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class)
+    })
+    @RequestMapping(value = "/products/{id}",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteProduct(@ApiParam(value = "",required=true) @PathVariable("id") String id);
+
+
+    @ApiOperation(value = "Get Product", nickname = "getProduct", notes = "", response = Product.class, authorizations = {
+            @Authorization(value = "Authorization"),
+            @Authorization(value = "X-API-Key")
+    }, tags={ "Products", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "", response = Product.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
+            @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
+            @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+            @ApiResponse(code = 404, message = "Not Found", response = GenericError.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class)
+    })
+    @RequestMapping(value = "/products/{id}",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<Product> getProduct(@ApiParam(value = "",required=true) @PathVariable("id") String id) ;
+
+
+    @ApiOperation(value = "List Products", nickname = "listProducts", notes = "", response = Product.class, responseContainer = "List", authorizations = {
+            @Authorization(value = "Authorization"),
+            @Authorization(value = "X-API-Key")
+    }, tags={ "Products", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "", response = Product.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
+            @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
+            @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class)
+    })
+    @RequestMapping(value = "/products",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<List<Product>> listProducts();
+
+
+    @ApiOperation(value = "Create Product", nickname = "createProduct", notes = "", response = Product.class, authorizations = {
+            @Authorization(value = "Authorization"),
+            @Authorization(value = "X-API-Key")
+    }, tags={ "Products", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "", response = Product.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
+            @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
+            @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class)
+    })
+    @RequestMapping(value = "/products",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    ResponseEntity<Product> createProduct(@ApiParam(value = ""  )  @Valid @RequestBody Product body);
+
+
+    @ApiOperation(value = "Update Product", nickname = "updateProduct", notes = "", response = Product.class, authorizations = {
+            @Authorization(value = "Authorization"),
+            @Authorization(value = "X-API-Key")
+    }, tags={ "Products", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "", response = Product.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
+            @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
+            @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class)
+    })
+    @RequestMapping(value = "/products/{id}",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.PUT)
+    ResponseEntity<Product> updateProduct(@ApiParam(value = "",required=true) @PathVariable("id") String id,@ApiParam(value = ""  )  @Valid @RequestBody Product body);
 }

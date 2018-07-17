@@ -46,7 +46,7 @@ public interface QuotesApi {
     @ApiOperation(value = "Get Quotes", nickname = "pOSTQuotes", notes = "", response = Quotes.class, authorizations = {
         @Authorization(value = "Authorization"),
         @Authorization(value = "X-API-Key")
-    }, tags={  })
+    }, tags={ "Quotes", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful Response", response = Quotes.class),
         @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
