@@ -42,7 +42,7 @@ public interface PoliciesApi {
     @ApiOperation(value = "Get Policy Details", nickname = "gETPoliciesPolicyId", notes = "", response = PolicyDetails.class, authorizations = {
         @Authorization(value = "Authorization"),
         @Authorization(value = "X-API-Key")
-    }, tags={  })
+    }, tags={ "Policies", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful Response", response = PolicyDetails.class),
         @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),

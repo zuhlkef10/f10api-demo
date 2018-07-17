@@ -45,7 +45,7 @@ public interface ClaimsApi {
     @ApiOperation(value = "Claim Insurance", nickname = "pOSTClaimsPoliciesPolicyId", notes = "", response = ClaimResponse.class, authorizations = {
         @Authorization(value = "Authorization"),
         @Authorization(value = "X-API-Key")
-    }, tags={  })
+    }, tags={ "Claims", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Successful Response", response = ClaimResponse.class),
         @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),

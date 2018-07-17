@@ -7,6 +7,10 @@ host: 'localhost:3000'
 basePath: /api
 schemes:
   - http
+consumes:
+  - application/json
+produces:
+  - application/json
 securityDefinitions:
   Authorization:
     name: Authorization
@@ -17,25 +21,62 @@ securityDefinitions:
     type: apiKey
     in: header
 paths:
-  '/products/{productId}/buy':
-    parameters:
-      - name: productId
-        in: path
-        required: true
-        type: string
+  /quotes:
     post:
-      operationId: POST_products-productId-buy
-      summary: Buy Insurance
+      operationId: POST_quotes
+      summary: Get Quotes
+      tags:
+        - Quotes
       parameters:
+        - name: limit
+          in: query
+          description: The maximum number of results
+          type: number
+        - name: sort
+          in: query
+          description: Sort  results by specific fields
+          type: string
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/buyer-specifications'
+            $ref: '#/definitions/search-criteria'
+            example:
+              criteria:
+                - {}
+                - data_type: magna
+                - data_type: amet nisi
+                  value: dolore irure sit est exercitation
+                - name: i
+                  value: eu in nisi velit anim
+                - {}
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/invoice'
+            $ref: '#/definitions/quotes'
+          examples:
+            application/json:
+              total: 14313070
+              criteria:
+                trip_type: enim
+                coverage_type: enim elit
+                destination_country: nulla
+                travel_start_date: nostrud Excepte
+                travel_end_date: ex
+                plan_type: sed culpa sit
+                number_of_adults: -99390496
+                number_of_children: -30997507
+                sort_by: Excepteur deserunt tempor qui elit
+                premium_currency: ''
+                limit_result_count: 6574126
+              results:
+                - provider_id: aliquip dolore consequat
+                  provider_name: consequat minim non
+                  premium_currency: 38054961
+                - provider_id: laboris ut
+                  provider_name: pariatur incididunt fugiat ad
+                  premium_currency: -10341954
+                  premium_amount: 20879083
         '400':
           description: ''
           schema:
@@ -55,6 +96,45 @@ paths:
       security:
         - Authorization: []
         - X-API-Key: []
+  '/policies/{policyId}':
+    parameters:
+      - name: policyId
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_policies-policyId
+      summary: Get Policy Details
+      tags:
+        - Policies
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/policy-details'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-Key: []
   '/claims/policies/{policyId}':
     parameters:
       - name: policyId
@@ -64,6 +144,8 @@ paths:
     post:
       operationId: POST_claims-policies-policyId
       summary: Claim Insurance
+      tags:
+        - Claims
       parameters:
         - name: body
           in: body
@@ -99,74 +181,109 @@ paths:
       security:
         - Authorization: []
         - X-API-Key: []
-  '/policies/{policyId}':
+  '/products/{id}':
     parameters:
-      - name: policyId
+      - name: id
         in: path
         required: true
         type: string
     get:
-      operationId: GET_policies-policyId
-      summary: Get Policy Details
+      operationId: GET-product
+      summary: Get Product
+      tags:
+        - Products
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/policy-details'
-        '400':
-          description: ''
-          schema:
-            $ref: '#/definitions/generic-error'
-        '401':
-          description: ''
-          schema:
-            $ref: '#/definitions/generic-error'
-        '403':
-          description: ''
-          schema:
-            $ref: '#/definitions/generic-error'
-        '404':
-          description: ''
-          schema:
-            $ref: '#/definitions/generic-error'
-        '500':
-          description: ''
-          schema:
-            $ref: '#/definitions/server-error'
+            $ref: '#/definitions/product'
       security:
         - Authorization: []
         - X-API-Key: []
-  /quotes:
-    post:
-      operationId: POST_quotes
-      summary: Get Quotes
+    put:
+      operationId: PUT-product
+      summary: Update Product
+      tags:
+        - Products
       parameters:
-        - name: limit
-          in: query
-          description: The maximum number of results
-          type: number
-        - name: sort
-          in: query
-          description: Sort  results by specific fields
-          type: string
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/search-criteria'
-            example:
-              criteria:
-                - {}
-                - data_type: magna
-                - data_type: amet nisi
-                  value: dolore irure sit est exercitation
-                - name: i
-                  value: eu in nisi velit anim
-                - {}
+            $ref: '#/definitions/product'
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/quotes'
+            $ref: '#/definitions/product'
+      security:
+        - Authorization: []
+        - X-API-Key: []
+    delete:
+      operationId: DELETE-product
+      summary: Delete Product
+      tags:
+        - Products
+      responses:
+        '204':
+          description: ''
+      security:
+        - Authorization: []
+        - X-API-Key: []
+  /products:
+    get:
+      operationId: LIST-products
+      summary: List Products
+      tags:
+        - Products
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/product'
+      security:
+        - Authorization: []
+        - X-API-Key: []
+    post:
+      operationId: POST-product
+      summary: Create Product
+      tags:
+        - Products
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/product'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/product'
+      security:
+        - Authorization: []
+        - X-API-Key: []
+  '/products/{productId}/buy':
+    parameters:
+      - name: productId
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_products-productId-buy
+      summary: Buy Insurance
+      tags:
+        - Products
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/buyer-specifications'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/invoice'
         '400':
           description: ''
           schema:
@@ -194,7 +311,7 @@ definitions:
       currency:
         type: string
       premium_amt:
-        type: string
+        type: number
       less_discount:
         type: number
       premium_amt_before_tax:
@@ -237,6 +354,7 @@ definitions:
         type: string
       invoice_date:
         type: string
+        format: date
       premium_details:
         $ref: '#/definitions/premium-details'
       coverage_date:
@@ -348,8 +466,8 @@ definitions:
         type: string
       data_type:
         type: string
-  product-details:
-    title: Product Details
+  quote-details:
+    title: Quote Details
     type: object
     properties:
       quote_id:
@@ -401,7 +519,7 @@ definitions:
       results:
         type: array
         items:
-          $ref: '#/definitions/product-details'
+          $ref: '#/definitions/quote-details'
   buyer-specifications:
     title: Buyer Specifications
     type: object
@@ -472,3 +590,15 @@ definitions:
         type: string
       tracking_id:
         type: string
+  product:
+    title: Product
+    type: object
+    properties:
+      product_id:
+        type: string
+      product_description:
+        type: string
+      premium_currency:
+        type: string
+      premium_amount:
+        type: number
