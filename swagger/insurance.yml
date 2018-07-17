@@ -21,62 +21,39 @@ securityDefinitions:
     type: apiKey
     in: header
 paths:
-  /quotes:
+  '/quotes/{productId}':
+    parameters:
+      - name: productId
+        in: path
+        required: true
+        type: string
     post:
-      operationId: POST_quotes
-      summary: Get Quotes
+      operationId: POST_quotes-productId
+      summary: Get Quote
       tags:
         - Quotes
       parameters:
-        - name: limit
-          in: query
-          description: The maximum number of results
-          type: number
-        - name: sort
-          in: query
-          description: Sort  results by specific fields
-          type: string
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/search-criteria'
+            $ref: '#/definitions/policy-info'
             example:
-              criteria:
-                - {}
-                - data_type: magna
-                - data_type: amet nisi
-                  value: dolore irure sit est exercitation
-                - name: i
-                  value: eu in nisi velit anim
-                - {}
+              coverage_date:
+                from: '2018-07-17'
+                to: '2018-08-16'
+              plan_type: ESSENTIAL
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/quotes'
+            $ref: '#/definitions/quote-details'
           examples:
             application/json:
-              total: 14313070
-              criteria:
-                trip_type: enim
-                coverage_type: enim elit
-                destination_country: nulla
-                travel_start_date: nostrud Excepte
-                travel_end_date: ex
-                plan_type: sed culpa sit
-                number_of_adults: -99390496
-                number_of_children: -30997507
-                sort_by: Excepteur deserunt tempor qui elit
-                premium_currency: ''
-                limit_result_count: 6574126
-              results:
-                - provider_id: aliquip dolore consequat
-                  provider_name: consequat minim non
-                  premium_currency: 38054961
-                - provider_id: laboris ut
-                  provider_name: pariatur incididunt fugiat ad
-                  premium_currency: -10341954
-                  premium_amount: 20879083
+              quote_id: q123
+              product_id: Travel-Insurance-123
+              product_description: exercitation magna elit
+              premium_currency: SGD
+              premium_amount: 200.5
         '400':
           description: ''
           schema:
@@ -596,9 +573,22 @@ definitions:
     properties:
       id:
         type: string
+      product_name:
+        type: string
       product_description:
         type: string
       premium_currency:
         type: string
       premium_amount:
         type: number
+  policy-info:
+    title: Policy Info
+    type: object
+    properties:
+      coverage_date:
+        $ref: '#/definitions/coverage-date'
+      plan_type:
+        type: string
+        enum:
+          - ESSENTIAL
+          - COMPREHENSIVE
