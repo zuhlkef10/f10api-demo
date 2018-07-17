@@ -594,7 +594,7 @@ definitions:
     title: Product
     type: object
     properties:
-      product_id:
+      id:
         type: string
       product_description:
         type: string
