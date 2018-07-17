@@ -1,9 +1,6 @@
 package com.zuhlke.f10.crowdfunding.campaign.controller;
 
-import com.zuhlke.f10.crowdfunding.model.Campaign;
-import com.zuhlke.f10.crowdfunding.model.GenericError;
-import com.zuhlke.f10.crowdfunding.model.ListCampaignResponse;
-import com.zuhlke.f10.crowdfunding.model.ServerError;
+import com.zuhlke.f10.crowdfunding.model.*;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +27,7 @@ public interface CampaignApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    ResponseEntity<Campaign> createCampaign(@ApiParam(value = "") @Valid @RequestBody Campaign body);
+    ResponseEntity<CreateCampaignResponse> createCampaign(@ApiParam(value = "") @Valid @RequestBody Campaign body);
 
 
     @ApiOperation(value = "Delete Campaign", nickname = "deleteCampaign", notes = "", authorizations = {
@@ -66,15 +63,15 @@ public interface CampaignApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<Campaign> getCampaign(@ApiParam(value = "", required = true) @PathVariable("campaign_id") String campaignId);
+    ResponseEntity<CampaignInfo> getCampaign(@ApiParam(value = "", required = true) @PathVariable("campaign_id") String campaignId);
 
 
-    @ApiOperation(value = "List Campaigns", nickname = "lISTCampaigns", notes = "", response = ListCampaignResponse.class, authorizations = {
+    @ApiOperation(value = "List Campaigns", nickname = "listCampaigns", notes = "", response = CampaignInfo.class, responseContainer = "List", authorizations = {
             @Authorization(value = "Authorization"),
             @Authorization(value = "X-API-KEY")
     }, tags = {"Campaigns",})
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful Response", response = ListCampaignResponse.class),
+            @ApiResponse(code = 200, message = "Successful Response", response = CampaignInfo.class, responseContainer = "List"),
             @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
             @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
             @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
@@ -84,7 +81,7 @@ public interface CampaignApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<ListCampaignResponse> listCampaigns(@ApiParam(value = "Name of the Campaign") @Valid @RequestParam(value = "name", required = false) String name, @ApiParam(value = "Name or Email Id of the Organizer") @Valid @RequestParam(value = "organizer", required = false) String organizer, @ApiParam(value = "") @Valid @RequestParam(value = "offset", required = false) Integer offset, @ApiParam(value = "") @Valid @RequestParam(value = "limit", required = false) Integer limit, @ApiParam(value = "Fields to sort the response in ascending or descending order. To sort in descending order, select the field with \"-\" as prefix") @Valid @RequestParam(value = "sort", required = false) List<String> sort, @ApiParam(value = "", allowableValues = "OPEN, CLOSED") @Valid @RequestParam(value = "status", required = false) String status, @ApiParam(value = "") @Valid @RequestParam(value = "category", required = false) String category);
+    ResponseEntity<List<CampaignInfo>> listCampaigns(@ApiParam(value = "Name of the Campaign") @Valid @RequestParam(value = "name", required = false) String name, @ApiParam(value = "", allowableValues = "OPEN, CLOSED") @Valid @RequestParam(value = "status", required = false) String status, @ApiParam(value = "") @Valid @RequestParam(value = "category", required = false) String category, @ApiParam(value = "Fields to sort the response in ascending or descending order. To sort in descending order, select the field with \"-\" as prefix") @Valid @RequestParam(value = "sort", required = false) List<String> sort);
 
 
     @ApiOperation(value = "Update Campaign", nickname = "updateCampaign", notes = "", response = Campaign.class, authorizations = {
@@ -102,7 +99,7 @@ public interface CampaignApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.PUT)
-    ResponseEntity<Campaign> updateCampaign(@ApiParam(value = "", required = true) @PathVariable("campaign_id") String campaignId, @ApiParam(value = "") @Valid @RequestBody Campaign body);
+    ResponseEntity<CampaignInfo> updateCampaign(@ApiParam(value = "", required = true) @PathVariable("campaign_id") String campaignId, @ApiParam(value = "") @Valid @RequestBody Campaign body);
 
 
 }

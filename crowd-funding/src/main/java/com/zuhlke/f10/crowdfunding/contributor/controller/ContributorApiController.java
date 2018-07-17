@@ -1,7 +1,8 @@
 package com.zuhlke.f10.crowdfunding.contributor.controller;
 
+import com.zuhlke.f10.crowdfunding.contributor.service.ContributionService;
 import com.zuhlke.f10.crowdfunding.contributor.service.ContributorService;
-import com.zuhlke.f10.crowdfunding.model.Contributor;
+import com.zuhlke.f10.crowdfunding.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,18 @@ public class ContributorApiController implements ContributorApi {
     @Autowired
     private ContributorService contributorService;
 
+    @Autowired
+    private ContributionService contributionService;
+
+    @RequestMapping(value = "/campaigns/{campaign_id}/contributors/{contributor_id}/contributions",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    @Override
+    public ResponseEntity<ContributionInfo> addContributionDetails(@PathVariable("campaign_id") String campaignId, @PathVariable("contributor_id") String contributorId, @RequestBody Contribution body){
+        return ResponseEntity.status(HttpStatus.CREATED).body(contributionService.addContributionDetails(campaignId, contributorId, body));
+    }
+
     @RequestMapping(value = "/campaigns/{campaign_id}/contributors/{contributor_id}",
             produces = {"application/json"},
             method = RequestMethod.DELETE)
@@ -29,7 +42,7 @@ public class ContributorApiController implements ContributorApi {
             produces = {"application/json"},
             method = RequestMethod.GET)
     @Override
-    public ResponseEntity<List<Contributor>> listContributors(@PathVariable("campaign_id") String campaignId) {
+    public ResponseEntity<List<ContributorInfo>> listContributors(@PathVariable("campaign_id") String campaignId) {
         return ResponseEntity.ok().body(contributorService.listContributors(campaignId));
     }
 
@@ -38,8 +51,9 @@ public class ContributorApiController implements ContributorApi {
             consumes = {"application/json"},
             method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Contributor> registerContributor(@PathVariable("campaign_id") String campaignId, @Valid @RequestBody Contributor body) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(contributorService.registerContributor(campaignId, body));
+    public ResponseEntity<RegisterContributorResponse> registerContributor(@PathVariable("campaign_id") String campaignId, @Valid @RequestBody Contributor body) {
+        String contributorId = contributorService.registerContributor(campaignId, body);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new RegisterContributorResponse().contributorId(contributorId));
     }
 
     @RequestMapping(value = "/campaigns/{campaign_id}/contributors/{contributor_id}",
@@ -47,7 +61,7 @@ public class ContributorApiController implements ContributorApi {
             consumes = {"application/json"},
             method = RequestMethod.PUT)
     @Override
-    public ResponseEntity<Contributor> updateContributor(@PathVariable("campaign_id") String campaignId, @PathVariable("contributor_id") String contributorId, @Valid @RequestBody Contributor body) {
+    public ResponseEntity<ContributorInfo> updateContributor(@PathVariable("campaign_id") String campaignId, @PathVariable("contributor_id") String contributorId, @Valid @RequestBody Contributor body) {
         return ResponseEntity.ok().body(contributorService.updateContributor(campaignId, contributorId, body));
     }
 }

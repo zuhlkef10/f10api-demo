@@ -36,7 +36,7 @@ paths:
         '200':
           description: 'Successful Response'
           schema:
-            $ref: '#/definitions/campaign'
+            $ref: '#/definitions/campaign-info'
         '400':
           description: 'Bad Request'
           schema:
@@ -74,7 +74,7 @@ paths:
         '200':
           description: 'Successful Response'
           schema:
-            $ref: '#/definitions/campaign'
+            $ref: '#/definitions/campaign-info'
         '400':
           description: 'Bad Request'
           schema:
@@ -140,33 +140,6 @@ paths:
           in: query
           description: Name of the Campaign
           type: string
-        - name: organizer
-          in: query
-          description: Name or Email Id of the Organizer
-          type: string
-        - name: offset
-          in: query
-          type: number
-        - name: limit
-          in: query
-          type: number
-        - name: sort
-          in: query
-          description: 'Fields to sort the response in ascending or descending order. To sort in descending order, select the field with "-" as prefix'
-          type: array
-          enum:
-            - NAME
-            - ORGANIZER_NAME
-            - TARGET_AMOUNT
-            - RAISED_AMOUNT
-            - CREATED_DATE
-            - '-NAME'
-            - '-ORGANIZER_NAME'
-            - '-TARGET_AMOUNT'
-            - '-RAISED_AMOUNT'
-            - '-CREATED_DATE'
-          items:
-            type: string
         - name: status
           in: query
           type: string
@@ -176,11 +149,26 @@ paths:
         - name: category
           in: query
           type: string
+        - name: sort
+          in: query
+          description: 'Fields to sort the response in ascending or descending order. To sort in descending order, select the field with "-" as prefix'
+          type: array
+          enum:
+            - NAME
+            - TARGET_AMOUNT
+            - CREATED_DATE
+            - '-NAME'
+            - '-TARGET_AMOUNT'
+            - '-CREATED_DATE'
+          items:
+            type: string
       responses:
         '200':
           description: 'Successful Response'
           schema:
-            $ref: '#/definitions/list-campaign-response'
+            type: array
+            items:
+              $ref: '#/definitions/campaign-info'
         '400':
           description: 'Bad Request'
           schema:
@@ -218,7 +206,7 @@ paths:
         '201':
           description: 'Successfully Created'
           schema:
-            $ref: '#/definitions/campaign'
+            $ref: '#/definitions/create-campaign-response'
         '400':
           description: 'Bad Request'
           schema:
@@ -259,7 +247,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/contributor'
+              $ref: '#/definitions/contributor-info'
         '400':
           description: 'Bad Request'
           schema:
@@ -297,7 +285,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/contributor'
+            $ref: '#/definitions/register-contributor-response'
         '400':
           description: 'Bad Request'
           schema:
@@ -345,7 +333,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/contributor'
+            $ref: '#/definitions/contributor-info'
         '400':
           description: 'Bad Request'
           schema:
@@ -400,13 +388,59 @@ paths:
       security:
         - Authorization: []
         - X-API-KEY: []
+  '/campaigns/{campaign_id}/contributors/{contributor_id}/contributions':
+    parameters:
+      - name: campaign_id
+        in: path
+        required: true
+        type: string
+      - name: contributor_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: add-contribution-details
+      summary: Add Contribution details
+      tags:
+        - Contributors
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/contribution'
+      responses:
+        '201':
+          description: 'Successfully added contribution details'
+          schema:
+            $ref: '#/definitions/contribution-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
 definitions:
   campaign:
     title: Campaign
     type: object
     properties:
-      id:
-        type: string
       name:
         type: string
       description:
@@ -435,10 +469,20 @@ definitions:
       end_date:
         type: string
         format: date
+      account-details:
+        $ref: '#/definitions/campaign-account'
       organizers:
         type: array
         items:
           $ref: '#/definitions/person'
+  campaign-info:
+    title: 'Campaign Details with ID'
+    type: object
+    properties:
+      id:
+        type: string
+      campaign:
+        $ref: '#/definitions/campaign'
   person:
     title: Person
     type: object
@@ -447,20 +491,6 @@ definitions:
         type: string
       email:
         type: string
-  page-info:
-    title: Page Info
-    type: object
-    properties:
-      offset:
-        type: number
-      limit:
-        type: number
-      total_records:
-        type: number
-      sort:
-        type: array
-        items:
-          type: string
   server-error:
     title: Server Error
     type: object
@@ -479,12 +509,22 @@ definitions:
         type: string
       message:
         type: string
+  campaign-account:
+    title: Campaign Account Details
+    type: object
+    properties:
+      bank_name:
+        type: string
+      bank_swift_code:
+        type: string
+      account_number:
+        type: string
+      account_name:
+        type: string
   contributor:
     title: Contributor
     type: object
     properties:
-      id:
-        type: string
       name:
         type: string
       email:
@@ -495,16 +535,54 @@ definitions:
         type: string
       amount:
         type: number
+      currency:
+        type: string
       contribution_date:
         type: string
         format: date
-  list-campaign-response:
-    title: List Campaign Response
+  contributor-info:
+    title: Contributor
     type: object
     properties:
-      data:
-        type: array
-        items:
-          $ref: '#/definitions/campaign'
-      page_info:
-          $ref: '#/definitions/page-info'
+      id:
+        type: string
+      campaign_id:
+        type: string
+      contributor:
+        $ref: '#/definitions/contributor'
+  create-campaign-response:
+    title: Create Campaign Response
+    type: object
+    properties:
+      campaign_id:
+        type: string
+  register-contributor-response:
+    title: Register Contributor Response
+    type: object
+    properties:
+      contributor_id:
+        type: string
+  contribution:
+    title: Contribution Details
+    type: object
+    properties:
+      amount:
+        type: number
+      currency:
+        type: string
+      payment_transaction_id:
+        type: string
+      payment_date:
+        type: string
+  contribution-info:
+    title: Contribution Details with ID
+    type: object
+    properties:
+      id:
+        type: string
+      contributor_id:
+        type: string
+      campaign_id:
+        type: string
+      contribution:
+        $ref: '#/definitions/contribution'
