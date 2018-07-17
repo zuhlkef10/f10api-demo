@@ -2,7 +2,8 @@ package com.zuhlke.f10.crowdfunding.campaign.controller;
 
 import com.zuhlke.f10.crowdfunding.campaign.service.CampaignService;
 import com.zuhlke.f10.crowdfunding.model.Campaign;
-import com.zuhlke.f10.crowdfunding.model.ListCampaignResponse;
+import com.zuhlke.f10.crowdfunding.model.CampaignInfo;
+import com.zuhlke.f10.crowdfunding.model.CreateCampaignResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,9 @@ public class CampaignApiController implements CampaignApi {
             consumes = {"application/json"},
             method = RequestMethod.POST)
     @Override
-    public ResponseEntity<Campaign> createCampaign(@Valid @RequestBody Campaign body) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(campaignService.createCampaign(body));
+    public ResponseEntity<CreateCampaignResponse> createCampaign(@Valid @RequestBody Campaign body) {
+        String campaignId = campaignService.createCampaign(body);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new CreateCampaignResponse().campaignId(campaignId));
     }
 
     @RequestMapping(value = "/campaigns/{campaign_id}",
@@ -39,7 +41,7 @@ public class CampaignApiController implements CampaignApi {
             produces = {"application/json"},
             method = RequestMethod.GET)
     @Override
-    public ResponseEntity<Campaign> getCampaign(@PathVariable("campaign_id") String campaignId) {
+    public ResponseEntity<CampaignInfo> getCampaign(@PathVariable("campaign_id") String campaignId) {
         return ResponseEntity.ok().body(campaignService.getCampaign(campaignId));
     }
 
@@ -47,14 +49,11 @@ public class CampaignApiController implements CampaignApi {
             produces = {"application/json"},
             method = RequestMethod.GET)
     @Override
-    public ResponseEntity<ListCampaignResponse> listCampaigns(@Valid @RequestParam(value = "name", required = false) String name,
-                                                              @Valid @RequestParam(value = "organizer", required = false) String organizer,
-                                                              @Valid @RequestParam(value = "offset", required = false) Integer offset,
-                                                              @Valid @RequestParam(value = "limit", required = false) Integer limit,
-                                                              @Valid @RequestParam(value = "sort", required = false) List<String> sort,
-                                                              @Valid @RequestParam(value = "status", required = false) String status,
-                                                              @Valid @RequestParam(value = "category", required = false) String category) {
-        return ResponseEntity.ok().body(campaignService.listCampaigns(name, organizer, offset, limit, sort, status, category));
+    public ResponseEntity<List<CampaignInfo>> listCampaigns(@Valid @RequestParam(value = "name", required = false) String name,
+                                                            @Valid @RequestParam(value = "status", required = false) String status,
+                                                            @Valid @RequestParam(value = "category", required = false) String category,
+                                                            @Valid @RequestParam(value = "sort", required = false) List<String> sort) {
+        return ResponseEntity.ok().body(campaignService.listCampaigns(name, status, category, sort));
     }
 
     @RequestMapping(value = "/campaigns/{campaign_id}",
@@ -62,7 +61,7 @@ public class CampaignApiController implements CampaignApi {
             consumes = {"application/json"},
             method = RequestMethod.PUT)
     @Override
-    public ResponseEntity<Campaign> updateCampaign(@PathVariable("campaign_id") String campaignId, @Valid @RequestBody Campaign body) {
+    public ResponseEntity<CampaignInfo> updateCampaign(@PathVariable("campaign_id") String campaignId, @Valid @RequestBody Campaign body) {
         return ResponseEntity.ok().body(campaignService.updateCampaign(campaignId, body));
     }
 }

@@ -1,5 +1,6 @@
 package com.zuhlke.f10.crowdfunding.exception;
 
+import com.zuhlke.f10.crowdfunding.config.CfErrorConfigEnum;
 import org.springframework.http.HttpStatus;
 
 public class BadRequestException extends RuntimeException {
@@ -8,13 +9,18 @@ public class BadRequestException extends RuntimeException {
 
     private String message;
 
-    private HttpStatus httpStatus;
+    private HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+
+    public BadRequestException(CfErrorConfigEnum errorConfigEnum) {
+        super(errorConfigEnum.getMessage());
+        this.code = errorConfigEnum.getCode();
+        this.message = errorConfigEnum.getMessage();
+    }
 
     public BadRequestException(String code, String message) {
         super(message);
         this.code = code;
         this.message = message;
-        this.httpStatus = HttpStatus.BAD_REQUEST;
     }
 
     public String getCode() {

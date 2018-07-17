@@ -1,5 +1,6 @@
 package com.zuhlke.f10.crowdfunding.exception;
 
+import com.zuhlke.f10.crowdfunding.config.CfErrorConfigEnum;
 import org.springframework.http.HttpStatus;
 
 public class AuthorizationException extends RuntimeException {
@@ -8,13 +9,19 @@ public class AuthorizationException extends RuntimeException {
 
     private String message;
 
-    private HttpStatus httpStatus;
+    private HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+
+    public AuthorizationException(CfErrorConfigEnum errorConfigEnum) {
+        super(errorConfigEnum.getMessage());
+        this.code = errorConfigEnum.getCode();
+        this.message = errorConfigEnum.getMessage();
+    }
+
 
     public AuthorizationException(String code, String message) {
         super(message);
         this.code = code;
         this.message = message;
-        this.httpStatus = HttpStatus.FORBIDDEN;
     }
 
     public String getCode() {
