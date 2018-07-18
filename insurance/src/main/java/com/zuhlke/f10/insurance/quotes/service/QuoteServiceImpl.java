@@ -40,9 +40,10 @@ public class QuoteServiceImpl implements QuoteService {
         LocalDate from = policyInfo.getCoverageDate().getFrom();
         LocalDate to = policyInfo.getCoverageDate().getTo();
 
-        long numDays = ChronoUnit.DAYS.between(from, to);
+        long numDays = ChronoUnit.DAYS.between(from, to) + 1;
         BigDecimal cost = product.getPremiumAmount().multiply(new BigDecimal(numDays));
         quoteDetails.setPremiumAmount(cost);
+        quoteDetails.setNumberOfDaysCovered((int)numDays);
 
         //save quote
         quoteRepository.save(quoteDetails);

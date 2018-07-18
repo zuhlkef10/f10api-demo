@@ -138,7 +138,7 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/claim-response'
+            $ref: '#/definitions/claim-settlement'
         '400':
           description: ''
           schema:
@@ -457,6 +457,8 @@ definitions:
         type: string
       premium_amount:
         type: number
+      number_of_days_covered:
+        type: integer
   policy-details:
     title: Policy Details
     type: object
@@ -535,20 +537,25 @@ definitions:
         $ref: '#/definitions/accident-injury-details'
       total_amount_claimed:
         type: number
-  claim-response:
-    title: Claim Response
+      amount_currency:
+        type: string
+  claim-settlement:
+    title: Claim Settlement
     type: object
     properties:
+      id:
+        type: string
       reference_Id:
         type: string
       policy_id:
-        type: string
-      provider_id:
         type: string
       approved_amount:
         type: number
       approved_currency:
         type: string
+      settlement_date:
+        type: string
+        format: date
   generic-error:
     title: generic-error
     type: object
