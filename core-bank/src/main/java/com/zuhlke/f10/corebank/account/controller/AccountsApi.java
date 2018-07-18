@@ -8,9 +8,6 @@ package com.zuhlke.f10.corebank.account.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zuhlke.f10.corebank.model.*;
 import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,21 +86,6 @@ public interface AccountsApi {
 
 
 
-    @ApiOperation(value = "Get Transactions", nickname = "getAccountTransactions", notes = "", authorizations = {
-        @Authorization(value = "API-KEY"),
-        @Authorization(value = "Authorization")
-    }, tags={ "Accounts", })
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successful Response", response = AccountTransactions.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
-            @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
-            @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
-            @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class) })
-    @RequestMapping(value = "/accounts/{id}/transactions",
-        produces = { "application/json" },
-        method = RequestMethod.GET)
-    ResponseEntity<AccountTransactions> getAccountTransactions(@ApiParam(value = "", required = true) @PathVariable("id") String id);
-
 
     @ApiOperation(value = "List accounts", nickname = "lISTAccounts", notes = "", response = Account.class, responseContainer = "List", authorizations = {
         @Authorization(value = "API-KEY"),
@@ -172,4 +153,39 @@ public interface AccountsApi {
         consumes = { "application/json" },
         method = RequestMethod.PUT)
     ResponseEntity<Account> updateAccount(@ApiParam(value = "", required = true) @PathVariable("id") String id, @ApiParam(value = "") @Valid @RequestBody Account body) ;
-}
+
+
+    @ApiOperation(value = "Get Transactions", nickname = "getAccountTransactions", notes = "", authorizations = {
+            @Authorization(value = "API-KEY"),
+            @Authorization(value = "Authorization")
+    }, tags={ "Transactions", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful Response", response = AccountTransactions.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
+            @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
+            @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class) })
+    @RequestMapping(value = "/accounts/{id}/transactions",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<AccountTransactions> getAccountTransactions(@ApiParam(value = "", required = true) @PathVariable("id") String id);
+
+
+    @ApiOperation(value = "Create Transaction", nickname = "createTransaction", notes = "", response = TransferResponse.class, authorizations = {
+            @Authorization(value = "API-KEY"),
+            @Authorization(value = "Authorization")
+    }, tags={ "Transactions", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "", response = TransferResponse.class),
+            @ApiResponse(code = 400, message = "", response = GenericError.class),
+            @ApiResponse(code = 401, message = "", response = GenericError.class),
+            @ApiResponse(code = 403, message = "", response = GenericError.class),
+            @ApiResponse(code = 404, message = "", response = GenericError.class),
+            @ApiResponse(code = 500, message = "", response = GenericError.class) })
+    @RequestMapping(value = "/accounts/{id}/transactions",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    ResponseEntity<TransferResponse> createTransaction(@ApiParam(value = "",required=true) @PathVariable("id") String accountId,@ApiParam(value = ""  )  @Valid @RequestBody Transaction body);
+
+    }

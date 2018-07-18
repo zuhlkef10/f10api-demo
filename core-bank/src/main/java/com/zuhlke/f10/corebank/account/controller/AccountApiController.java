@@ -4,10 +4,7 @@ import com.zuhlke.f10.corebank.account.service.AccountService;
 import com.zuhlke.f10.corebank.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,7 +21,7 @@ public class AccountApiController implements AccountsApi{
             produces = { "application/json" },
             consumes = { "application/json" },
             method = RequestMethod.POST)
-    public ResponseEntity<Account> createAccount(@Valid Account body) {
+    public ResponseEntity<Account> createAccount(@Valid @RequestBody Account body) {
 
         return ResponseEntity.ok().body(accountService.createAccount(body));
     }
@@ -52,7 +49,7 @@ public class AccountApiController implements AccountsApi{
             produces = { "application/json" },
             consumes = { "application/json" },
             method = RequestMethod.PUT)
-    public ResponseEntity<Account> updateAccount(@PathVariable("id") String id, @Valid Account body) {
+    public ResponseEntity<Account> updateAccount(@PathVariable("id") String id, @Valid @RequestBody Account body) {
         return ResponseEntity.ok().body(accountService.updateAccount(id,body));
     }
 
@@ -73,7 +70,7 @@ public class AccountApiController implements AccountsApi{
             consumes = { "application/json" },
             method = RequestMethod.POST)
     public ResponseEntity<TransferResponse> makeFundTransfer(@PathVariable("id") String id
-                                           , @Valid FundTransferDetail body) {
+                                           , @Valid @RequestBody FundTransferDetail body) {
          return ResponseEntity.ok().body(accountService.makeFundTransfer(id, body));
     }
 
@@ -92,5 +89,15 @@ public class AccountApiController implements AccountsApi{
     public ResponseEntity<AccountTransactions> getAccountTransactions(@PathVariable("id") String id) {
         return ResponseEntity.ok().body(accountService.getAccountTransactions(id));
     }
+
+    @Override
+    @RequestMapping(value = "/accounts/{id}/transactions",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    public ResponseEntity<TransferResponse> createTransaction(@PathVariable("id") String id, @Valid @RequestBody Transaction body) {
+        return ResponseEntity.ok().body(accountService.createTransaction(id,body));
+    }
+
 
 }
