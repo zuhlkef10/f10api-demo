@@ -1,5 +1,6 @@
 package com.zuhlke.f10.insurance.products.service;
 
+import com.zuhlke.f10.insurance.InsuranceConstants;
 import com.zuhlke.f10.insurance.exception.ResourceNotFoundException;
 import com.zuhlke.f10.insurance.model.*;
 import com.zuhlke.f10.insurance.policies.repository.PolicyRepository;
@@ -57,7 +58,7 @@ public class ProductServiceImpl implements ProductService{
 
         //Premium details
         PremiumDetails premiumDetails = new PremiumDetails();
-        premiumDetails.setCurrency("SGD");
+        premiumDetails.setCurrency(InsuranceConstants.DEFAULT_CURRENCY);
         premiumDetails.setLessDiscount(buyerSpecs.getPromotionalDiscount());
         premiumDetails.setPremiumAmt(buyerSpecs.getQuotedPremium());
         premiumDetails.setPremiumAmtBeforeTax(buyerSpecs.getQuotedPremium());

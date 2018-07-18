@@ -7,7 +7,7 @@ package com.zuhlke.f10.insurance.claims.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zuhlke.f10.insurance.model.ClaimDetails;
-import com.zuhlke.f10.insurance.model.ClaimResponse;
+import com.zuhlke.f10.insurance.model.ClaimSettlement;
 import com.zuhlke.f10.insurance.model.GenericError;
 import com.zuhlke.f10.insurance.model.ServerError;
 import io.swagger.annotations.*;
@@ -42,17 +42,17 @@ public interface ClaimsApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Claim Insurance", nickname = "pOSTClaimsPoliciesPolicyId", notes = "", response = ClaimResponse.class, authorizations = {
+    @ApiOperation(value = "Claim Insurance", nickname = "pOSTClaimsPoliciesPolicyId", notes = "", response = ClaimSettlement.class, authorizations = {
         @Authorization(value = "Authorization"),
         @Authorization(value = "X-API-Key")
     }, tags={ "Claims", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful Response", response = ClaimResponse.class),
+        @ApiResponse(code = 200, message = "Successful Response", response = ClaimSettlement.class),
         @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
         @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
         @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
         @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class) })
     @RequestMapping(value = "/claims/policies/{policyId}",
         method = RequestMethod.POST)
-    ResponseEntity<ClaimResponse> claimInsurance(@ApiParam(value = "", required = true) @PathVariable("policyId") String policyId, @ApiParam(value = "") @Valid @RequestBody ClaimDetails body);
+    ResponseEntity<ClaimSettlement> claimInsurance(@ApiParam(value = "", required = true) @PathVariable("policyId") String policyId, @ApiParam(value = "") @Valid @RequestBody ClaimDetails body);
 }
