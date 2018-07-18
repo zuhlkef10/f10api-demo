@@ -1,8 +1,8 @@
 swagger: '2.0'
 info:
-  version: ''
-  title: Digital Lending
-  description: API Suite for Digital Lending platforms
+  version: '1.0'
+  title: Crowd Lending
+  description: API Suite for Crowd Lending platforms
 host: 'localhost:8080'
 basePath: /v1
 schemes:
@@ -30,19 +30,29 @@ paths:
     get:
       operationId: get-loan
       summary: Get Loan
+      produces:
+        - application/json
       tags:
         - Loans
       responses:
         '200':
-          description: ''
+          description: 'Successful Response'
           schema:
-            $ref: '#/definitions/loan'
+            $ref: '#/definitions/loan-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -64,15 +74,23 @@ paths:
             $ref: '#/definitions/loan'
       responses:
         '200':
-          description: ''
+          description: 'Successful Response'
           schema:
-            $ref: '#/definitions/loan'
+            $ref: '#/definitions/loan-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -89,13 +107,21 @@ paths:
         - Loans
       responses:
         '204':
-          description: ''
+          description: 'Successful Response'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -111,17 +137,42 @@ paths:
       summary: List Loans
       tags:
         - Loans
+      parameters:
+        - name: loan_type
+          in: query
+          description: Investor Id of the investments
+          type: string
+        - name: from_date
+          in: query
+          description: From date to get all the investments created after this date
+          type: string
+          format: date
+        - name: to_date
+          in: query
+          description: to date to get all the investments created before this date. Default is current date
+          type: string
+          format: date
       responses:
         '200':
-          description: ''
+          description: 'Successful Response'
           schema:
-            $ref: '#/definitions/list-loan-response'
+            type: array
+            items:
+              $ref: '#/definitions/loan-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -145,13 +196,211 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/loan'
+            $ref: '#/definitions/create-loan-response'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+  '/loans/{loan_id}/investments':
+    parameters:
+      - name: loan_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: Create-Investment
+      summary: Investment to the loan
+      produces:
+        - application/json
+      tags:
+        - Loans
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/investment'
+      responses:
+        '201':
+          description: 'Successful Response'
+          schema:
+            $ref: '#/definitions/investment-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    get:
+      operationId: get-Investments
+      summary: Get Investments of a loan
+      produces:
+        - application/json
+      tags:
+        - Loans
+      parameters:
+        - name: investor_id
+          in: query
+          description: Investor Id of the investments
+          type: string
+        - name: from_date
+          in: query
+          description: From date to get all the investments for a loan
+          type: string
+          format: date
+        - name: to_date
+          in: query
+          description: to date to get all the investments for a loan. Default is current date
+          type: string
+          format: date
+      responses:
+        '200':
+          description: 'Successful Response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/investment-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+  '/loans/{loan_id}/repayments':
+    parameters:
+      - name: loan_id
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: Create-Repayment
+      summary: Repayment of the loan
+      tags:
+        - Loans
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/repayment'
+      responses:
+        '201':
+          description: 'Successful Response'
+          schema:
+            $ref: '#/definitions/repayment-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    get:
+      operationId: get-Repayments
+      summary: Get all the Repayment details of the loan
+      produces:
+        - application/json
+      tags:
+        - Loans
+      parameters:
+        - name: from_date
+          in: query
+          description: From date to get all the repayments for a loan
+          type: string
+          format: date
+        - name: to_date
+          in: query
+          description: to date to get all the repayments for a loan. Default is current date
+          type: string
+          format: date
+      responses:
+        '200':
+          description: 'Successful Response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/repayment-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -174,15 +423,23 @@ paths:
         - Borrowers
       responses:
         '200':
-          description: ''
+          description: 'Successful Response'
           schema:
-            $ref: '#/definitions/borrower'
+            $ref: '#/definitions/borrower-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -204,15 +461,23 @@ paths:
             $ref: '#/definitions/borrower'
       responses:
         '200':
-          description: ''
+          description: 'Successful Response'
           schema:
-            $ref: '#/definitions/borrower'
+            $ref: '#/definitions/borrower-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -229,13 +494,21 @@ paths:
         - Borrowers
       responses:
         '204':
-          description: ''
+          description: 'Successfully deleted'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -251,17 +524,36 @@ paths:
       summary: List Borrowers
       tags:
         - Borrowers
+      parameters:
+        - name: name
+          in: query
+          description: Search all borrowers by name
+          type: string
+        - name: email
+          in: query
+          description: Search all borrowers by email
+          type: string
       responses:
         '200':
           description: 'Successful Response'
           schema:
-            $ref: '#/definitions/list-borrower-response'
+            type: array
+            items:
+              $ref: '#/definitions/borrower-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -283,15 +575,23 @@ paths:
             $ref: '#/definitions/borrower'
       responses:
         '201':
-          description: ''
+          description: 'Successfully created Borrower'
           schema:
-            $ref: '#/definitions/borrower'
+            $ref: '#/definitions/create-borrower-response'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -314,15 +614,23 @@ paths:
         - Investors
       responses:
         '200':
-          description: ''
+          description: 'Successful Response'
           schema:
-            $ref: '#/definitions/investor'
+            $ref: '#/definitions/investor-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -344,15 +652,23 @@ paths:
             $ref: '#/definitions/investor'
       responses:
         '200':
-          description: ''
+          description: 'Successful Response'
           schema:
-            $ref: '#/definitions/investor'
+            $ref: '#/definitions/investor-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -379,17 +695,36 @@ paths:
       summary: List Investors
       tags:
         - Investors
+      parameters:
+        - name: name
+          in: query
+          description: Search all investors by name
+          type: string
+        - name: email
+          in: query
+          description: Search all investors by email
+          type: string
       responses:
         '200':
           description: 'Successful Response'
           schema:
-            $ref: '#/definitions/list-investor-response'
+            type: array
+            items:
+              $ref: '#/definitions/investor-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -413,13 +748,21 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/investor'
+            $ref: '#/definitions/create-investor-response'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -434,15 +777,11 @@ definitions:
     title: Investor
     type: object
     properties:
-      investor_id:
-        type: string
-      first_name:
+      name:
         type: string
       email:
         type: string
       phone_number:
-        type: string
-      last_name:
         type: string
       national_identifier:
         type: string
@@ -454,11 +793,7 @@ definitions:
     title: Borrower
     type: object
     properties:
-      borrower_id:
-        type: string
-      first_name:
-        type: string
-      last_name:
+      name:
         type: string
       email:
         type: string
@@ -471,12 +806,12 @@ definitions:
       registration_date:
         type: string
         format: date
+      borrower_account:
+        $ref: '#/definitions/account-details'
   loan:
     title: Loan
     type: object
     properties:
-      loan_id:
-        type: string
       description:
         type: string
       amount:
@@ -507,10 +842,10 @@ definitions:
       projected_repayment_end_date:
         type: string
         format: date
-      investors:
-        type: array
-        items:
-          type: string
+      repaid_amount:
+        type: number
+      loan_account:
+        $ref: '#/definitions/account-details'
   server-error:
     title: Server Error
     type: object
@@ -529,47 +864,137 @@ definitions:
         type: string
       message:
         type: string
-  page-info:
-    title: Page Info
+  loan-info:
+    title: Loan Info with ID
     type: object
     properties:
-      offset:
-        type: number
-      limit:
-        type: number
-      total_records:
-        type: number
-      sort:
+      id:
+        type: string
+      loan:
+        $ref: '#/definitions/loan'
+      investors:
         type: array
         items:
           type: string
-  list-investor-response:
-    title: List Campaign Response
+          description: List of Investor Id's
+  borrower-info:
+    title: Borrower Info with ID
     type: object
     properties:
-      data:
-        type: array
-        items:
-          $ref: '#/definitions/investor'
-      page_info:
-          $ref: '#/definitions/page-info'
-  list-loan-response:
-    title: List Campaign Response
+      id:
+        type: string
+      borrower:
+        $ref: '#/definitions/borrower'
+  investor-info:
+    title: Investor Info with ID
     type: object
     properties:
-      data:
+      id:
+        type: string
+      investor:
+        $ref: '#/definitions/investor'
+      investments:
         type: array
         items:
-          $ref: '#/definitions/loan'
-      page_info:
-          $ref: '#/definitions/page-info'
-  list-borrower-response:
-    title: List Campaign Response
+          $ref: '#/definitions/investment-loan'
+  create-loan-response:
+    title: Create loan Response
     type: object
     properties:
-      data:
-        type: array
-        items:
-          $ref: '#/definitions/borrower'
-      page_info:
-          $ref: '#/definitions/page-info'
+      loan_id:
+        type: string
+  create-borrower-response:
+    title: Create Borrower Response
+    type: object
+    properties:
+      borrower_id:
+        type: string
+  create-investor-response:
+    title: Create Investor Response
+    type: object
+    properties:
+      investor_id:
+        type: string
+  investment-loan:
+    title: Investment of a loan
+    type: object
+    properties:
+      loan_id:
+        type: string
+      investment_id:
+        type: string
+      amount:
+        type: number
+      currency:
+        type: string
+      payment_transaction_id:
+        type: string
+      payment_date:
+        type: string
+        format: date
+  investment:
+    title: Investment details
+    type: object
+    properties:
+      investor_id:
+        type: string
+      amount:
+        type: number
+      currency:
+        type: string
+      payment_transaction_id:
+        type: string
+      payment_date:
+        type: string
+        format: date
+      comments:
+        type: string
+  investment-info:
+    title: Investment Info
+    type: object
+    properties:
+      id:
+        type: string
+      loan_id:
+        type: string
+      investment:
+        $ref: '#/definitions/investment'
+  repayment:
+    title: Repayment details
+    type: object
+    properties:
+      borrower_id:
+        type: string
+      amount:
+        type: number
+      currency:
+        type: string
+      payment_transaction_id:
+        type: string
+      payment_date:
+        type: string
+        format: date
+      comments:
+        type: string
+  repayment-info:
+    title: Repayment Info
+    type: object
+    properties:
+      id:
+        type: string
+      loan_id:
+        type: string
+      repayment:
+        $ref: '#/definitions/repayment'
+  account-details:
+    title: Account Details
+    type: object
+    properties:
+      bank_name:
+        type: string
+      bank_swift_code:
+        type: string
+      account_number:
+        type: string
+      account_name:
+        type: string
