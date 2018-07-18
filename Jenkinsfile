@@ -9,6 +9,11 @@ node {
         // Run the maven build
         sh "'/usr/share/maven/bin/mvn' -Dmaven.test.failure.ignore clean install"
     }
+    stage('Docker cleanup unused resources') {
+        sh "docker volume rm $(docker volume ls -qf dangling=true)"
+        sh "docker rmi $(docker images --filter \"dangling=true\" -q --no-trunc)"
+        sh "docker rm $(docker ps -qa --no-trunc --filter \"status=exited\")"
+    }
     stage('Docker Stop and Remove Containers') {
         sh "docker ps  | grep f10api-demo | awk '{print \$1}'  | xargs --no-run-if-empty docker stop"
         sh "docker ps -a | grep f10api-demo | awk '{print \$1}'  | xargs --no-run-if-empty docker rm"
