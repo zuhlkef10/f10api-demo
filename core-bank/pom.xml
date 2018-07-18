@@ -45,6 +45,7 @@
 
     </dependencies>
 
+
     <build>
         <plugins>
             <plugin>
@@ -54,7 +55,36 @@
                     <mainClass>com.zuhlke.f10.CoreBankApplication</mainClass>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-codegen-maven-plugin</artifactId>
+                <version>2.3.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/../swagger/core-bank.yml</inputSpec>
+                            <language>spring</language>
+                            <library>spring-boot</library>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <modelPackage>com.zuhlke.f10.corebank.model</modelPackage>
+                            <configOptions>
+                                <dateLibrary>java8</dateLibrary>
+                                <interfaceOnly>true</interfaceOnly>
+                                <java8>true</java8>
+                            </configOptions>
+                            <generateApis>true</generateApis>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
+
+
     </build>
 
 </project>

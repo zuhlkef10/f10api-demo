@@ -35,10 +35,7 @@ paths:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              fund_transfer_detl:
-                $ref: '#/definitions/fund-transfer-detail'
+            $ref: '#/definitions/fund-transfer-detail'
             example:
               fund_transfer_detl:
                 debit_account_id: consectetur sint
