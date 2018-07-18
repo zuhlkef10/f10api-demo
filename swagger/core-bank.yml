@@ -20,14 +20,100 @@ securityDefinitions:
     type: apiKey
     in: header
 paths:
-  '/accounts/{accountId}/transfer':
+  '/accounts/{id}/transactions':
     parameters:
-      - name: accountId
+      - name: id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_accounts-id-transactions
+      summary: Get Transactions
+      tags:
+        - Transactions
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/account-transactions'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - API-KEY: []
+    post:
+      operationId: POST_accounts-id-transactions
+      summary: Create Transaction
+      tags:
+        - Transactions
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/transaction'
+            example:
+              id: dolor irure consequat tempor dolore
+              transaction_reference: sit dolore ad cillum proident
+              currency: enim incididunt
+              amount: qui
+              credit_debit_indicator: Credit
+              booking_date_time: '5108-03-12T06:49:45.650Z'
+              value_date_time: '4511-04-01T17:21:58.613Z'
+              transaction_code: deserunt ut commodo in
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/transfer-response'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+      security:
+        - Authorization: []
+        - API-KEY: []
+  '/accounts/{id}/transfer':
+    parameters:
+      - name: id
         in: path
         required: true
         type: string
     post:
-      operationId: POST_accounts-accountId-transfer
+      operationId: POST_accounts-id-transfer
       summary: Transfer Fund
       tags:
         - Transfers
@@ -35,10 +121,7 @@ paths:
         - name: body
           in: body
           schema:
-            type: object
-            properties:
-              fund_transfer_detl:
-                $ref: '#/definitions/fund-transfer-detail'
+            $ref: '#/definitions/fund-transfer-detail'
             example:
               fund_transfer_detl:
                 debit_account_id: consectetur sint
@@ -65,6 +148,10 @@ paths:
             application/json:
               reference_id: enim ipsum
               status: ACCEPTED
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: ''
           schema:
@@ -253,11 +340,11 @@ paths:
             $ref: '#/definitions/account'
           examples:
             application/json:
-              id: proident amet pariatur reprehenderit
-              bank_code: in
-              account_number: dolore cupidatat
-              name: incididunt anim
-              currency: sed exercitation
+              id: deserunt
+              bank_code: aute
+              account_number: ut pariatur nostrud veni
+              name: non exercitation ut dolor
+              currency: minim ut ullamco
         '400':
           description: ''
           schema:
@@ -281,32 +368,14 @@ paths:
       security:
         - Authorization: []
         - API-KEY: []
-  '/accounts/{accountId}/transactions':
+  '/accounts/{id}/balance':
     parameters:
-      - name: accountId
+      - name: id
         in: path
         required: true
         type: string
     get:
-      operationId: GET_accounts-accountId-transactions
-      summary: Get Transactions
-      tags:
-        - Accounts
-      responses:
-        default:
-          description: ''
-          schema: {}
-      security:
-        - Authorization: []
-        - API-KEY: []
-  '/accounts/{accountId}/balance':
-    parameters:
-      - name: accountId
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_accounts-accountId-balance
+      operationId: GET_accounts-id-balance
       summary: Get Balance
       tags:
         - Accounts
@@ -315,6 +384,26 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/account-balance'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
       security:
         - Authorization: []
         - API-KEY: []
@@ -373,7 +462,7 @@ definitions:
       payee_name:
         type: string
       amount:
-        type: string
+        type: number
       source_currency:
         type: string
       destination_currency:
@@ -398,11 +487,13 @@ definitions:
     properties:
       reference_id:
         type: string
+        description: Transaction Id
       status:
         type: string
         enum:
           - ACCEPTED
           - REJECTED
+        description: Transaction Status
   account-transactions:
     title: Account Transactions
     type: object
@@ -442,24 +533,35 @@ definitions:
     title: Transaction
     type: object
     properties:
-      transaction_id:
+      id:
         type: string
+        description: Transaction Id
+      account_id:
+        type: string
+        description: Account Id
       transaction_reference:
         type: string
+        description: Transaction Reference
       currency:
         type: string
+        description: Transaction Currency
       amount:
-        type: string
+        type: number
+        description: Transaction amount
       credit_debit_indicator:
         type: string
         enum:
           - Credit
           - Debit
+        description: Credit/Debit Indicator
       booking_date_time:
         type: string
         format: date-time
+        description: Booking Datetime
       value_date_time:
         type: string
         format: date-time
+        description: Value Datetime
       transaction_code:
         type: string
+        description: Transaction Code
