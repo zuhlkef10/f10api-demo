@@ -82,7 +82,7 @@
                                 <interfaceOnly>true</interfaceOnly>
                                 <java8>true</java8>
                             </configOptions>
-                            <generateApis>false</generateApis>
+                            <generateApis>true</generateApis>
                         </configuration>
                     </execution>
                 </executions>
