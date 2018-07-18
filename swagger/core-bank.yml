@@ -1,0 +1,465 @@
+swagger: '2.0'
+info:
+  version: ''
+  title: core-bank
+  description: ''
+host: 'localhost:3000'
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  Authorization:
+    name: Authorization
+    type: apiKey
+    in: header
+  API-KEY:
+    name: API-KEY
+    type: apiKey
+    in: header
+paths:
+  '/accounts/{accountId}/transfer':
+    parameters:
+      - name: accountId
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_accounts-accountId-transfer
+      summary: Transfer Fund
+      tags:
+        - Transfers
+      parameters:
+        - name: body
+          in: body
+          schema:
+            type: object
+            properties:
+              fund_transfer_detl:
+                $ref: '#/definitions/fund-transfer-detail'
+            example:
+              fund_transfer_detl:
+                debit_account_id: consectetur sint
+                credit_account_number: et
+                bank_code: ad mollit cupidatat commodo
+                payee_name: elit ea officia consectetur eiusmod
+                payment_channel: voluptate sint
+                amount: exercitation non
+                source_currency: irure ad esse
+                destination_currency: eiusmod velit
+                transfer_currency: irure sint dolor enim magna
+                comments: Lorem anim ullamco
+                purpose: deserunt Excepteur laborum
+                transfer_type: INSTANT
+                value_date: '2274-10-16'
+                party_id: voluptate e
+                reference_id: pariatur aute anim
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/transfer-response'
+          examples:
+            application/json:
+              reference_id: enim ipsum
+              status: ACCEPTED
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - API-KEY: []
+  '/accounts/{id}':
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET-account
+      summary: Get account
+      tags:
+        - Accounts
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/account'
+          examples:
+            application/json:
+              id: ea officia ullamco sit
+              bank_code: exercitation consequat
+              account_number: et irure sint adipisicing pariatur
+              name: tempor eu labore est reprehenderit
+              currency: in qui pariatur
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
+          examples:
+            application/json:
+              code: sint ea consectetur occaecat est
+              message: ea dolor consectetur commodo
+              tracking_id: dolor
+      security:
+        - Authorization: []
+        - API-KEY: []
+    put:
+      operationId: PUT-account
+      summary: Update account
+      tags:
+        - Accounts
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/account'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/account'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - API-KEY: []
+    delete:
+      operationId: DELETE-account
+      summary: Delete account
+      tags:
+        - Accounts
+      responses:
+        '204':
+          description: ''
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - API-KEY: []
+  /accounts:
+    get:
+      operationId: LIST-accounts
+      summary: List accounts
+      tags:
+        - Accounts
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/account'
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - API-KEY: []
+    post:
+      operationId: POST-account
+      summary: Create account
+      tags:
+        - Accounts
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/account'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/account'
+          examples:
+            application/json:
+              id: proident amet pariatur reprehenderit
+              bank_code: in
+              account_number: dolore cupidatat
+              name: incididunt anim
+              currency: sed exercitation
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - API-KEY: []
+  '/accounts/{accountId}/transactions':
+    parameters:
+      - name: accountId
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_accounts-accountId-transactions
+      summary: Get Transactions
+      tags:
+        - Accounts
+      responses:
+        default:
+          description: ''
+          schema: {}
+      security:
+        - Authorization: []
+        - API-KEY: []
+  '/accounts/{accountId}/balance':
+    parameters:
+      - name: accountId
+        in: path
+        required: true
+        type: string
+    get:
+      operationId: GET_accounts-accountId-balance
+      summary: Get Balance
+      tags:
+        - Accounts
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/account-balance'
+      security:
+        - Authorization: []
+        - API-KEY: []
+definitions:
+  generic-error:
+    title: generic-error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+  server-error:
+    title: server-error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      tracking_id:
+        type: string
+  account:
+    title: Account
+    type: object
+    properties:
+      id:
+        type: string
+        description: Tokenised Account Identifier
+      bank_code:
+        type: string
+        description: Bank code of the payee's bank. ACH code for domestic banks / SWIFT code for overseas bank.
+      account_number:
+        type: string
+        description: account number
+      name:
+        type: string
+        description: Name of the owner
+      currency:
+        type: string
+        description: Currency of the account
+    example:
+      id: in voluptate sint velit
+      bank_code: proident qui
+      account_number: eiusmod
+      name: cillum eu culpa laborum
+      currency: eu sit ut et officia
+  fund-transfer-detail:
+    title: Fund Transfer Detail
+    type: object
+    properties:
+      credit_account_number:
+        type: string
+      bank_code:
+        type: string
+      payee_name:
+        type: string
+      amount:
+        type: string
+      source_currency:
+        type: string
+      destination_currency:
+        type: string
+      transfer_currency:
+        type: string
+      comments:
+        type: string
+      transfer_type:
+        type: string
+        enum:
+          - INSTANT
+          - NON-INSTANT
+      value_date:
+        type: string
+        format: date
+      reference_id:
+        type: string
+  transfer-response:
+    title: Transfer Response
+    type: object
+    properties:
+      reference_id:
+        type: string
+      status:
+        type: string
+        enum:
+          - ACCEPTED
+          - REJECTED
+  account-transactions:
+    title: Account Transactions
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/transaction'
+    example:
+      data:
+        - value_date_time: '3154-09-28T20:03:15.214Z'
+          currency: in n
+          booking_date_time: '3390-05-03T20:18:51.770Z'
+          transaction_reference: ex dese
+        - credit_debit_indicator: Debit
+          transaction_id: occaecat ut qui aute
+          transaction_reference: tempor
+          booking_date_time: '2866-05-05T05:13:13.378Z'
+          currency: non
+          value_date_time: '3670-10-22T09:56:27.846Z'
+        - {}
+        - {}
+  account-balance:
+    title: Account Balance
+    type: object
+    properties:
+      account_id:
+        type: string
+      amount:
+        type: number
+      currency:
+        type: string
+      date_time:
+        type: string
+        format: date-time
+  transaction:
+    title: Transaction
+    type: object
+    properties:
+      transaction_id:
+        type: string
+      transaction_reference:
+        type: string
+      currency:
+        type: string
+      amount:
+        type: string
+      credit_debit_indicator:
+        type: string
+        enum:
+          - Credit
+          - Debit
+      booking_date_time:
+        type: string
+        format: date-time
+      value_date_time:
+        type: string
+        format: date-time
+      transaction_code:
+        type: string
