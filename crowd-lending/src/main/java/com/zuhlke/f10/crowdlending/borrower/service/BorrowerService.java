@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BorrowerService {
 
-    String createBorrower(Borrower body);
+    BorrowerInfo createBorrower(Borrower body);
 
     void deleteBorrower(String borrowerId);
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface InvestorService {
 
-    String createInvestor(Investor body);
+    InvestorInfo createInvestor(Investor body);
 
     void deleteInvestor(String investorId);
 

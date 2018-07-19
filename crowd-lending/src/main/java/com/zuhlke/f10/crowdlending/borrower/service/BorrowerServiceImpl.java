@@ -23,10 +23,9 @@ public class BorrowerServiceImpl implements BorrowerService {
     private BorrowerRepository borrowerRepository;
 
     @Override
-    public String createBorrower(Borrower body) {
+    public BorrowerInfo createBorrower(Borrower body) {
         BorrowerInfo borrowerInfo = new BorrowerInfo().borrower(body);
-        borrowerInfo = borrowerRepository.insert(borrowerInfo);
-        return borrowerInfo.getId();
+        return borrowerRepository.insert(borrowerInfo);
     }
 
     @Override

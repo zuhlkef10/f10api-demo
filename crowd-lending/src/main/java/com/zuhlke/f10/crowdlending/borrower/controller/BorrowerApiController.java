@@ -3,7 +3,6 @@ package com.zuhlke.f10.crowdlending.borrower.controller;
 import com.zuhlke.f10.crowdlending.borrower.service.BorrowerService;
 import com.zuhlke.f10.crowdlending.model.Borrower;
 import com.zuhlke.f10.crowdlending.model.BorrowerInfo;
-import com.zuhlke.f10.crowdlending.model.CreateBorrowerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,8 @@ public class BorrowerApiController implements BorrowerApi {
             consumes = {"application/json"},
             method = RequestMethod.POST)
     @Override
-    public ResponseEntity<CreateBorrowerResponse> createBorrower(@RequestBody Borrower body) {
-        String borrowerId = borrowerService.createBorrower(body);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CreateBorrowerResponse().borrowerId(borrowerId));
+    public ResponseEntity<BorrowerInfo> createBorrower(@RequestBody Borrower body) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(borrowerService.createBorrower(body));
     }
 
 
