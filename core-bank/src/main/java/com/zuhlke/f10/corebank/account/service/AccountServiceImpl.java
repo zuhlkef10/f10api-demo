@@ -8,11 +8,9 @@ import com.zuhlke.f10.corebank.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -116,7 +114,7 @@ public class AccountServiceImpl implements AccountService{
     public AccountTransactions getAccountTransactions(String id) {
 
         AccountTransactions transactions = new AccountTransactions();
-        transactions.setData(transactionRepository.findAll());
+        transactions.setData(transactionRepository.findByAccountId(id));
 
         return transactions;
     }
