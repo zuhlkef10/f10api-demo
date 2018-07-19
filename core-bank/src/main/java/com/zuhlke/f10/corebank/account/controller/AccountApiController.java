@@ -39,8 +39,8 @@ public class AccountApiController implements AccountsApi{
     @RequestMapping(value = "/accounts/{id}",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    public ResponseEntity<Account> getAccount(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(accountService.getAccountById(id));
+    public ResponseEntity<AccountBalance> getAccount(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(accountService.getAccountBalance(id));
     }
 
 
@@ -74,13 +74,6 @@ public class AccountApiController implements AccountsApi{
          return ResponseEntity.ok().body(accountService.makeFundTransfer(id, body));
     }
 
-    @Override
-    @RequestMapping(value = "/accounts/{id}/balance",
-            produces = { "application/json" },
-            method = RequestMethod.GET)
-    public ResponseEntity<AccountBalance> getAccountBalance(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(accountService.getAccountBalance(id));
-    }
 
     @Override
     @RequestMapping(value = "/accounts/{id}/transactions",
