@@ -7,10 +7,7 @@ import com.zuhlke.f10.insurance.products.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -26,7 +23,7 @@ public class ProductsApiController implements ProductsApi{
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    public ResponseEntity<Invoice> buyInsurance(@PathVariable("id") String id, @Valid BuyerSpecifications buyerSpecs) {
+    public ResponseEntity<Invoice> buyInsurance(@PathVariable("id") String id, @Valid @RequestBody BuyerSpecifications buyerSpecs) {
 
            return ResponseEntity.ok().body(productService.buy(id,buyerSpecs));
     }
@@ -61,7 +58,7 @@ public class ProductsApiController implements ProductsApi{
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    public ResponseEntity<Product> createProduct(@Valid Product body) {
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody Product body) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(body));
     }
 
@@ -70,7 +67,7 @@ public class ProductsApiController implements ProductsApi{
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.PUT)
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @Valid Product body) {
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") String id, @Valid @RequestBody Product body) {
         return ResponseEntity.ok().body(productService.updateProduct(id, body));
     }
 }
