@@ -11,7 +11,7 @@ public interface ContributorService {
 
     ContributorInfo getContributor(String campaignId, String contributorId);
 
-    String registerContributor(String campaignId, Contributor body);
+    ContributorInfo registerContributor(String campaignId, Contributor body);
 
     ContributorInfo updateContributor(String campaignId, String contributorId, Contributor body);
 

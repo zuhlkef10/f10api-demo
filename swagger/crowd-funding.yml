@@ -206,7 +206,7 @@ paths:
         '201':
           description: 'Successfully Created'
           schema:
-            $ref: '#/definitions/create-campaign-response'
+            $ref: '#/definitions/campaign-info'
         '400':
           description: 'Bad Request'
           schema:
@@ -285,7 +285,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/register-contributor-response'
+            $ref: '#/definitions/contributor-info'
         '400':
           description: 'Bad Request'
           schema:
@@ -550,18 +550,6 @@ definitions:
         type: string
       contributor:
         $ref: '#/definitions/contributor'
-  create-campaign-response:
-    title: Create Campaign Response
-    type: object
-    properties:
-      campaign_id:
-        type: string
-  register-contributor-response:
-    title: Register Contributor Response
-    type: object
-    properties:
-      contributor_id:
-        type: string
   contribution:
     title: Contribution Details
     type: object

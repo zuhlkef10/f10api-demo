@@ -32,13 +32,12 @@ public class ContributorServiceImpl implements ContributorService {
     }
 
     @Override
-    public String registerContributor(String campaignId, Contributor body) {
+    public ContributorInfo registerContributor(String campaignId, Contributor body) {
         return campaignRepository.findById(campaignId).map(campaignInfo -> {
             ContributorInfo contributorInfo = new ContributorInfo()
                     .contributor(body)
                     .campaignId(campaignId);
-            contributorInfo = contributorRepository.insert(contributorInfo);
-            return contributorInfo.getId();
+            return contributorRepository.insert(contributorInfo);
         }).orElseThrow(() -> new ResourceNotFoundException(CfErrorConfigEnum.CF_CAMPAIGN_NOT_FOUND));
     }
 

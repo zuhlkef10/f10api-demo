@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CampaignService {
 
-    String createCampaign(Campaign body);
+    CampaignInfo createCampaign(Campaign body);
 
     void deleteCampaign(String campaignId);
 
