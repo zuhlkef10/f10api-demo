@@ -88,14 +88,12 @@ public class AccountServiceImpl implements AccountService{
 
         //1. Get sum of all credit transactions
         BigDecimal sumCredit = transactions.stream()
-                .filter(t -> t.getAccountId().equals(id))
                 .filter(t -> t.getCreditDebitIndicator().equals(Transaction.CreditDebitIndicatorEnum.CREDIT) )
                 .map(t -> t.getAmount())
                 .reduce(BigDecimal::add).orElse(new BigDecimal(0));
 
         //2. Get sum of all debit transactions
         BigDecimal sumDebit = transactions.stream()
-                .filter(t -> t.getAccountId().equals(id))
                 .filter(t -> t.getCreditDebitIndicator().equals(Transaction.CreditDebitIndicatorEnum.DEBIT) )
                 .map(t -> t.getAmount())
                 .reduce(BigDecimal::add).orElse(new BigDecimal(0));
@@ -116,7 +114,7 @@ public class AccountServiceImpl implements AccountService{
     public AccountTransactions getAccountTransactions(String id) {
 
         AccountTransactions transactions = new AccountTransactions();
-        transactions.setData(transactionRepository.findAll());
+        transactions.setData(transactionRepository.findByAccountId(id));
 
         return transactions;
     }

@@ -4,4 +4,4 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://zuhlke01:f10zuhlke@zuhlke-0-pcykf.gcp.mongodb.net/test?retryWrites=true
+      uri: mongodb+srv://zuhlke01:f10zuhlke@zuhlke-0-pcykf.gcp.mongodb.net/core-bank?retryWrites=true
