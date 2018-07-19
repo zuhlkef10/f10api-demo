@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  version: ''
+  version: '1.0'
   title: Robot Advisor Platform
   description: API suite for providing automated investment Solution
 host: 'localhost:8080'
@@ -40,13 +40,21 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/portfolio'
+            $ref: '#/definitions/portfolio-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -68,15 +76,23 @@ paths:
             $ref: '#/definitions/portfolio'
       responses:
         '200':
-          description: ''
+          description: 'Successful response'
           schema:
-            $ref: '#/definitions/portfolio'
+            $ref: '#/definitions/portfolio-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -93,13 +109,21 @@ paths:
         - Portfolios
       responses:
         '204':
-          description: ''
+          description: 'Successfully Deleted'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -129,13 +153,60 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/portfolio'
+            $ref: '#/definitions/portfolio-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    get:
+      operationId: list-portfolios
+      summary: List Portfolios
+      tags:
+        - Portfolios
+      parameters:
+        - name: status
+          in: query
+          type: string
+      responses:
+        '200':
+          description: 'Successful Response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/portfolio-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -164,13 +235,21 @@ paths:
         '200':
           description: 'Successful Response'
           schema:
-            $ref: '#/definitions/investment-goal'
+            $ref: '#/definitions/investment-goal-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -194,13 +273,21 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/investment-goal'
+            $ref: '#/definitions/investment-goal-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -217,13 +304,21 @@ paths:
         - Investmentgoals
       responses:
         '204':
-          description: ''
+          description: 'Successfully Deleted'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -251,15 +346,63 @@ paths:
             $ref: '#/definitions/investment-goal'
       responses:
         '201':
-          description: ''
+          description: 'Successfully created'
           schema:
-            $ref: '#/definitions/investment-goal'
+            $ref: '#/definitions/investment-goal-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: 'Internal Server Error'
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-KEY: []
+    get:
+      operationId: list-investmentgoal
+      summary: List InvestmentGoals
+      tags:
+        - Investmentgoals
+      parameters:
+        - name: investment_type
+          in: query
+          type: string
+          description: Investment Type to filter records
+      responses:
+        '200':
+          description: 'Successful Response'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/investment-goal-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: 'Authentication Error'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -290,13 +433,21 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/recommendation'
+              $ref: '#/definitions/recommendation-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -321,13 +472,21 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/customer'
+            $ref: '#/definitions/customer-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -351,13 +510,21 @@ paths:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/customer'
+            $ref: '#/definitions/customer-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -374,13 +541,21 @@ paths:
         - Customers
       responses:
         '204':
-          description: ''
+          description: 'Successfully Deleted'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -396,24 +571,36 @@ paths:
       summary: List Customers
       tags:
         - Customers
+      parameters:
+        - name: name
+          in: query
+          type: string
+          description: Name of the customer to filter
+        - name: email
+          in: query
+          type: string
+          description: Email of the customer to filter
       responses:
         '200':
-          description: ''
+          description: 'Successful Response'
           schema:
-            type: object
-            properties:
-              data:
-                type: array
-                items:
-                  $ref: '#/definitions/customer'
-              page_info:
-                $ref: '#/definitions/page-info'
+            type: array
+            items:
+              $ref: '#/definitions/customer-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -437,13 +624,21 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/customer'
+            $ref: '#/definitions/customer-info'
+        '400':
+          description: 'Bad Request'
+          schema:
+            $ref: '#/definitions/generic-error'
         '401':
           description: 'Authentication Error'
           schema:
             $ref: '#/definitions/generic-error'
         '403':
           description: 'Authorization Failed'
+          schema:
+            $ref: '#/definitions/generic-error'
+        '404':
+          description: 'Resource Not Found'
           schema:
             $ref: '#/definitions/generic-error'
         '500':
@@ -458,11 +653,7 @@ definitions:
     title: Customer
     type: object
     properties:
-      customer_id:
-        type: string
-      first_name:
-        type: string
-      last_name:
+      name:
         type: string
       email:
         type: string
@@ -488,12 +679,12 @@ definitions:
       created_date:
         type: string
         format: date
+      credit_card:
+        $ref: '#/definitions/card-details'
   investment-goal:
     title: Investment Goal
     type: object
     properties:
-      goal_id:
-        type: string
       description:
         type: string
       term:
@@ -516,13 +707,13 @@ definitions:
     title: Portfolio
     type: object
     properties:
-      portfolio_id:
-        type: string
       name:
         type: string
       description:
         type: string
       status:
+        type: string
+      commission:
         type: string
       assets:
         type: array
@@ -561,14 +752,32 @@ definitions:
     title: Recommendation
     type: object
     properties:
-      recommendation_id:
-        type: string
       name:
         type: string
       rank:
         type: number
+      commission:
+        type: string
       asset:
         $ref: '#/definitions/asset'
+  recommendation-info:
+    title: Recommendation
+    type: object
+    properties:
+      id:
+        type: string
+      goal_id:
+        type: string
+      customer_id:
+        type: string
+      fees_amount:
+        type: number
+      fees_currency:
+        type: string
+      payment_transaction_id:
+        type: string
+      recommendation:
+        $ref: '#/definitions/recommendation'
       recommended_date:
         type: string
         format: date
@@ -590,17 +799,46 @@ definitions:
         type: string
       message:
         type: string
-  page-info:
-    title: Page Info
+  customer-info:
+    title: Customer Info
     type: object
     properties:
-      offset:
-        type: number
-      limit:
-        type: number
-      total_records:
-        type: number
-      sort:
-        type: array
-        items:
-          type: string
+      id:
+        type: string
+      customer:
+        $ref: '#/definitions/customer'
+  portfolio-info:
+    title: Portfolio Info
+    type: object
+    properties:
+      id:
+        type: string
+      customer_id:
+        type: string
+      portfolio:
+        $ref: '#/definitions/portfolio'
+  investment-goal-info:
+    title: Investment goal Info
+    type: object
+    properties:
+      id:
+        type: string
+      customer_id:
+        type: string
+      investment_goal:
+        $ref: '#/definitions/investment-goal'
+  card-details:
+    title: Credit Card Details
+    type: object
+    properties:
+      card_number:
+        type: string
+      name:
+        type: string
+      expiry_date:
+        type: string
+      cvv:
+        type: string
+      card_type:
+        type: string
+        description: Card Type (Visa/Master Card/Amex)
