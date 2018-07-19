@@ -40,7 +40,7 @@ public class AccountApiController implements AccountsApi{
             produces = { "application/json" },
             method = RequestMethod.GET)
     public ResponseEntity<Account> getAccount(@PathVariable("id") String id) {
-        return ResponseEntity.ok().body(accountService.getAccount(id));
+        return ResponseEntity.ok().body(accountService.getAccountById(id));
     }
 
 
