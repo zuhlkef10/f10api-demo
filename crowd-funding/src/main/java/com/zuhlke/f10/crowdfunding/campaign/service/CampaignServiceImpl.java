@@ -25,10 +25,9 @@ public class CampaignServiceImpl implements CampaignService {
     private CampaignRepository campaignRepository;
 
     @Override
-    public String createCampaign(Campaign body) {
+    public CampaignInfo createCampaign(Campaign body) {
         CampaignInfo campaignInfo = new CampaignInfo().campaign(body);
-        campaignInfo = campaignRepository.insert(campaignInfo);
-        return campaignInfo.getId();
+        return campaignRepository.insert(campaignInfo);
     }
 
     @Override
@@ -72,12 +71,12 @@ public class CampaignServiceImpl implements CampaignService {
     }
 
     private Sort buildSortCriteria(List<String> sort) {
-        if(!CollectionUtils.isEmpty(sort)){
-            if(sort.size() == 1){
+        if (!CollectionUtils.isEmpty(sort)) {
+            if (sort.size() == 1) {
                 return getSortCriteria(sort.get(0));
-            }else if(sort.size() == 2){
+            } else if (sort.size() == 2) {
                 return getSortCriteria(sort.get(0)).and(getSortCriteria(sort.get(1)));
-            }else if(sort.size() == 3){
+            } else if (sort.size() == 3) {
                 return getSortCriteria(sort.get(0)).and(getSortCriteria(sort.get(1))).and(getSortCriteria(sort.get(2)));
             }
         }

@@ -71,7 +71,7 @@ public interface ContributorApi {
             @Authorization(value = "X-API-KEY")
     }, tags = {"Contributors",})
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successful Response", response = RegisterContributorResponse.class),
+            @ApiResponse(code = 201, message = "Successful Response", response = ContributorInfo.class),
             @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
             @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
             @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
@@ -81,7 +81,7 @@ public interface ContributorApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    ResponseEntity<RegisterContributorResponse> registerContributor(@ApiParam(value = "", required = true) @PathVariable("campaign_id") String campaignId, @ApiParam(value = "") @Valid @RequestBody Contributor body);
+    ResponseEntity<ContributorInfo> registerContributor(@ApiParam(value = "", required = true) @PathVariable("campaign_id") String campaignId, @ApiParam(value = "") @Valid @RequestBody Contributor body);
 
     @ApiOperation(value = "Update Contributor Details", nickname = "updateContributor", notes = "", response = Contributor.class, authorizations = {
             @Authorization(value = "Authorization"),

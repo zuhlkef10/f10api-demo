@@ -17,7 +17,7 @@ public interface CampaignApi {
             @Authorization(value = "X-API-KEY")
     }, tags = {"Campaigns",})
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully Created", response = Campaign.class),
+            @ApiResponse(code = 201, message = "Successfully Created", response = CampaignInfo.class),
             @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
             @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
             @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
@@ -27,7 +27,7 @@ public interface CampaignApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    ResponseEntity<CreateCampaignResponse> createCampaign(@ApiParam(value = "") @Valid @RequestBody Campaign body);
+    ResponseEntity<CampaignInfo> createCampaign(@ApiParam(value = "") @Valid @RequestBody Campaign body);
 
 
     @ApiOperation(value = "Delete Campaign", nickname = "deleteCampaign", notes = "", authorizations = {

@@ -3,7 +3,6 @@ package com.zuhlke.f10.crowdfunding.campaign.controller;
 import com.zuhlke.f10.crowdfunding.campaign.service.CampaignService;
 import com.zuhlke.f10.crowdfunding.model.Campaign;
 import com.zuhlke.f10.crowdfunding.model.CampaignInfo;
-import com.zuhlke.f10.crowdfunding.model.CreateCampaignResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +22,8 @@ public class CampaignApiController implements CampaignApi {
             consumes = {"application/json"},
             method = RequestMethod.POST)
     @Override
-    public ResponseEntity<CreateCampaignResponse> createCampaign(@Valid @RequestBody Campaign body) {
-        String campaignId = campaignService.createCampaign(body);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CreateCampaignResponse().campaignId(campaignId));
+    public ResponseEntity<CampaignInfo> createCampaign(@Valid @RequestBody Campaign body) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(campaignService.createCampaign(body));
     }
 
     @RequestMapping(value = "/campaigns/{campaign_id}",
