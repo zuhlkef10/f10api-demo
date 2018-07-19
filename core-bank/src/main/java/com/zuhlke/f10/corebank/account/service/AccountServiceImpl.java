@@ -36,8 +36,15 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public Account getAccount(String id) {
+    public Account getAccountById(String id) {
         return accountRepository.findById(id)
+                .orElseThrow(()->new ResourceNotFoundException("404","Account not found"));
+    }
+
+    @Override
+    public Account getAccountByNumber(String accountNumber) {
+
+        return accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(()->new ResourceNotFoundException("404","Account not found"));
     }
 
@@ -53,8 +60,11 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public TransferResponse makeFundTransfer(String id, FundTransferDetail detail) {
+
+        Account sourceAccount = getAccountById(id);
+
         //1. check if destination account exist
-        //TODO
+        Account destAccount = getAccountByNumber(detail.getCreditAccountNumber());
 
         //2. check balance of source account
         AccountBalance balance = getAccountBalance(id);
@@ -64,23 +74,36 @@ public class AccountServiceImpl implements AccountService{
 
         //3. create debit transaction on source account
         Transaction debitTran = new Transaction();
-        //TODO
+        debitTran.setAccountId(sourceAccount.getId());
+        debitTran.setAmount(detail.getAmount());
+        debitTran.setCreditDebitIndicator(Transaction.CreditDebitIndicatorEnum.DEBIT);
+        debitTran.setTransactionCode("Fund Transfer");
+        debitTran.setTransactionReference(destAccount.getAccountNumber());
+
+        Transaction savedDebitTran = transactionRepository.save(debitTran);
 
         //4. create credit transaction on destination account
         Transaction creditTran = new Transaction();
-        //TODO
+        creditTran.setAccountId(destAccount.getId());
+        creditTran.setAmount(detail.getAmount());
+        creditTran.setCreditDebitIndicator(Transaction.CreditDebitIndicatorEnum.CREDIT);
+        creditTran.setTransactionCode("Fund Transfer");
+        creditTran.setTransactionReference(sourceAccount.getAccountNumber());
 
+        Transaction savedCreditTran = transactionRepository.save(creditTran);
 
         TransferResponse response = new TransferResponse();
-        //TODO
+        response.setStatus(TransferResponse.StatusEnum.ACCEPTED);
+        response.setReferenceId(savedDebitTran.getId() + "-" +  savedCreditTran.getId());
 
         return response;
     }
 
+
     @Override
     public AccountBalance getAccountBalance(String id) {
 
-         Account account = getAccount(id);
+         Account account = getAccountById(id);
 
         //compute balance from transaction repository
         AccountTransactions accountTransactions = getAccountTransactions(id);
@@ -123,7 +146,7 @@ public class AccountServiceImpl implements AccountService{
     public TransferResponse createTransaction(String id, Transaction transaction) {
 
         //throw exception if account does not exists
-        getAccount(id);
+        getAccountById(id);
 
         //transaction.setBookingDateTime(OffsetDateTime.now());
         //transaction.setValueDateTime(OffsetDateTime.now());
