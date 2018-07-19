@@ -53,12 +53,12 @@ public interface AccountsApi {
    ResponseEntity<Void> deleteAccount(@ApiParam(value = "", required = true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "Get account", nickname = "getAccount", notes = "", response = Account.class, authorizations = {
+    @ApiOperation(value = "Get account", nickname = "getAccount", notes = "", response = AccountBalance.class, authorizations = {
         @Authorization(value = "API-KEY"),
         @Authorization(value = "Authorization")
     }, tags={ "Accounts", })
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Successful Response", response = Account.class),
+        @ApiResponse(code = 200, message = "Successful Response", response = AccountBalance.class),
             @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
             @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
             @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
@@ -66,24 +66,7 @@ public interface AccountsApi {
     @RequestMapping(value = "/accounts/{id}",
         produces = { "application/json" },
         method = RequestMethod.GET)
-   ResponseEntity<Account> getAccount(@ApiParam(value = "", required = true) @PathVariable("id") String id);
-
-
-    @ApiOperation(value = "Get Balance", nickname = "getAccountBalance", notes = "", response = AccountBalance.class, authorizations = {
-        @Authorization(value = "API-KEY"),
-        @Authorization(value = "Authorization")
-    }, tags={ "Accounts", })
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Successful Response", response = AccountBalance.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
-        @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
-        @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
-        @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class) })
-    @RequestMapping(value = "/accounts/{id}/balance",
-        produces = { "application/json" },
-        method = RequestMethod.GET)
-   ResponseEntity<AccountBalance> getAccountBalance(@ApiParam(value = "", required = true) @PathVariable("id") String id);
-
+   ResponseEntity<AccountBalance> getAccount(@ApiParam(value = "", required = true) @PathVariable("id") String id);
 
 
 

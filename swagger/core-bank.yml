@@ -179,21 +179,23 @@ paths:
         type: string
     get:
       operationId: GET-account
-      summary: Get account
+      summary: Get account details
       tags:
         - Accounts
       responses:
         '200':
           description: ''
           schema:
-            $ref: '#/definitions/account'
+            $ref: '#/definitions/account-balance'
           examples:
             application/json:
-              id: ea officia ullamco sit
-              bank_code: exercitation consequat
-              account_number: et irure sint adipisicing pariatur
-              name: tempor eu labore est reprehenderit
-              currency: in qui pariatur
+              id: anim aliquip
+              bank_code: sit
+              account_number: labore reprehenderit
+              name: sint esse adipisicing Excepteur
+              balance: 500
+              currency: SGD
+              product_type: ullamco
         '400':
           description: ''
           schema:
@@ -368,45 +370,6 @@ paths:
       security:
         - Authorization: []
         - API-KEY: []
-  '/accounts/{id}/balance':
-    parameters:
-      - name: id
-        in: path
-        required: true
-        type: string
-    get:
-      operationId: GET_accounts-id-balance
-      summary: Get Balance
-      tags:
-        - Accounts
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/account-balance'
-        '400':
-          description: ''
-          schema:
-            $ref: '#/definitions/generic-error'
-        '401':
-          description: ''
-          schema:
-            $ref: '#/definitions/generic-error'
-        '403':
-          description: ''
-          schema:
-            $ref: '#/definitions/generic-error'
-        '404':
-          description: ''
-          schema:
-            $ref: '#/definitions/generic-error'
-        '500':
-          description: ''
-          schema:
-            $ref: '#/definitions/server-error'
-      security:
-        - Authorization: []
-        - API-KEY: []
 definitions:
   generic-error:
     title: generic-error
@@ -445,6 +408,9 @@ definitions:
       currency:
         type: string
         description: Currency of the account
+      product_type:
+        type: string
+        description: Product Type
     example:
       id: in voluptate sint velit
       bank_code: proident qui
@@ -520,15 +486,20 @@ definitions:
     title: Account Balance
     type: object
     properties:
-      account_id:
+      id:
         type: string
-      amount:
+      bank_code:
+        type: string
+      account_number:
+        type: string
+      name:
+        type: string
+      balance:
         type: number
       currency:
         type: string
-      date_time:
+      product_type:
         type: string
-        format: date-time
   transaction:
     title: Transaction
     type: object

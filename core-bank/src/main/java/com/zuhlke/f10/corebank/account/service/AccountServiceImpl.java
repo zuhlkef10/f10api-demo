@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -68,7 +67,7 @@ public class AccountServiceImpl implements AccountService{
 
         //2. check balance of source account
         AccountBalance balance = getAccountBalance(id);
-        if (balance.getAmount().compareTo(detail.getAmount()) < 0){
+        if (balance.getBalance().compareTo(detail.getAmount()) < 0){
             throw new TransferException("Insufficient Balance");
         }
 
@@ -125,10 +124,13 @@ public class AccountServiceImpl implements AccountService{
         BigDecimal calculatedBalance = sumCredit.subtract(sumDebit);
 
         AccountBalance balance = new AccountBalance();
-        balance.setAccountId(id);
-        balance.setDateTime(OffsetDateTime.now());
         balance.setCurrency(account.getCurrency());
-        balance.setAmount(calculatedBalance);
+        balance.setBalance(calculatedBalance);
+        balance.setAccountNumber(account.getAccountNumber());
+        balance.setId(account.getId());
+        balance.setBankCode(account.getBankCode());
+        balance.setName(account.getName());
+        balance.setProductType(account.getProductType());
 
         return balance;
     }
