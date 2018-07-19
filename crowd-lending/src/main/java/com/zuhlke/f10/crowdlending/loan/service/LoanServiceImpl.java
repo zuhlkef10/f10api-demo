@@ -23,10 +23,9 @@ public class LoanServiceImpl implements LoanService {
     private LoanRepository loanRepository;
 
     @Override
-    public String createLoan(Loan body) {
+    public LoanInfo createLoan(Loan body) {
         LoanInfo loanInfo = new LoanInfo().loan(body);
-        loanInfo = loanRepository.insert(loanInfo);
-        return loanInfo.getId();
+        return loanRepository.insert(loanInfo);
     }
 
     @Override

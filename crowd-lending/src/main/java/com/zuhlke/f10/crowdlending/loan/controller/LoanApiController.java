@@ -39,9 +39,8 @@ public class LoanApiController implements LoanApi {
             consumes = {"application/json"},
             method = RequestMethod.POST)
     @Override
-    public ResponseEntity<CreateLoanResponse> createLoan(@RequestBody Loan body) {
-        String loanId = loanService.createLoan(body);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CreateLoanResponse().loanId(loanId));
+    public ResponseEntity<LoanInfo> createLoan(@RequestBody Loan body) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(loanService.createLoan(body));
     }
 
     @RequestMapping(value = "/loans/{loan_id}/repayments",

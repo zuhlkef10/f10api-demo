@@ -30,12 +30,12 @@ public interface LoanApi {
     ResponseEntity<InvestmentInfo> createInvestment(@ApiParam(value = "", required = true) @PathVariable("loan_id") String loanId, @ApiParam(value = "") @Valid @RequestBody Investment body);
 
 
-    @ApiOperation(value = "Create Loan", nickname = "createLoan", notes = "", response = CreateLoanResponse.class, authorizations = {
+    @ApiOperation(value = "Create Loan", nickname = "createLoan", notes = "", response = LoanInfo.class, authorizations = {
             @Authorization(value = "Authorization"),
             @Authorization(value = "X-API-KEY")
     }, tags = {"Loans",})
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "", response = CreateLoanResponse.class),
+            @ApiResponse(code = 201, message = "", response = LoanInfo.class),
             @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
             @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
             @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
@@ -45,7 +45,7 @@ public interface LoanApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    ResponseEntity<CreateLoanResponse> createLoan(@ApiParam(value = "") @Valid @RequestBody Loan body);
+    ResponseEntity<LoanInfo> createLoan(@ApiParam(value = "") @Valid @RequestBody Loan body);
 
 
     @ApiOperation(value = "Repayment of the loan", nickname = "createRepayment", notes = "", response = RepaymentInfo.class, authorizations = {

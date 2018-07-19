@@ -1,7 +1,6 @@
 package com.zuhlke.f10.crowdlending.investor.controller;
 
 import com.zuhlke.f10.crowdlending.investor.service.InvestorService;
-import com.zuhlke.f10.crowdlending.model.CreateInvestorResponse;
 import com.zuhlke.f10.crowdlending.model.Investor;
 import com.zuhlke.f10.crowdlending.model.InvestorInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,8 @@ public class InvestorApiController implements InvestorApi {
             consumes = {"application/json"},
             method = RequestMethod.POST)
     @Override
-    public ResponseEntity<CreateInvestorResponse> createInvestor(@RequestBody Investor body) {
-        String investorId = investorService.createInvestor(body);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new CreateInvestorResponse().investorId(investorId));
+    public ResponseEntity<InvestorInfo> createInvestor(@RequestBody Investor body) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(investorService.createInvestor(body));
     }
 
     @RequestMapping(value = "/investors/{investor_id}",

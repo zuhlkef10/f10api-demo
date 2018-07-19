@@ -196,7 +196,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/create-loan-response'
+            $ref: '#/definitions/loan-info'
         '400':
           description: 'Bad Request'
           schema:
@@ -577,7 +577,7 @@ paths:
         '201':
           description: 'Successfully created Borrower'
           schema:
-            $ref: '#/definitions/create-borrower-response'
+            $ref: '#/definitions/borrower-info'
         '400':
           description: 'Bad Request'
           schema:
@@ -748,7 +748,7 @@ paths:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/create-investor-response'
+            $ref: '#/definitions/investor-info'
         '400':
           description: 'Bad Request'
           schema:
@@ -897,24 +897,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/investment-loan'
-  create-loan-response:
-    title: Create loan Response
-    type: object
-    properties:
-      loan_id:
-        type: string
-  create-borrower-response:
-    title: Create Borrower Response
-    type: object
-    properties:
-      borrower_id:
-        type: string
-  create-investor-response:
-    title: Create Investor Response
-    type: object
-    properties:
-      investor_id:
-        type: string
   investment-loan:
     title: Investment of a loan
     type: object

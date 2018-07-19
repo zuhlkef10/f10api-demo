@@ -1,6 +1,5 @@
 package com.zuhlke.f10.crowdlending.loan.service;
 
-import com.zuhlke.f10.crowdlending.model.CreateLoanResponse;
 import com.zuhlke.f10.crowdlending.model.Loan;
 import com.zuhlke.f10.crowdlending.model.LoanInfo;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,7 +9,7 @@ import java.util.List;
 
 public interface LoanService {
 
-    String createLoan(@RequestBody Loan body);
+    LoanInfo createLoan(@RequestBody Loan body);
 
     void deleteLoan(String loanId);
 

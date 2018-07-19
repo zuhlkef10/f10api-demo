@@ -1,6 +1,9 @@
 package com.zuhlke.f10.crowdlending.investor.controller;
 
-import com.zuhlke.f10.crowdlending.model.*;
+import com.zuhlke.f10.crowdlending.model.GenericError;
+import com.zuhlke.f10.crowdlending.model.Investor;
+import com.zuhlke.f10.crowdlending.model.InvestorInfo;
+import com.zuhlke.f10.crowdlending.model.ServerError;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +15,12 @@ import java.util.List;
 @Api(value = "investors", description = "the investors API")
 public interface InvestorApi {
 
-    @ApiOperation(value = "Create Investor", nickname = "createInvestor", notes = "", response = CreateInvestorResponse.class, authorizations = {
+    @ApiOperation(value = "Create Investor", nickname = "createInvestor", notes = "", response = InvestorInfo.class, authorizations = {
             @Authorization(value = "Authorization"),
             @Authorization(value = "X-API-KEY")
     }, tags = {"Investors",})
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "", response = CreateInvestorResponse.class),
+            @ApiResponse(code = 201, message = "", response = InvestorInfo.class),
             @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
             @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
             @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
@@ -27,7 +30,7 @@ public interface InvestorApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    ResponseEntity<CreateInvestorResponse> createInvestor(@ApiParam(value = "") @Valid @RequestBody Investor body);
+    ResponseEntity<InvestorInfo> createInvestor(@ApiParam(value = "") @Valid @RequestBody Investor body);
 
 
     @ApiOperation(value = "Delete Investor", nickname = "deleteInvestor", notes = "", authorizations = {

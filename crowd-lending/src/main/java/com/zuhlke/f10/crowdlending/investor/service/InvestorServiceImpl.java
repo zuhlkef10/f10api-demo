@@ -23,10 +23,9 @@ public class InvestorServiceImpl implements InvestorService {
     private InvestorRepository investorRepository;
 
     @Override
-    public String createInvestor(Investor body) {
+    public InvestorInfo createInvestor(Investor body) {
         InvestorInfo investorInfo = new InvestorInfo().investor(body);
-        investorInfo = investorRepository.insert(investorInfo);
-        return investorInfo.getId();
+        return investorRepository.insert(investorInfo);
     }
 
     @Override

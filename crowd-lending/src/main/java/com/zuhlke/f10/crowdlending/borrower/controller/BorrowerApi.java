@@ -11,12 +11,12 @@ import java.util.List;
 @Api(value = "borrowers", description = "the borrowers API")
 public interface BorrowerApi {
 
-    @ApiOperation(value = "Create Borrower", nickname = "createBorrower", notes = "", response = CreateBorrowerResponse.class, authorizations = {
+    @ApiOperation(value = "Create Borrower", nickname = "createBorrower", notes = "", response = BorrowerInfo.class, authorizations = {
             @Authorization(value = "Authorization"),
             @Authorization(value = "X-API-KEY")
     }, tags = {"Borrowers",})
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully created Borrower", response = CreateBorrowerResponse.class),
+            @ApiResponse(code = 201, message = "Successfully created Borrower", response = BorrowerInfo.class),
             @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
             @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
             @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
@@ -26,7 +26,7 @@ public interface BorrowerApi {
             produces = {"application/json"},
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    ResponseEntity<CreateBorrowerResponse> createBorrower(@ApiParam(value = "") @Valid @RequestBody Borrower body);
+    ResponseEntity<BorrowerInfo> createBorrower(@ApiParam(value = "") @Valid @RequestBody Borrower body);
 
 
     @ApiOperation(value = "Delete Borrower", nickname = "deleteBorrower", notes = "", authorizations = {
