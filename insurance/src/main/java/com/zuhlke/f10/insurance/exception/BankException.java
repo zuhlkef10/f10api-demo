@@ -1,17 +1,18 @@
-package com.zuhlke.f10.corebank.account.exception;
+package com.zuhlke.f10.insurance.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST) // 400
-public class TransferException extends RuntimeException {
+public class BankException extends RuntimeException {
+
     private String code;
 
     private String message;
 
     private HttpStatus httpStatus;
 
-    public TransferException(String code, String message) {
+    public BankException(String code, String message) {
         super(message);
         this.code = code;
         this.message = message;

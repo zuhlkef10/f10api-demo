@@ -1,20 +1,19 @@
 package com.zuhlke.f10.insurance.quotes.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-
-import java.util.Objects;
 
 /**
  * TransferResponse
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-07-20T11:31:16.506+08:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-07-20T15:48:46.656+08:00")
 
-public class TransferResponse {
+public class TransferResponse   {
   @JsonProperty("reference_id")
   private String referenceId = null;
 
@@ -23,7 +22,7 @@ public class TransferResponse {
    */
   public enum StatusEnum {
     ACCEPTED("ACCEPTED"),
-    
+
     REJECTED("REJECTED");
 
     private String value;
@@ -52,6 +51,9 @@ public class TransferResponse {
   @JsonProperty("status")
   private StatusEnum status = null;
 
+  @JsonProperty("comment")
+  private String comment = null;
+
   public TransferResponse referenceId(String referenceId) {
     this.referenceId = referenceId;
     return this;
@@ -60,7 +62,7 @@ public class TransferResponse {
   /**
    * Transaction Id
    * @return referenceId
-  **/
+   **/
   @ApiModelProperty(value = "Transaction Id")
 
 
@@ -80,7 +82,7 @@ public class TransferResponse {
   /**
    * Transaction Status
    * @return status
-  **/
+   **/
   @ApiModelProperty(value = "Transaction Status")
 
 
@@ -92,9 +94,29 @@ public class TransferResponse {
     this.status = status;
   }
 
+  public TransferResponse comment(String comment) {
+    this.comment = comment;
+    return this;
+  }
+
+  /**
+   * Get comment
+   * @return comment
+   **/
+  @ApiModelProperty(value = "")
+
+
+  public String getComment() {
+    return comment;
+  }
+
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
+
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -103,12 +125,13 @@ public class TransferResponse {
     }
     TransferResponse transferResponse = (TransferResponse) o;
     return Objects.equals(this.referenceId, transferResponse.referenceId) &&
-        Objects.equals(this.status, transferResponse.status);
+            Objects.equals(this.status, transferResponse.status) &&
+            Objects.equals(this.comment, transferResponse.comment);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(referenceId, status);
+    return Objects.hash(referenceId, status, comment);
   }
 
   @Override
@@ -118,6 +141,7 @@ public class TransferResponse {
 
     sb.append("    referenceId: ").append(toIndentedString(referenceId)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -126,7 +150,7 @@ public class TransferResponse {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }

@@ -2,7 +2,9 @@ package com.zuhlke.f10.insurance.quotes.service;
 
 import com.zuhlke.f10.insurance.InsuranceConstants;
 import com.zuhlke.f10.insurance.config.AppConfig;
+import com.zuhlke.f10.insurance.exception.BankException;
 import com.zuhlke.f10.insurance.exception.ResourceNotFoundException;
+import com.zuhlke.f10.insurance.exception.RestTemplateResponseErrorHandler;
 import com.zuhlke.f10.insurance.model.*;
 import com.zuhlke.f10.insurance.policies.repository.PolicyRepository;
 import com.zuhlke.f10.insurance.products.repository.InvoiceRepository;
@@ -12,6 +14,7 @@ import com.zuhlke.f10.insurance.quotes.model.FundTransferDetail;
 import com.zuhlke.f10.insurance.quotes.model.TransferResponse;
 import com.zuhlke.f10.insurance.quotes.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -42,6 +45,9 @@ public class QuoteServiceImpl implements QuoteService {
 
     @Autowired
     private AppConfig config;
+
+    @Autowired
+    private RestTemplateBuilder builder;
 
     @Override
     public QuoteDetails computeCost(String productId,  QuoteCriteria quoteCriteria) {
@@ -121,9 +127,15 @@ public class QuoteServiceImpl implements QuoteService {
         String paymentUrl= config.getBankUrl() + "/accounts/" + paymentDetails.getBankAccountId() + "/transfer";
 
         System.out.println(paymentUrl);
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = builder
+                                           .errorHandler(new RestTemplateResponseErrorHandler())
+                                           .build();
+
         TransferResponse response = restTemplate.postForObject(paymentUrl, request, TransferResponse.class);
         System.out.println("Response:" + response);
+        if (response.getStatus().equals(TransferResponse.StatusEnum.REJECTED)){
+            throw new BankException("400",response.getComment());
+        }
     }
 
     private Invoice createInvoice(String quoteId, PurchaseDetails purchaseDetails, QuoteDetails quoteDetails, Product product) {

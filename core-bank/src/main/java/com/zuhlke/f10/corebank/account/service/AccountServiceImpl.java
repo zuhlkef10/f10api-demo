@@ -60,6 +60,9 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public TransferResponse makeFundTransfer(String id, FundTransferDetail detail) {
 
+        TransferResponse response = new TransferResponse();
+        response.setReferenceId(id);
+
         Account sourceAccount = getAccountById(id);
 
         //1. check if destination account exist
@@ -68,7 +71,9 @@ public class AccountServiceImpl implements AccountService{
         //2. check balance of source account
         AccountBalance balance = getAccountBalance(id);
         if (balance.getBalance().compareTo(detail.getAmount()) < 0){
-            throw new TransferException("Insufficient Balance");
+            response.setStatus(TransferResponse.StatusEnum.REJECTED);
+            response.setComment("Insufficient Balance");
+            return response;
         }
 
         //3. create debit transaction on source account
@@ -91,9 +96,10 @@ public class AccountServiceImpl implements AccountService{
 
         Transaction savedCreditTran = transactionRepository.save(creditTran);
 
-        TransferResponse response = new TransferResponse();
+
         response.setStatus(TransferResponse.StatusEnum.ACCEPTED);
         response.setReferenceId(savedDebitTran.getId() + "-" +  savedCreditTran.getId());
+        response.setComment("Transfer Successful");
 
         return response;
     }
