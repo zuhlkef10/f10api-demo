@@ -1,17 +1,23 @@
 package com.zuhlke.f10.insurance.quotes.service;
 
 import com.zuhlke.f10.insurance.InsuranceConstants;
+import com.zuhlke.f10.insurance.config.AppConfig;
+import com.zuhlke.f10.insurance.exception.BankException;
 import com.zuhlke.f10.insurance.exception.ResourceNotFoundException;
+import com.zuhlke.f10.insurance.exception.RestTemplateResponseErrorHandler;
 import com.zuhlke.f10.insurance.model.*;
 import com.zuhlke.f10.insurance.policies.repository.PolicyRepository;
 import com.zuhlke.f10.insurance.products.repository.InvoiceRepository;
 import com.zuhlke.f10.insurance.products.repository.ProductRepository;
 import com.zuhlke.f10.insurance.products.service.ProductService;
+import com.zuhlke.f10.insurance.quotes.model.FundTransferDetail;
+import com.zuhlke.f10.insurance.quotes.model.TransferResponse;
 import com.zuhlke.f10.insurance.quotes.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,7 +26,6 @@ import java.util.UUID;
 
 
 @Service
-@Configuration
 public class QuoteServiceImpl implements QuoteService {
 
     @Autowired
@@ -38,9 +43,11 @@ public class QuoteServiceImpl implements QuoteService {
     @Autowired
     private PolicyRepository  policyRepository;
 
-    @Value("${api.bank.url}")
-    private String bankUrl;
+    @Autowired
+    private AppConfig config;
 
+    @Autowired
+    private RestTemplateBuilder builder;
 
     @Override
     public QuoteDetails computeCost(String productId,  QuoteCriteria quoteCriteria) {
@@ -88,7 +95,8 @@ public class QuoteServiceImpl implements QuoteService {
 
 
         //Make payment
-        System.out.println("******bankUrl:" + bankUrl);
+        System.out.println("******bankUrl:" + config.getBankUrl());
+        makePayment(quoteDetails, purchaseDetails.getPaymentDetails());
 
         //Create Policy Details
         PolicyDetails policyDetails = createPolicyDetails(savedInvoice);
@@ -96,6 +104,38 @@ public class QuoteServiceImpl implements QuoteService {
 
 
         return savedInvoice;
+    }
+
+    private void makePayment(QuoteDetails quoteDetails, PaymentDetails paymentDetails) {
+
+
+        FundTransferDetail ft = new FundTransferDetail();
+        ft.setAmount(quoteDetails.getPremiumAmount());
+        ft.setBankCode(paymentDetails.getBankCode());
+        ft.setComments("Insurance purchase");
+        ft.setCreditAccountNumber(config.getPayeeAccountNumber());
+        ft.setDestinationCurrency(config.getPayeeAccountCurrency());
+        ft.setPayeeName(config.getPayeeAccountName());
+        ft.setReferenceId(quoteDetails.getQuoteId());
+        ft.setSourceCurrency(quoteDetails.getPremiumCurrency());
+        ft.setTransferCurrency(quoteDetails.getPremiumCurrency());
+        ft.setTransferType(FundTransferDetail.TransferTypeEnum.INSTANT);
+        ft.setValueDate(LocalDate.now());
+
+        HttpEntity<FundTransferDetail> request = new HttpEntity<>(ft);
+
+        String paymentUrl= config.getBankUrl() + "/accounts/" + paymentDetails.getBankAccountId() + "/transfer";
+
+        System.out.println(paymentUrl);
+        RestTemplate restTemplate = builder
+                                           .errorHandler(new RestTemplateResponseErrorHandler())
+                                           .build();
+
+        TransferResponse response = restTemplate.postForObject(paymentUrl, request, TransferResponse.class);
+        System.out.println("Response:" + response);
+        if (response.getStatus().equals(TransferResponse.StatusEnum.REJECTED)){
+            throw new BankException("400",response.getComment());
+        }
     }
 
     private Invoice createInvoice(String quoteId, PurchaseDetails purchaseDetails, QuoteDetails quoteDetails, Product product) {
@@ -164,5 +204,6 @@ public class QuoteServiceImpl implements QuoteService {
         policyDetails.addBenefitsItem(benefit);
         return policyDetails;
     }
+
 
 }

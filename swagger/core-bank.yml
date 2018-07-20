@@ -460,6 +460,8 @@ definitions:
           - ACCEPTED
           - REJECTED
         description: Transaction Status
+      comment:
+        type: string
   account-transactions:
     title: Account Transactions
     type: object
