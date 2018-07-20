@@ -9,6 +9,8 @@ import com.zuhlke.f10.insurance.products.repository.ProductRepository;
 import com.zuhlke.f10.insurance.products.service.ProductService;
 import com.zuhlke.f10.insurance.quotes.repository.QuoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -18,6 +20,7 @@ import java.util.UUID;
 
 
 @Service
+@Configuration
 public class QuoteServiceImpl implements QuoteService {
 
     @Autowired
@@ -34,6 +37,10 @@ public class QuoteServiceImpl implements QuoteService {
 
     @Autowired
     private PolicyRepository  policyRepository;
+
+    @Value("${api.bank.url}")
+    private String bankUrl;
+
 
     @Override
     public QuoteDetails computeCost(String productId,  QuoteCriteria quoteCriteria) {
@@ -79,6 +86,9 @@ public class QuoteServiceImpl implements QuoteService {
         Invoice invoice = createInvoice(quoteId, purchaseDetails, quoteDetails, product);
         Invoice savedInvoice = invoiceRepository.save(invoice);
 
+
+        //Make payment
+        System.out.println("******bankUrl:" + bankUrl);
 
         //Create Policy Details
         PolicyDetails policyDetails = createPolicyDetails(savedInvoice);
