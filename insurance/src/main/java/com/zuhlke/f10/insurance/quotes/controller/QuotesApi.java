@@ -5,25 +5,28 @@
  */
 package com.zuhlke.f10.insurance.quotes.controller;
 
+import com.zuhlke.f10.insurance.model.GenericError;
+import com.zuhlke.f10.insurance.model.Invoice;
+import com.zuhlke.f10.insurance.model.PurchaseDetails;
+import com.zuhlke.f10.insurance.model.QuoteCriteria;
+import com.zuhlke.f10.insurance.model.QuoteDetails;
+import com.zuhlke.f10.insurance.model.ServerError;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zuhlke.f10.insurance.model.*;
 import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.util.Optional;
-
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-07-16T17:46:09.699+08:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-07-20T09:25:21.930+08:00")
 
 @Api(value = "quotes", description = "the quotes API")
 public interface QuotesApi {
 
-    Logger log = LoggerFactory.getLogger(QuotesApi.class);
 
     default Optional<ObjectMapper> getObjectMapper() {
         return Optional.empty();
@@ -37,19 +40,38 @@ public interface QuotesApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Get Quotes", nickname = "pOSTQuotes", notes = "", response = Quotes.class, authorizations = {
-        @Authorization(value = "Authorization"),
-        @Authorization(value = "X-API-Key")
+    @ApiOperation(value = "Request Quote", nickname = "requestQuote", notes = "", response = QuoteDetails.class, authorizations = {
+            @Authorization(value = "Authorization"),
+            @Authorization(value = "X-API-Key")
     }, tags={ "Quotes", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful Response", response = Quotes.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
-        @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
-        @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
-        @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class) })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "", response = QuoteDetails.class),
+            @ApiResponse(code = 400, message = "", response = GenericError.class),
+            @ApiResponse(code = 401, message = "", response = GenericError.class),
+            @ApiResponse(code = 403, message = "", response = GenericError.class),
+            @ApiResponse(code = 500, message = "", response = ServerError.class) })
     @RequestMapping(value = "/quotes/{productId}",
-        method = RequestMethod.POST)
-   ResponseEntity<QuoteDetails> getQuotes(@ApiParam(value = "",required=true) @PathVariable("productId") String productId, @ApiParam(value = ""  )  @Valid @RequestBody PolicyInfo body);
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    ResponseEntity<QuoteDetails> requestQuote(@ApiParam(value = "",required=true) @PathVariable("productId") String productId
+            ,@ApiParam(value = ""  )  @Valid @RequestBody QuoteCriteria body);
 
 
-    }
+    @ApiOperation(value = "Purchase Insurance", nickname = "purchase", notes = "", response = Invoice.class, authorizations = {
+            @Authorization(value = "Authorization"),
+            @Authorization(value = "X-API-Key")
+    }, tags={ "Quotes", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "", response = Invoice.class),
+            @ApiResponse(code = 400, message = "", response = GenericError.class),
+            @ApiResponse(code = 401, message = "", response = GenericError.class),
+            @ApiResponse(code = 403, message = "", response = GenericError.class),
+            @ApiResponse(code = 500, message = "", response = ServerError.class) })
+    @RequestMapping(value = "/quotes/{quoteId}/purchase",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    ResponseEntity<Invoice> purchase(@ApiParam(value = "",required=true) @PathVariable("quoteId") String quoteId
+            ,@ApiParam(value = ""  )  @Valid @RequestBody PurchaseDetails body);
+}
