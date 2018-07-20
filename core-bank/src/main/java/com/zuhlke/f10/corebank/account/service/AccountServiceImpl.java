@@ -1,5 +1,6 @@
 package com.zuhlke.f10.corebank.account.service;
 
+import com.zuhlke.f10.corebank.account.exception.AccountAlreadyExistException;
 import com.zuhlke.f10.corebank.account.exception.ResourceNotFoundException;
 import com.zuhlke.f10.corebank.account.repository.AccountRepository;
 import com.zuhlke.f10.corebank.account.repository.TransactionRepository;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -28,6 +28,14 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public Account createAccount(Account account) {
+
+       accountRepository.findByAccountNumber(account.getAccountNumber())
+               .ifPresent((a) ->{
+                   System.out.printf("Account %s  already exist", a.getAccountNumber());
+                   throw new AccountAlreadyExistException("409","Account already exist");
+              });
+
+
         return accountRepository.save(account);
     }
 
