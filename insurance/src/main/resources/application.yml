@@ -11,3 +11,9 @@ spring:
 api:
   bank:
     url: http://localhost:9090
+
+payee:
+  account:
+    number: 333-444-555
+    name: "Zuhlke Insurance"
+    currency: SGD
