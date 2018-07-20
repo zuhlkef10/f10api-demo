@@ -1,7 +1,6 @@
 package com.zuhlke.f10.corebank.account.service;
 
 import com.zuhlke.f10.corebank.account.exception.ResourceNotFoundException;
-import com.zuhlke.f10.corebank.account.exception.TransferException;
 import com.zuhlke.f10.corebank.account.repository.AccountRepository;
 import com.zuhlke.f10.corebank.account.repository.TransactionRepository;
 import com.zuhlke.f10.corebank.model.*;
@@ -9,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,9 +82,12 @@ public class AccountServiceImpl implements AccountService{
         Transaction debitTran = new Transaction();
         debitTran.setAccountId(sourceAccount.getId());
         debitTran.setAmount(detail.getAmount());
+        debitTran.setCurrency(detail.getSourceCurrency());
         debitTran.setCreditDebitIndicator(Transaction.CreditDebitIndicatorEnum.DEBIT);
         debitTran.setTransactionCode("Fund Transfer");
         debitTran.setTransactionReference(destAccount.getAccountNumber());
+        debitTran.setValueDateTime(LocalDateTime.now());
+        debitTran.setBookingDateTime(LocalDateTime.now());
 
         Transaction savedDebitTran = transactionRepository.save(debitTran);
 
@@ -90,9 +95,13 @@ public class AccountServiceImpl implements AccountService{
         Transaction creditTran = new Transaction();
         creditTran.setAccountId(destAccount.getId());
         creditTran.setAmount(detail.getAmount());
+        creditTran.setCurrency(detail.getDestinationCurrency());
         creditTran.setCreditDebitIndicator(Transaction.CreditDebitIndicatorEnum.CREDIT);
         creditTran.setTransactionCode("Fund Transfer");
         creditTran.setTransactionReference(sourceAccount.getAccountNumber());
+        creditTran.setValueDateTime(LocalDateTime.now());
+        creditTran.setBookingDateTime(LocalDateTime.now());
+
 
         Transaction savedCreditTran = transactionRepository.save(creditTran);
 
@@ -145,7 +154,12 @@ public class AccountServiceImpl implements AccountService{
     public AccountTransactions getAccountTransactions(String id) {
 
         AccountTransactions transactions = new AccountTransactions();
-        transactions.setData(transactionRepository.findByAccountId(id));
+
+        Comparator<Transaction> transactionComparator = Comparator.comparing(Transaction::getBookingDateTime).reversed();
+        List<Transaction> transactionList = transactionRepository.findByAccountId(id);
+        transactionList.sort(transactionComparator);
+
+        transactions.setData(transactionList);
 
         return transactions;
     }
@@ -156,8 +170,8 @@ public class AccountServiceImpl implements AccountService{
         //throw exception if account does not exists
         getAccountById(id);
 
-        //transaction.setBookingDateTime(OffsetDateTime.now());
-        //transaction.setValueDateTime(OffsetDateTime.now());
+        transaction.setBookingDateTime(LocalDateTime.now());
+        transaction.setValueDateTime(LocalDateTime.now());
         transaction.setId(UUID.randomUUID().toString());
         transaction.setAccountId(id);
         Transaction savedTransaction = transactionRepository.save(transaction);

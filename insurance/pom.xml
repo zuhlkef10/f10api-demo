@@ -82,6 +82,12 @@
                                 <interfaceOnly>true</interfaceOnly>
                                 <java8>true</java8>
                             </configOptions>
+                            <typeMappings>
+                                <typeMapping>OffsetDateTime=LocalDateTime</typeMapping>
+                            </typeMappings>
+                            <importMappings>
+                                <importMapping>java.time.OffsetDateTime=java.time.LocalDateTime</importMapping>
+                            </importMappings>
                             <generateApis>false</generateApis>
                         </configuration>
                     </execution>
