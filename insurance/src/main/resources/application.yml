@@ -10,7 +10,7 @@ spring:
 
 api:
   bank:
-    url: http://localhost:9090
+    url: http://core-bank-api:9090
 
 payee:
   account:
