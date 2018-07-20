@@ -1,6 +1,7 @@
 package com.zuhlke.f10.insurance.products.service;
 
 import com.zuhlke.f10.insurance.InsuranceConstants;
+import com.zuhlke.f10.insurance.exception.ProductAlreadyExistException;
 import com.zuhlke.f10.insurance.exception.ResourceNotFoundException;
 import com.zuhlke.f10.insurance.model.*;
 import com.zuhlke.f10.insurance.policies.repository.PolicyRepository;
@@ -48,6 +49,13 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Product createProduct(Product product) {
+
+        productRepository.findByProductName(product.getProductName())
+                .ifPresent((p)->{
+                    System.out.printf("Account %s  already exist", p.getProductName());
+                    throw new ProductAlreadyExistException("409","Product name already exists");
+                });
+
         return productRepository.save(product);
     }
 
