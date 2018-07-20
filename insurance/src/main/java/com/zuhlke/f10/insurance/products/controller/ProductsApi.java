@@ -41,20 +41,6 @@ public interface ProductsApi {
         return getRequest().map(r -> r.getHeader("Accept"));
     }
 
-    @ApiOperation(value = "Buy Insurance", nickname = "buyInsurance", notes = "", response = Invoice.class, authorizations = {
-        @Authorization(value = "Authorization"),
-        @Authorization(value = "X-API-Key")
-    }, tags={ "Products", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful Response", response = Invoice.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
-        @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
-        @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
-        @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class) })
-    @RequestMapping(value = "/products/{productId}/buy",
-        method = RequestMethod.POST)
-    ResponseEntity<Invoice> buyInsurance(@ApiParam(value = "", required = true) @PathVariable("productId") String productId, @ApiParam(value = "") @Valid @RequestBody BuyerSpecifications body);
-
 
     @ApiOperation(value = "Delete Product", nickname = "deleteProduct", notes = "", authorizations = {
             @Authorization(value = "Authorization"),

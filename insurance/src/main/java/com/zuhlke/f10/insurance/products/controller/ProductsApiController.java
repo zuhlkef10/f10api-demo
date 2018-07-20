@@ -1,7 +1,5 @@
 package com.zuhlke.f10.insurance.products.controller;
 
-import com.zuhlke.f10.insurance.model.BuyerSpecifications;
-import com.zuhlke.f10.insurance.model.Invoice;
 import com.zuhlke.f10.insurance.model.Product;
 import com.zuhlke.f10.insurance.products.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +16,6 @@ public class ProductsApiController implements ProductsApi{
     @Autowired
     private ProductService productService;
 
-    @Override
-    @RequestMapping(value = "/products/{id}/buy",
-            produces = {"application/json"},
-            consumes = {"application/json"},
-            method = RequestMethod.POST)
-    public ResponseEntity<Invoice> buyInsurance(@PathVariable("id") String id, @Valid @RequestBody BuyerSpecifications buyerSpecs) {
-
-           return ResponseEntity.ok().body(productService.buy(id,buyerSpecs));
-    }
 
     @Override
     @RequestMapping(value = "/products/{id}",

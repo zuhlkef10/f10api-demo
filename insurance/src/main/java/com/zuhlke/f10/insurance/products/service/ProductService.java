@@ -1,7 +1,5 @@
 package com.zuhlke.f10.insurance.products.service;
 
-import com.zuhlke.f10.insurance.model.BuyerSpecifications;
-import com.zuhlke.f10.insurance.model.Invoice;
 import com.zuhlke.f10.insurance.model.Product;
 
 import java.util.List;
@@ -9,7 +7,6 @@ import java.util.List;
 
 public interface ProductService {
 
-  Invoice buy(String productId, BuyerSpecifications buyerSpecs);
 
   void deleteProduct( String id);
 

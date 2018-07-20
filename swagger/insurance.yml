@@ -29,14 +29,14 @@ paths:
         type: string
     post:
       operationId: POST_quotes-productId
-      summary: Get Quote
+      summary: Request Quote
       tags:
         - Quotes
       parameters:
         - name: body
           in: body
           schema:
-            $ref: '#/definitions/policy-info'
+            $ref: '#/definitions/quote-criteria'
             example:
               coverage_date:
                 from: '2018-07-17'
@@ -54,6 +54,74 @@ paths:
               product_description: exercitation magna elit
               premium_currency: SGD
               premium_amount: 200.5
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '401':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '403':
+          description: ''
+          schema:
+            $ref: '#/definitions/generic-error'
+        '500':
+          description: ''
+          schema:
+            $ref: '#/definitions/server-error'
+      security:
+        - Authorization: []
+        - X-API-Key: []
+  '/quotes/{quoteId}/purchase':
+    parameters:
+      - name: quoteId
+        in: path
+        required: true
+        type: string
+    post:
+      operationId: POST_quotes-quoteId-purchase
+      summary: Purchase Insurance
+      tags:
+        - Quotes
+      parameters:
+        - name: body
+          in: body
+          schema:
+            $ref: '#/definitions/purchase-details'
+            example:
+              quote_reference: nulla Excepteur in do
+              personal_details:
+                name: reprehenderit id veniam
+                email: sint culpa
+                date_of_birth: '3435-03-18'
+                mobile_phone: incididunt enim aliquip
+                national_id: exercitation quis ut
+                occupation: sint
+                mailing_address: pariatur irure
+              payment_details:
+                bank_account_id: eiusmod et
+                bank_account_number: eiusmod deserunt officia est
+                bank_code: culpa incididunt
+              travel_details:
+                flight_details:
+                  departure_flight:
+                    flight_no: irure Lorem Duis
+                    flight_date: '2218-06-17'
+                  return_flight:
+                    flight_no: sint labo
+                    flight_date: '3419-02-08'
+                destination_country: aute Ut
+                trip_type: reprehenderit tempor culpa
+                coverage_type: ullamco id
+                plan_type: dolore sit culpa Ut
+                number_of_adults: -3567510
+                number_of_children: 72016015
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/invoice'
         '400':
           description: ''
           schema:
@@ -240,47 +308,25 @@ paths:
       security:
         - Authorization: []
         - X-API-Key: []
-  '/products/{productId}/buy':
-    parameters:
-      - name: productId
-        in: path
-        required: true
-        type: string
-    post:
-      operationId: POST_products-productId-buy
-      summary: Buy Insurance
-      tags:
-        - Products
-      parameters:
-        - name: body
-          in: body
-          schema:
-            $ref: '#/definitions/buyer-specifications'
-      responses:
-        '200':
-          description: ''
-          schema:
-            $ref: '#/definitions/invoice'
-        '400':
-          description: ''
-          schema:
-            $ref: '#/definitions/generic-error'
-        '401':
-          description: ''
-          schema:
-            $ref: '#/definitions/generic-error'
-        '403':
-          description: ''
-          schema:
-            $ref: '#/definitions/generic-error'
-        '500':
-          description: ''
-          schema:
-            $ref: '#/definitions/server-error'
-      security:
-        - Authorization: []
-        - X-API-Key: []
 definitions:
+  generic-error:
+    title: generic-error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+  server-error:
+    title: server-error
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+      tracking_id:
+        type: string
   premium-details:
     title: Premium Details
     type: object
@@ -338,8 +384,8 @@ definitions:
         $ref: '#/definitions/coverage-date'
       bill_to:
         $ref: '#/definitions/billing-address'
-  personal-details:
-    title: Personal Details
+  policy-holder:
+    title: Policy Holder
     type: object
     properties:
       name:
@@ -425,8 +471,8 @@ definitions:
         type: string
       description_of_injury_sustained:
         type: string
-  policy-feature:
-    title: Policy Feature
+  policy-benefit:
+    title: Policy Benefit
     type: object
     properties:
       name:
@@ -459,6 +505,12 @@ definitions:
         type: number
       number_of_days_covered:
         type: integer
+      coverage_dates:
+        $ref: '#/definitions/coverage-date'
+      add_ons:
+        type: array
+        items:
+          $ref: '#/definitions/product'
   policy-details:
     title: Policy Details
     type: object
@@ -473,10 +525,31 @@ definitions:
         type: string
       premium_amount:
         type: number
-      features:
+      policy_holder:
+        $ref: '#/definitions/policy-holder'
+      benefits:
         type: array
         items:
-          $ref: '#/definitions/policy-feature'
+          $ref: '#/definitions/policy-benefit'
+    example:
+      policy_id: nisi do
+      product_id: id dolore in ut
+      product_description: mollit est cupidatat
+      premium_currency: culpa et ea
+      premium_amount: 95088515
+      policy_holder:
+        name: aute
+        email: consectetur
+        date_of_birth: '3355-10-21'
+        mobile_phone: 'amet '
+        national_id: ex cupidatat
+        occupation: elit sunt amet cillum mollit
+        mailing_address: id
+      benefits:
+        - {}
+        - description: nostrud velit sint laborum
+        - {}
+        - description: elit dolore molli
   search-criteria:
     title: Search Criteria
     type: object
@@ -499,26 +572,50 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/quote-details'
-  buyer-specifications:
-    title: Buyer Specifications
+  purchase-details:
+    title: Purchase Details
     type: object
     properties:
-      quote_id:
+      quote_reference:
         type: string
-      coverage_start_date:
-        type: string
-        format: date
-      coverage_end_date:
-        type: string
-        format: date
-      promotional_discount:
-        type: number
-      quoted_premium:
-        type: number
-      personal_details:
-        $ref: '#/definitions/personal-details'
+      policy_holder:
+        $ref: '#/definitions/policy-holder'
+      payment_details:
+        $ref: '#/definitions/payment-details'
       travel_details:
         $ref: '#/definitions/travel-details'
+    example:
+      quote_reference: consectetur
+      coverage_start_date: '3582-10-14'
+      coverage_end_date: '2618-08-17'
+      promotional_discount: -69615412
+      quoted_premium: -18097118
+      personal_details:
+        name: eiusmod in proident
+        email: enim adipisicing ipsum
+        date_of_birth: '4040-02-17'
+        mobile_phone: in fugiat qui
+        national_id: ullamco consectetur qui
+        occupation: in consequat
+        mailing_address: cillum
+      payment_details:
+        bank_account_id: voluptate reprehenderit nulla mollit cul
+        bank_account_number: elit labore
+        bank_code: dolore consectetur
+      travel_details:
+        flight_details:
+          departure_flight:
+            flight_no: exe
+            flight_date: '3488-01-23'
+          return_flight:
+            flight_no: labore ullamco
+            flight_date: '4711-03-03'
+        destination_country: minim
+        trip_type: sed cillum pariatur velit
+        coverage_type: reprehenderit
+        plan_type: ipsum et
+        number_of_adults: -35038491
+        number_of_children: -31630241
   invoice:
     title: Invoice
     type: object
@@ -556,24 +653,6 @@ definitions:
       settlement_date:
         type: string
         format: date
-  generic-error:
-    title: generic-error
-    type: object
-    properties:
-      code:
-        type: string
-      message:
-        type: string
-  server-error:
-    title: server-error
-    type: object
-    properties:
-      code:
-        type: string
-      message:
-        type: string
-      tracking_id:
-        type: string
   product:
     title: Product
     type: object
@@ -584,18 +663,40 @@ definitions:
         type: string
       product_description:
         type: string
-      premium_currency:
+      price_currency:
         type: string
-      premium_amount:
+      price_amount:
         type: number
-  policy-info:
-    title: Policy Info
+  quote-criteria:
+    title: Quote Criteria
     type: object
     properties:
       coverage_date:
         $ref: '#/definitions/coverage-date'
-      plan_type:
+      add_ons:
+        type: array
+        items:
+          $ref: '#/definitions/product'
+    example:
+      coverage_date:
+        from: '2958-07-31'
+        to: '2785-02-04'
+      add_ons:
+        - {}
+        - product_description: 'in culpa esse fugiat '
+          premium_amount: -33816966
+        - premium_amount: 12032198
+          product_name: incididunt non minim magna amet
+        - {}
+        - premium_currency: minim eli
+          id: esse consequat culpa
+  payment-details:
+    title: Payment Details
+    type: object
+    properties:
+      bank_account_id:
         type: string
-        enum:
-          - ESSENTIAL
-          - COMPREHENSIVE
+      bank_account_number:
+        type: string
+      bank_code:
+        type: string
