@@ -73,6 +73,7 @@ public class AccountServiceImpl implements AccountService{
         TransferResponse response = new TransferResponse();
         response.setReferenceId(id);
 
+        //throw exception if account does not exists
         Account sourceAccount = getAccountById(id);
 
         //1. check if destination account exist
@@ -82,7 +83,7 @@ public class AccountServiceImpl implements AccountService{
         AccountBalance balance = getAccountBalance(id);
         if (balance.getBalance().compareTo(detail.getAmount()) < 0){
             response.setStatus(TransferResponse.StatusEnum.REJECTED);
-            response.setComment("Insufficient Balance");
+            response.setComment("Account has insufficient balance");
             return response;
         }
 
@@ -116,7 +117,7 @@ public class AccountServiceImpl implements AccountService{
 
         response.setStatus(TransferResponse.StatusEnum.ACCEPTED);
         response.setReferenceId(savedDebitTran.getId() + "-" +  savedCreditTran.getId());
-        response.setComment("Transfer Successful");
+        response.setComment("Fund Transfer was Successfully processed");
 
         return response;
     }
@@ -125,7 +126,8 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public AccountBalance getAccountBalance(String id) {
 
-         Account account = getAccountById(id);
+        //throw exception if account does not exists
+        Account account = getAccountById(id);
 
         //compute balance from transaction repository
         AccountTransactions accountTransactions = getAccountTransactions(id);
@@ -188,6 +190,7 @@ public class AccountServiceImpl implements AccountService{
         TransferResponse response = new TransferResponse();
         response.setReferenceId(savedTransaction.getId());
         response.setStatus(TransferResponse.StatusEnum.ACCEPTED);
+        response.setComment("Transaction was Successfully processed");
 
         return response;
     }
