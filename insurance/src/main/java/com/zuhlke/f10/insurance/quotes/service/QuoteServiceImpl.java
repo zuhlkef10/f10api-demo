@@ -1,6 +1,6 @@
 package com.zuhlke.f10.insurance.quotes.service;
 
-import com.zuhlke.f10.insurance.InsuranceConstants;
+import com.zuhlke.f10.insurance.constants.InsuranceConstants;
 import com.zuhlke.f10.insurance.config.AppConfig;
 import com.zuhlke.f10.insurance.exception.BankException;
 import com.zuhlke.f10.insurance.exception.ResourceNotFoundException;
@@ -176,6 +176,14 @@ public class QuoteServiceImpl implements QuoteService {
         details.setProductDescription(quoteDetails.getProductDescription());
         details.setProviderName("Zuhlke Insurance Pte Ltd");
 
+        //Product details
+        details.setProductId(quoteDetails.getProductId());
+        details.setProductDescription(quoteDetails.getProductDescription());
+
+         //Policyholder
+        details.setPolicyHolder(purchaseDetails.getPolicyHolder());
+
+
         return details;
     }
 
@@ -187,15 +195,18 @@ public class QuoteServiceImpl implements QuoteService {
         premiumDetails.setPremiumAmtBeforeTax(quoteDetails.getPremiumAmount());
         premiumDetails.setTaxAmt(new BigDecimal(0));
         premiumDetails.setTotalAmt(quoteDetails.getPremiumAmount());
+
         return premiumDetails;
     }
 
     private PolicyDetails createPolicyDetails(Invoice invoice) {
         PolicyDetails policyDetails = new PolicyDetails();
-        policyDetails.setPolicyId(invoice.getReferenceNumber());
+        policyDetails.setPolicyId(invoice.getTaxInvoice().getPolicyId());
         policyDetails.setPremiumAmount(invoice.getTaxInvoice().getPremiumDetails().getPremiumAmt());
         policyDetails.setPremiumCurrency(invoice.getTaxInvoice().getPremiumDetails().getCurrency());
         policyDetails.setProductId(invoice.getTaxInvoice().getProductId());
+        policyDetails.setProductDescription(invoice.getTaxInvoice().getProductDescription());
+        policyDetails.setPolicyHolder(invoice.getTaxInvoice().getPolicyHolder());
 
         PolicyBenefit benefit = new PolicyBenefit();
         benefit.setName("Benefits");

@@ -16,5 +16,5 @@ api:
 payee:
   account:
     number: 333-444-555
-    name: "Zuhlke Insurance"
+    name: "Zuhlke Insurance Pte Ltd"
     currency: SGD

@@ -406,6 +406,8 @@ definitions:
         $ref: '#/definitions/coverage-date'
       bill_to:
         $ref: '#/definitions/billing-address'
+      policy_holder:
+        $ref: '#/definitions/policy-holder'
   policy-holder:
     title: Policy Holder
     type: object

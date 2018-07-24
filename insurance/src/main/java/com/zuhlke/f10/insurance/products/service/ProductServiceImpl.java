@@ -1,6 +1,5 @@
 package com.zuhlke.f10.insurance.products.service;
 
-import com.zuhlke.f10.insurance.InsuranceConstants;
 import com.zuhlke.f10.insurance.exception.ProductAlreadyExistException;
 import com.zuhlke.f10.insurance.exception.ResourceNotFoundException;
 import com.zuhlke.f10.insurance.model.*;
@@ -10,11 +9,8 @@ import com.zuhlke.f10.insurance.products.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService{
