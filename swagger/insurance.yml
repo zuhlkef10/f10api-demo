@@ -32,6 +32,7 @@ paths:
       summary: Request Quote
       tags:
         - Quotes
+      description: Generate a policy quote based on the parameters provided
       parameters:
         - name: body
           in: body
@@ -84,6 +85,7 @@ paths:
       summary: Purchase Insurance
       tags:
         - Quotes
+      description: Purchase an insurance based on the quote ( a quote has to be generated first)
       parameters:
         - name: body
           in: body
@@ -152,6 +154,7 @@ paths:
       summary: Get Policy Details
       tags:
         - Policies
+      description: Retrieve policy details
       responses:
         '200':
           description: ''
@@ -191,6 +194,7 @@ paths:
       summary: Claim Insurance
       tags:
         - Claims
+      description: Claim insurance benefits
       parameters:
         - name: body
           in: body
@@ -237,6 +241,7 @@ paths:
       summary: Get Product
       tags:
         - Products
+      description: Retrieve insurance product information
       responses:
         '200':
           description: ''
@@ -250,6 +255,7 @@ paths:
       summary: Update Product
       tags:
         - Products
+      description: Update an existing insurance product
       parameters:
         - name: body
           in: body
@@ -268,6 +274,7 @@ paths:
       summary: Delete Product
       tags:
         - Products
+      description: Delete an existing product
       responses:
         '204':
           description: ''
@@ -280,6 +287,7 @@ paths:
       summary: List Products
       tags:
         - Products
+      description: Get the list of insurance product
       responses:
         '200':
           description: ''
@@ -295,6 +303,7 @@ paths:
       summary: Create Product
       tags:
         - Products
+      description: Create a new insurance product
       parameters:
         - name: body
           in: body
@@ -333,16 +342,22 @@ definitions:
     properties:
       currency:
         type: string
+        description: Currency
       premium_amt:
         type: number
+        description: Price amount
       less_discount:
         type: number
+        description: Discount amount
       premium_amt_before_tax:
         type: number
+        description: Premium amount before tax
       tax_amt:
         type: number
+        description: Tax amount
       total_amt:
         type: number
+        description: Total amount
   coverage-date:
     title: Coverage Date
     type: object
@@ -350,34 +365,41 @@ definitions:
       from:
         type: string
         format: date
+        description: Coverage starting date
       to:
         type: string
         format: date
+        description: Coverage end date
   billing-address:
     title: Billing Address
     type: object
     properties:
       name:
         type: string
+        description: Name of the policy holder
       mailing_address:
         type: string
+        description: Mailing address of the policy holder
   invoice-details:
     title: Invoice Details
     type: object
     properties:
-      provider_id:
-        type: string
       provider_name:
         type: string
+        description: Insurance company name
       policy_id:
         type: string
+        description: Policy Id
       product_id:
         type: string
+        description: Product Id
       product_description:
         type: string
+        description: Product description
       invoice_date:
         type: string
         format: date
+        description: Invoice date
       premium_details:
         $ref: '#/definitions/premium-details'
       coverage_date:
@@ -390,28 +412,37 @@ definitions:
     properties:
       name:
         type: string
+        description: Name of the policyholder
       email:
         type: string
+        description: Email address of the policyholder
       date_of_birth:
         type: string
         format: date
+        description: Date of birth
       mobile_phone:
         type: string
+        description: Mobile phone number
       national_id:
         type: string
+        description: National Id or passport number
       occupation:
         type: string
+        description: Occupation
       mailing_address:
         type: string
+        description: Mailing address
   flight-schedule:
     title: Flight Schedule
     type: object
     properties:
       flight_no:
         type: string
+        description: Flight number
       flight_date:
         type: string
         format: date
+        description: Flight date
   flight-details:
     title: Flight Details
     type: object
@@ -428,26 +459,37 @@ definitions:
         $ref: '#/definitions/flight-details'
       destination_country:
         type: string
+        description: Destination country
       trip_type:
         type: string
+        description: Trip type
       coverage_type:
         type: string
+        description: Coverage type
       plan_type:
         type: string
+        description: Plan type
       number_of_adults:
         type: integer
+        description: Number of adults included in the insurance coverage
       number_of_children:
         type: integer
+        description: Number of children included in the insurance coverage
   travel-loss-details:
     title: Travel Loss Details
     type: object
     properties:
       trip_start_date:
         type: string
+        format: date
+        description: Trip start date
       trip_end_date:
         type: string
+        format: date
+        description: Trip end date
       accident_types:
         type: array
+        description: Accident types
         items:
           type: string
   accident-injury-details:
@@ -456,55 +498,79 @@ definitions:
     properties:
       date_of_accident:
         type: string
+        description: Date of the accident
+        format: date
       time_of_accident:
         type: string
-        format: date
+        format: time
+        description: Time of the accident
       accident_types:
         type: array
+        description: Types of accident
         items:
           type: string
       is_injured_same_part_before:
         type: boolean
+        description: Is the injured body same part as before?
       is_job_related_injury:
         type: boolean
+        description: Was the injured acquired while doing his/her job?
       description_of_accident:
         type: string
+        description: Description of the accident
       description_of_injury_sustained:
         type: string
+        description: Description of the injury sustained
   policy-benefit:
     title: Policy Benefit
     type: object
     properties:
       name:
         type: string
+        description: Name of the benefit
       description:
         type: string
+        description: Description of the benefit
   criteria:
     title: Criteria
     type: object
     properties:
       name:
         type: string
+        description: Criterion name
       value:
         type: string
+        description: Criterion value
       data_type:
         type: string
+        description: Data type
+        enum:
+          - STRING
+          - NUMBER
+          - BOOLEAN
+          - DATE
   quote-details:
     title: Quote Details
     type: object
     properties:
       quote_id:
         type: string
+        description: Quote id
       product_id:
         type: string
+        description: Product Id
       product_description:
         type: string
+        description: Product description
       premium_currency:
         type: string
+        description: Premium currency
       premium_amount:
         type: number
+        description: Premium amount
       number_of_days_covered:
         type: integer
+        description: Number of days covered
       coverage_dates:
         $ref: '#/definitions/coverage-date'
       add_ons:
@@ -517,14 +583,19 @@ definitions:
     properties:
       policy_id:
         type: string
+        description: Policy Id
       product_id:
         type: string
+        description: Product Id
       product_description:
         type: string
+        description: Product description
       premium_currency:
         type: string
+        description: Premium currency
       premium_amount:
         type: number
+        description: Premium amount
       policy_holder:
         $ref: '#/definitions/policy-holder'
       benefits:
@@ -564,6 +635,7 @@ definitions:
     properties:
       total:
         type: integer
+        description: Total number of results found
       criteria:
         type: array
         items:
@@ -578,6 +650,7 @@ definitions:
     properties:
       quote_reference:
         type: string
+        description: Quote reference id
       policy_holder:
         $ref: '#/definitions/policy-holder'
       payment_details:
@@ -622,6 +695,7 @@ definitions:
     properties:
       reference_number:
         type: string
+        description: Reference number
       tax_invoice:
         $ref: '#/definitions/invoice-details'
   claim-details:
@@ -634,39 +708,52 @@ definitions:
         $ref: '#/definitions/accident-injury-details'
       total_amount_claimed:
         type: number
+        description: Total amount claimed
       amount_currency:
         type: string
+        description: Amount currency
   claim-settlement:
     title: Claim Settlement
     type: object
     properties:
       id:
         type: string
+        description: Unique id of the claim settlement
       reference_Id:
         type: string
+        description: Reference Id
       policy_id:
         type: string
+        description: Policy Id
       approved_amount:
         type: number
+        description: Approved amount
       approved_currency:
         type: string
+        description: Approved currency
       settlement_date:
         type: string
         format: date
+        description: Settlement date
   product:
     title: Product
     type: object
     properties:
       id:
         type: string
+        description: Product Id
       product_name:
         type: string
+        description: Product name
       product_description:
         type: string
+        description: Product description
       price_currency:
         type: string
+        description: Price currency
       price_amount:
         type: number
+        description: Price amount
   quote-criteria:
     title: Quote Criteria
     type: object
@@ -696,7 +783,10 @@ definitions:
     properties:
       bank_account_id:
         type: string
+        description: Policyholder's bank account id
       bank_account_number:
         type: string
+        description: Policyholder's bank account number
       bank_code:
         type: string
+        description: Policyholder's bank code. ACH code for domestic banks / SWIFT code for overseas bank.
