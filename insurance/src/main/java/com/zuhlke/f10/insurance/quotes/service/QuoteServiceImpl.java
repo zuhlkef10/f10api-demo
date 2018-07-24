@@ -174,8 +174,7 @@ public class QuoteServiceImpl implements QuoteService {
 
         details.setPolicyId(UUID.randomUUID().toString());
         details.setProductDescription(quoteDetails.getProductDescription());
-        details.setProviderId("100");
-        details.setProviderName("Zuhlke Insurance");
+        details.setProviderName("Zuhlke Insurance Pte Ltd");
 
         return details;
     }

@@ -31,6 +31,7 @@ paths:
       summary: Get Transactions
       tags:
         - Transactions
+      description: Retrieve transaction history of an account
       responses:
         '200':
           description: ''
@@ -64,6 +65,7 @@ paths:
       summary: Create Transaction
       tags:
         - Transactions
+      description: Create a Debit or Credit transaction for an account
       parameters:
         - name: body
           in: body
@@ -182,6 +184,7 @@ paths:
       summary: Get account details
       tags:
         - Accounts
+      description: Get account details including the balance
       responses:
         '200':
           description: ''
@@ -229,6 +232,7 @@ paths:
       summary: Update account
       tags:
         - Accounts
+      description: Update an existing bank account
       parameters:
         - name: body
           in: body
@@ -267,6 +271,7 @@ paths:
       summary: Delete account
       tags:
         - Accounts
+      description: Delete an existing bank account
       responses:
         '204':
           description: ''
@@ -299,6 +304,7 @@ paths:
       summary: List accounts
       tags:
         - Accounts
+      description: Retrieve the list of bank accounts
       responses:
         '200':
           description: ''
@@ -330,6 +336,7 @@ paths:
       summary: Create account
       tags:
         - Accounts
+      description: Create a new bank account
       parameters:
         - name: body
           in: body
@@ -423,30 +430,41 @@ definitions:
     properties:
       credit_account_number:
         type: string
+        description: Account number of the payee
       bank_code:
         type: string
+        description: Bank code of the payee's bank. ACH code for domestic banks / SWIFT code for overseas bank.
       payee_name:
         type: string
+        description: Payee name
       amount:
         type: number
+        description: 'Amount of money to be transferred to the payee '
       source_currency:
         type: string
+        description: 'Currency of the payer''s bank account '
       destination_currency:
         type: string
+        description: Currency of the payee's bank account
       transfer_currency:
         type: string
+        description: Transfer Currency. Should be either Debit or Credit account's currency
       comments:
         type: string
+        description: Short comment about the transaction
       transfer_type:
         type: string
         enum:
           - INSTANT
           - NON-INSTANT
+        description: 'Type of transfer: INTANT or NON-INSTANT'
       value_date:
         type: string
         format: date
+        description: 'Date on which fund has to be settled. Can be a future date. Default: current date'
       reference_id:
         type: string
+        description: Transaction Reference number for transfers and payments
   transfer-response:
     title: Transfer Response
     type: object
@@ -462,6 +480,7 @@ definitions:
         description: Transaction Status
       comment:
         type: string
+        description: Short comment about the transaction
   account-transactions:
     title: Account Transactions
     type: object
@@ -490,18 +509,25 @@ definitions:
     properties:
       id:
         type: string
+        description: Tokenised Account Identifier
       bank_code:
         type: string
+        description: Bank code of the payee's bank. ACH code for domestic banks / SWIFT code for overseas bank.
       account_number:
         type: string
+        description: Account number
       name:
         type: string
+        description: Name of the owner
       balance:
         type: number
+        description: Account balance
       currency:
         type: string
+        description: Currency of the account
       product_type:
         type: string
+        description: Product Type
   transaction:
     title: Transaction
     type: object
@@ -529,12 +555,12 @@ definitions:
         description: Credit/Debit Indicator
       booking_date_time:
         type: string
-        format: date-time
         description: Booking Datetime
+        format: date-time
       value_date_time:
         type: string
-        format: date-time
         description: Value Datetime
+        format: date-time
       transaction_code:
         type: string
         description: Transaction Code
