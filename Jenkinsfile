@@ -12,6 +12,8 @@ node {
     stage('Docker Stop and Remove Containers') {
         sh "docker ps  | grep f10api-demo | awk '{print \$1}'  | xargs --no-run-if-empty docker stop"
         sh "docker ps -a | grep f10api-demo | awk '{print \$1}'  | xargs --no-run-if-empty docker rm"
+        sh "docker ps  | grep mongo | awk '{print \$1}'  | xargs --no-run-if-empty docker stop"
+        sh "docker ps -a | grep mongo | awk '{print \$1}'  | xargs --no-run-if-empty docker rm"
     }
     stage('Docker Core-Bank API Build') {
         sh 'docker build --tag=zuhlke/core-bank-api:dev core-bank'
