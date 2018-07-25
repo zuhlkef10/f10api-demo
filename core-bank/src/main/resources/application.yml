@@ -6,5 +6,6 @@ spring:
     name: core-bank
   data:
     mongodb:
-      uri: mongodb+srv://zuhlke01:f10zuhlke@zuhlke-0-pcykf.gcp.mongodb.net/core-bank?retryWrites=true
+#      uri: mongodb+srv://zuhlke01:f10zuhlke@zuhlke-0-pcykf.gcp.mongodb.net/core-bank?retryWrites=true
+      uri: mongodb://zuhlke01:f10zuhlke@mongodb-container/core-bank
 

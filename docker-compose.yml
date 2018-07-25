@@ -2,6 +2,8 @@ version: '3'
 services:
  core-bank-api:
   image: zuhlke/core-bank-api:dev
+  links:
+    - mongodb-container
   ports:
     - "9090:9090"
  crowd-funding-api:
