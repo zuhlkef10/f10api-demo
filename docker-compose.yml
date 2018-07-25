@@ -4,7 +4,7 @@ services:
   image: mongo:latest
   ports:
     - "27017:27017"
-  volume:
+  volumes:
      - /var/mongodb/data:/data/db
   environment:
       - MONGO_INITDB_ROOT_USERNAME=mongoadmin
