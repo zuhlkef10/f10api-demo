@@ -4,6 +4,11 @@ services:
   image: mongo:latest
   ports:
     - "27017:27017"
+  volume:
+     - /var/mongodb/data:/data/db
+  environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
  core-bank-api:
   image: zuhlke/core-bank-api:dev
   links:
