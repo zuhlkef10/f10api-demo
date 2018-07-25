@@ -655,20 +655,28 @@ definitions:
     properties:
       name:
         type: string
+        description: Name of the customer.
       email:
         type: string
+        description: Email address of the customer.
       phone_number:
         type: string
+        description: Phone number of the customer.
       national_identifier:
         type: string
+        description: National ID of the customer.
       address:
         type: string
+        description: Address of the customer.
       occupation:
         type: string
+        description: Occupation of the customer.
       monthly_income:
         type: number
+        description: monthly income of the customer.
       currency:
         type: string
+        description: Currency of the income of the customer.
       customer_type:
         type: string
         description: 'Type of a customer whether he is first time investor, experienced with limited time or an expert'
@@ -679,6 +687,7 @@ definitions:
       created_date:
         type: string
         format: date
+        description: Date of Creation of the customer.
       credit_card:
         $ref: '#/definitions/card-details'
   investment-goal:
@@ -687,11 +696,13 @@ definitions:
     properties:
       description:
         type: string
+        description: short description of the investment goal.
       term:
         type: string
         description: 'Specify the term for the investment goal. It can be  3 months (3m), 1 year(1y) or any  duration.'
       amount:
         type: string
+        description: Available amount for investment.
       investment_type:
         type: string
         enum:
@@ -700,64 +711,85 @@ definitions:
           - CHILD_EDU
           - RETIREMENT
           - GENERAL
+        description: Type of Investment.
       submitted_date:
         type: string
         format: date
+        description: Date of submission.
   portfolio:
     title: Portfolio
     type: object
     properties:
       name:
         type: string
+        description: Name of the Portfolio.
       description:
         type: string
+        description: short description of the portfolio containing different assets.
       status:
         type: string
+        description: Status of the portfolio.
       commission:
         type: string
+        description: Commission/Fee from the amount earned.
       assets:
         type: array
         items:
           $ref: '#/definitions/asset'
+        description: List of assets in the portfolio.
       created_date:
         type: string
         format: date
+        description: Date of creation of the portfolio.
   asset:
     title: Asset
     type: object
     properties:
       name:
         type: string
+        description: Name of the Asset.
       description:
         type: string
+        description: short description of the asset.
       asset_type:
         type: string
+        description: Type of the asset.
       start_date:
         type: string
         format: date
+        description: Start date of the Asset holding.
       projected_end_date:
         type: string
         format: date
+        description: projected end date of holding the asset .
       status:
         type: string
+        description: status of the asset .
       invested_amount:
         type: number
+        description: Amount invested in the asset .
       currency:
         type: string
+        description: currency of the amount invested in the asset .
       current_value:
         type: number
+        description: current value of the asset .
       average_returns:
         type: string
+        description: Average returns from the asset per year .
   recommendation:
     title: Recommendation
     type: object
     properties:
       name:
         type: string
+        description: Name of the recommendation .
       rank:
         type: number
+        description: Ranking order of the recommendation .
       commission:
         type: string
+        description: commission for the recommendation .
       asset:
         $ref: '#/definitions/asset'
   recommendation-info:
@@ -766,45 +798,58 @@ definitions:
     properties:
       id:
         type: string
+        description: Unique id of the recommendation.
       goal_id:
         type: string
+        description: Unique ID of the goal.
       customer_id:
         type: string
+        description: ID of the customer.
       fees_amount:
         type: number
+        description: Fees Amount for the recommendation.
       fees_currency:
         type: string
+        description: currency of the fees amount.
       payment_transaction_id:
         type: string
+        description: Transaction Id of the payment.
       recommendation:
         $ref: '#/definitions/recommendation'
       recommended_date:
         type: string
         format: date
+        description: Date of the recommendation.
   server-error:
     title: Server Error
     type: object
     properties:
       code:
         type: string
+        description: Error code.
       message:
         type: string
+        description: Reason for the error.
       tracking_id:
         type: string
+        description: Tracking Id for the server side error which can be used for troubleshooting.
   generic-error:
     title: Generic Error
     type: object
     properties:
       code:
         type: string
+        description: Error Code.
       message:
         type: string
+        description: Reason for the error.
   customer-info:
     title: Customer Info
     type: object
     properties:
       id:
         type: string
+        description: ID of the customer .
       customer:
         $ref: '#/definitions/customer'
   portfolio-info:
@@ -813,8 +858,10 @@ definitions:
     properties:
       id:
         type: string
+        description: ID of the portfolio.
       customer_id:
         type: string
+        description: ID of the customer.
       portfolio:
         $ref: '#/definitions/portfolio'
   investment-goal-info:
@@ -823,8 +870,10 @@ definitions:
     properties:
       id:
         type: string
+        description: ID of the investment goal .
       customer_id:
         type: string
+        description: ID of the customer.
       investment_goal:
         $ref: '#/definitions/investment-goal'
   card-details:
@@ -833,12 +882,16 @@ definitions:
     properties:
       card_number:
         type: string
+        description: Credit Card Number.
       name:
         type: string
+        description: Name of the card holder .
       expiry_date:
         type: string
+        description: Expiry date of the card.
       cvv:
         type: string
+        description: CVV number of the card .
       card_type:
         type: string
         description: Card Type (Visa/Master Card/Amex)
