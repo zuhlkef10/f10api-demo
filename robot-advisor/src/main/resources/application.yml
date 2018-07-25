@@ -4,5 +4,6 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb+srv://zuhlke01:f10zuhlke@zuhlke-0-pcykf.gcp.mongodb.net/robot-advisor?retryWrites=true
+#      uri: mongodb+srv://zuhlke01:f10zuhlke@zuhlke-0-pcykf.gcp.mongodb.net/robot-advisor?retryWrites=true
+      uri: mongodb://zuhlke01:f10zuhlke@mongodb-container:27017/robot-advisor
 
