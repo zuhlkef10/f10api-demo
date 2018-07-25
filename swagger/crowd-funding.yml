@@ -27,6 +27,7 @@ paths:
         in: path
         required: true
         type: string
+        description: Id of the campaign to get the details
     get:
       operationId: get-campaign
       summary: Get Campaign
@@ -443,44 +444,56 @@ definitions:
     properties:
       name:
         type: string
+        description: Name of the campaign
       description:
         type: string
+        description: Brief description about the campaign
       website_url:
         type: string
+        description: Url of the website if available for the campaign to provide more details for the contributors
       target_amount:
         type: number
+        description: Minimum amount required to raise from the campaign
       raised_amount:
         type: number
+        description: current value of the amount raised from the campaign so far.
       currency:
         type: string
+        description: currency in which amount is raised/provided.
       category:
         type: string
+        description: Field to provide information about which category, the campaign belongs to. for eg, personal or business ..etc
       status:
         type: string
         enum:
           - OPEN
           - CLOSED
+        description: status of the campaign. status will be OPEN initially and changed to CLOSED once the required amount is raised from the campaign
       created_date:
         type: string
         format: date
       start_date:
         type: string
         format: date
+        description: Date on which campaign is created in the system.
       end_date:
         type: string
         format: date
+        description: Projected end date or date by which campaign should raise the target amount.
       account-details:
         $ref: '#/definitions/campaign-account'
       organizers:
         type: array
         items:
           $ref: '#/definitions/person'
+        description: Details of the organizers.
   campaign-info:
     title: 'Campaign Details with ID'
     type: object
     properties:
       id:
         type: string
+        description: ID of the campaign.
       campaign:
         $ref: '#/definitions/campaign'
   person:
@@ -489,65 +502,85 @@ definitions:
     properties:
       name:
         type: string
+        description: Name of the Organizer.
       email:
         type: string
+        description: Email of the Organizer.
   server-error:
     title: Server Error
     type: object
     properties:
       code:
         type: string
+        description: Error code.
       message:
         type: string
+        description: Reason for the error .
       tracking_id:
         type: string
+        description: Tracking Id of the error which can be used to troubleshoot further.
   generic-error:
     title: Generic Error
     type: object
     properties:
       code:
         type: string
+        description: Error code.
       message:
         type: string
+        description: Reason for the error .
   campaign-account:
     title: Campaign Account Details
     type: object
     properties:
       bank_name:
         type: string
+        description: Name of the Bank.
       bank_swift_code:
         type: string
+        description: Swift code of the bank.
       account_number:
         type: string
+        description: Account number.
       account_name:
         type: string
+        description: Name of the account owner.
   contributor:
     title: Contributor
     type: object
     properties:
       name:
         type: string
+        description: Name of the Contributor.
       email:
         type: string
+        description: Email of the Contributor.
       phone_number:
         type: string
+        description: Phone Number of the contributor.
       address:
         type: string
+        description: Address of the contributor.
       amount:
         type: number
+        description: Amount contributed to the campaign so far.
       currency:
         type: string
+        description: currency of the amount contributed.
       contribution_date:
         type: string
         format: date
+        description: Date on which the last contribution is made.
   contributor-info:
     title: Contributor
     type: object
     properties:
       id:
         type: string
+        description: Unique ID of the contributor.
       campaign_id:
         type: string
+        description: Unique ID of the campaign.
       contributor:
         $ref: '#/definitions/contributor'
   contribution:
@@ -556,21 +589,28 @@ definitions:
     properties:
       amount:
         type: number
+        description: Amount contributed to the campaign .
       currency:
         type: string
+        description: Currency of the amount contributed .
       payment_transaction_id:
         type: string
+        description: Transaction ID of the payment or contribution to the campaign .
       payment_date:
         type: string
+        description: Date of the payment.
   contribution-info:
     title: Contribution Details with ID
     type: object
     properties:
       id:
         type: string
+        description: Unique ID of the contribution.
       contributor_id:
         type: string
+        description: ID of the contributor .
       campaign_id:
         type: string
+        description: ID of the campaign.
       contribution:
         $ref: '#/definitions/contribution'

@@ -779,33 +779,45 @@ definitions:
     properties:
       name:
         type: string
+        description: Full name of the Investor.
       email:
         type: string
+        description: Email address of the Investor .
       phone_number:
         type: string
+        description: Phone number of the Investor including the country code .
       national_identifier:
         type: string
+        description: National Identifier of the Investor .
       address:
         type: string
+        description: Address of the Investor inlcuding the Zipcode and country .
       registration_date:
         type: string
+        description: Date on which registration of the investor is done.
   borrower:
     title: Borrower
     type: object
     properties:
       name:
         type: string
+        description: Full name of the Borrower.
       email:
         type: string
+        description: Email address of the Borrower .
       phone_number:
         type: string
+        description: Phone number of the Borrower including the country code .
       national_identifier:
         type: string
+        description: National Identifier of the Borrower .
       address:
         type: string
+        description: Address of the Borrower inlcuding the Zipcode and country .
       registration_date:
         type: string
         format: date
+        description: Date on which registration of the borrower is done.
       borrower_account:
         $ref: '#/definitions/account-details'
   loan:
@@ -814,36 +826,49 @@ definitions:
     properties:
       description:
         type: string
+        description: Short description  of the loan.
       amount:
         type: number
+        description: Required Loan Amount .
       currency:
         type: string
+        description: Currency of the loan amount .
       borrower_id:
         type: string
+        description: ID of the borrower .
       term:
         type: string
+        description: Term of the Loan. provide 2y for 2 years or 60m for 60 months ..etc.
       interest_rate:
         type: string
+        description: Rate of Interest per annum for the loan amount .
       loan_type:
         type: string
         enum:
           - PERSONAL
           - BUSINESS
+        description: Type/reason of loan .
       status:
         type: string
+        description: current status of the loan.
       created_date:
         type: string
         format: date
+        description: Date on which loan is created .
       repayment_plan:
         type: string
+        description: repayment plan of the loan. whether the borrower intends to pay monthly, half yearly ..etc
       repayment_start_date:
         type: string
         format: date
+        description: Start date of the loan repayment.
       projected_repayment_end_date:
         type: string
         format: date
+        description: Projected end date of the repayment.
       repaid_amount:
         type: number
+        description: Amount repaid till now if the repayment is already started.
       loan_account:
         $ref: '#/definitions/account-details'
   server-error:
@@ -852,24 +877,30 @@ definitions:
     properties:
       code:
         type: string
+        description: Error Code .
       message:
         type: string
+        description: Reason for the error .
       tracking_id:
         type: string
+        description: Tracking Id for the Server side error which can be used for trouble shooting .
   generic-error:
     title: Generic Error
     type: object
     properties:
       code:
         type: string
+        description: Error code .
       message:
         type: string
+        description: Reason for the error .
   loan-info:
     title: Loan Info with ID
     type: object
     properties:
       id:
         type: string
+        description: Unique ID of the Loan .
       loan:
         $ref: '#/definitions/loan'
       investors:
@@ -883,6 +914,7 @@ definitions:
     properties:
       id:
         type: string
+        description: ID of the borrower .
       borrower:
         $ref: '#/definitions/borrower'
   investor-info:
@@ -891,6 +923,7 @@ definitions:
     properties:
       id:
         type: string
+        description: ID of the investor .
       investor:
         $ref: '#/definitions/investor'
       investments:
@@ -903,42 +936,56 @@ definitions:
     properties:
       loan_id:
         type: string
+        description: ID of the loan for which investment is made .
       investment_id:
         type: string
+        description: ID of the investment .
       amount:
         type: number
+        description: Amount invested in the loan.
       currency:
         type: string
+        description: currency of the amount invested .
       payment_transaction_id:
         type: string
+        description: Transaction Id of the Payment .
       payment_date:
         type: string
         format: date
+        description: Date of the payment.
   investment:
     title: Investment details
     type: object
     properties:
       investor_id:
         type: string
+        description: ID of the investor .
       amount:
         type: number
+        description: Amount to invest in a loan .
       currency:
         type: string
+        description: currency of the amount .
       payment_transaction_id:
         type: string
+        description: Transaction Id of the Payment .
       payment_date:
         type: string
         format: date
+        description: Date of the payment.
       comments:
         type: string
+        description: any comments provided for the payment.
   investment-info:
     title: Investment Info
     type: object
     properties:
       id:
         type: string
+        description: ID of the investment.
       loan_id:
         type: string
+        description: ID of the loan.
       investment:
         $ref: '#/definitions/investment'
   repayment:
@@ -947,25 +994,33 @@ definitions:
     properties:
       borrower_id:
         type: string
+        description: ID of the borrower.
       amount:
         type: number
+        description: Amount for repayment of the loan.
       currency:
         type: string
+        description: Currency of the amount.
       payment_transaction_id:
         type: string
+        description: Transaction ID of the payment.
       payment_date:
         type: string
         format: date
+        description: Date of the payment.
       comments:
         type: string
+        description: comments if any for the payment.
   repayment-info:
     title: Repayment Info
     type: object
     properties:
       id:
         type: string
+        description: ID of the repayment.
       loan_id:
         type: string
+        description: ID of the loan.
       repayment:
         $ref: '#/definitions/repayment'
   account-details:
@@ -974,9 +1029,13 @@ definitions:
     properties:
       bank_name:
         type: string
+        description: Name of the Bank.
       bank_swift_code:
         type: string
+        description: Swift code of the bank.
       account_number:
         type: string
+        description: Account number.
       account_name:
         type: string
+        description: Name of the account owner.
