@@ -3,7 +3,7 @@
 node {
     stage('Preparation') { // for display purposes
         // Get some code from a GitHub repository
-        git 'https://github.com/zuhlkef10/f10api-demo.git'
+        git 'https://github.com/smurve/f10api-demo.git'
     }
     stage('Build') {
         // Run the maven build

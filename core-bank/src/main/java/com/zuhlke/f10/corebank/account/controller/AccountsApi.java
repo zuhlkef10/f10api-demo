@@ -70,7 +70,7 @@ public interface AccountsApi {
 
 
 
-    @ApiOperation(value = "List accounts", nickname = "lISTAccounts", notes = "", response = Account.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "List accounts", nickname = "listAccounts", notes = "", response = Account.class, responseContainer = "List", authorizations = {
         @Authorization(value = "API-KEY"),
         @Authorization(value = "Authorization")
     }, tags={ "Accounts", })
@@ -152,6 +152,23 @@ public interface AccountsApi {
             produces = { "application/json" },
             method = RequestMethod.GET)
     ResponseEntity<AccountTransactions> getAccountTransactions(@ApiParam(value = "", required = true) @PathVariable("id") String id);
+
+
+    @ApiOperation(value = "Get Balance", nickname = "getAccountBalance", notes = "", authorizations = {
+            @Authorization(value = "API-KEY"),
+            @Authorization(value = "Authorization")
+    }, tags={ "Balance", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful Response", response = AccountTransactions.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GenericError.class),
+            @ApiResponse(code = 401, message = "Authentication Error", response = GenericError.class),
+            @ApiResponse(code = 403, message = "Authorization Failed", response = GenericError.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = ServerError.class) })
+    @RequestMapping(value = "/accounts/{id}/balance",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<AccountBalance> getAccountBalance(@ApiParam(value = "", required = true) @PathVariable("id") String id);
+
 
 
     @ApiOperation(value = "Create Transaction", nickname = "createTransaction", notes = "", response = TransferResponse.class, authorizations = {

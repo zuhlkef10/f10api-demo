@@ -84,6 +84,15 @@ public class AccountApiController implements AccountsApi{
     }
 
     @Override
+    @RequestMapping(value = "/accounts/{id}/balance",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    public ResponseEntity<AccountBalance> getAccountBalance(@PathVariable("id") String id) {
+        return ResponseEntity.ok().body(accountService.getAccountBalance(id));
+    }
+
+
+    @Override
     @RequestMapping(value = "/accounts/{id}/transactions",
             produces = { "application/json" },
             consumes = { "application/json" },

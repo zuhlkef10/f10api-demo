@@ -5,6 +5,8 @@ import com.zuhlke.f10.corebank.account.exception.ResourceNotFoundException;
 import com.zuhlke.f10.corebank.account.repository.AccountRepository;
 import com.zuhlke.f10.corebank.account.repository.TransactionRepository;
 import com.zuhlke.f10.corebank.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +17,15 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class AccountServiceImpl implements AccountService{
+public class AccountServiceImpl implements AccountService {
 
-   @Autowired
-   private AccountRepository accountRepository;
+    private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
-   @Autowired
-   private TransactionRepository transactionRepository;
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
 
     public AccountServiceImpl() {
     }
@@ -29,14 +33,23 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public Account createAccount(Account account) {
 
-       accountRepository.findByAccountNumber(account.getAccountNumber())
-               .ifPresent((a) ->{
-                   System.out.printf("Account %s  already exist", a.getAccountNumber());
-                   throw new AccountAlreadyExistException("409","Account already exist");
-              });
+        accountRepository.findByAccountNumber(account.getAccountNumber())
+                .ifPresent((a) -> {
+                    logger.warn("Account {}  already exists", a.getAccountNumber());
+                    throw new AccountAlreadyExistException("409", "Account already exists");
+                });
 
 
-        return accountRepository.save(account);
+        Account savedAccount = accountRepository.save(account);
+
+        /*
+         * There has to be some initial money somewhere...;-)
+         */
+        if (account.getProductType().equals("FINANCING")) {
+            initializeAccount(savedAccount, new BigDecimal("9000000000"));
+        }
+
+        return savedAccount;
     }
 
     @Override
@@ -47,14 +60,14 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public Account getAccountById(String id) {
         return accountRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("404","Account not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("404", "Account not found"));
     }
 
     @Override
     public Account getAccountByNumber(String accountNumber) {
 
         return accountRepository.findByAccountNumber(accountNumber)
-                .orElseThrow(()->new ResourceNotFoundException("404","Account not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("404", "Account not found"));
     }
 
     @Override
@@ -81,7 +94,7 @@ public class AccountServiceImpl implements AccountService{
 
         //2. check balance of source account
         AccountBalance balance = getAccountBalance(id);
-        if (balance.getBalance().compareTo(detail.getAmount()) < 0){
+        if (balance.getBalance().compareTo(detail.getAmount()) < 0) {
             response.setStatus(TransferResponse.StatusEnum.REJECTED);
             response.setComment("Account has insufficient balance");
             return response;
@@ -116,7 +129,7 @@ public class AccountServiceImpl implements AccountService{
 
 
         response.setStatus(TransferResponse.StatusEnum.ACCEPTED);
-        response.setReferenceId(savedDebitTran.getId() + "-" +  savedCreditTran.getId());
+        response.setReferenceId(savedDebitTran.getId() + "-" + savedCreditTran.getId());
         response.setComment("Fund Transfer was Successfully processed");
 
         return response;
@@ -135,13 +148,13 @@ public class AccountServiceImpl implements AccountService{
 
         //1. Get sum of all credit transactions
         BigDecimal sumCredit = transactions.stream()
-                .filter(t -> t.getCreditDebitIndicator().equals(Transaction.CreditDebitIndicatorEnum.CREDIT) )
+                .filter(t -> t.getCreditDebitIndicator().equals(Transaction.CreditDebitIndicatorEnum.CREDIT))
                 .map(t -> t.getAmount())
                 .reduce(BigDecimal::add).orElse(new BigDecimal(0));
 
         //2. Get sum of all debit transactions
         BigDecimal sumDebit = transactions.stream()
-                .filter(t -> t.getCreditDebitIndicator().equals(Transaction.CreditDebitIndicatorEnum.DEBIT) )
+                .filter(t -> t.getCreditDebitIndicator().equals(Transaction.CreditDebitIndicatorEnum.DEBIT))
                 .map(t -> t.getAmount())
                 .reduce(BigDecimal::add).orElse(new BigDecimal(0));
 
@@ -194,4 +207,24 @@ public class AccountServiceImpl implements AccountService{
 
         return response;
     }
+
+    /**
+     * This doesn't occur in real life, unfortunately. But here, we need something to start with
+     * @param account the new account
+     * @param amount the amount to initialize the account with
+     */
+    private void initializeAccount (Account account, BigDecimal amount) {
+
+        Transaction debitTran = new Transaction();
+        debitTran.setAccountId(account.getId());
+        debitTran.setAmount(amount);
+        debitTran.setCurrency("USD");
+        debitTran.setCreditDebitIndicator(Transaction.CreditDebitIndicatorEnum.CREDIT);
+        debitTran.setTransactionCode("Fund Transfer");
+        debitTran.setTransactionReference("Initial amount");
+        debitTran.setValueDateTime(LocalDateTime.now());
+        debitTran.setBookingDateTime(LocalDateTime.now());
+
+        transactionRepository.save(debitTran);
+   }
 }
